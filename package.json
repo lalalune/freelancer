@@ -1,0 +1,14 @@
+{
+    "name": "freelancer-workspace",
+    "version": "0.0.1",
+    "private": true,
+    "workspaces": ["@freelancer-ccg/client", "@freelancer-ccg/server", "@freelancer-ccg/engine"],
+    "scripts": {
+      "start:server": "cd server && npm start",
+      "start:client": "cd client && npm start",
+      "deploy:client": "cd client && npm run build && gh-pages -d dist",
+      "redis:clear": "redis-cli flushall",
+      "redis:release": "redis-cli del 'lock:queue'"
+    }
+  }
+  
