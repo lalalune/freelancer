@@ -1,0 +1,22 @@
+html, body {
+    margin: 0;
+    height: 100%;
+    /* overflow: hidden; */
+    background-color: #d5d5d5;
+}
+
+#app {
+    margin: auto;
+    width: 80vw;
+    justify-content: center;
+    align-items: center;
+}
+
+.source {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    padding: 3px;
+    padding-right: 10px;
+    padding-left: 10px;
+}

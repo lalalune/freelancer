@@ -1,0 +1,6 @@
+.item__wrapper {
+   height: 50vh;
+   display: grid;
+   align-items: center;
+   justify-content: center;
+}
