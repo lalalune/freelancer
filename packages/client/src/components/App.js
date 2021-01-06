@@ -9,6 +9,9 @@ import {
 } from "react-router-dom";
 
 import Game from "./Game";
+import JoinGame from "./JoinGame";
+import HostGame from "./HostGame";
+
 import "./App.css";
 import "normalize.css";
 import "@blueprintjs/core/lib/css/blueprint.css";
@@ -20,6 +23,12 @@ export default function App() {
          <Switch>
             <Route path="/users" exact>
                <ViewCardsForUser />
+            </Route>
+            <Route path="/join" exact>
+               <JoinGame />
+            </Route>
+            <Route path="/hostgame" exact>
+               <HostGame />
             </Route>
             <Route path="/" exact>
                <div>
