@@ -50,6 +50,7 @@
   "devDependencies": {
     "eslint": "^7.11.0",
     "eslint-plugin-react": "^7.21.4",
-    "webpack-dev-server": "^3.10.3"
+    "webpack-dev-server": "^3.10.3",
+    "@freelancer-ccg/engine": "^0.0.1"
   }
 }
