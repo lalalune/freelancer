@@ -1,0 +1,96 @@
+.zone_main{
+    background: radial-gradient(50% 50% at 50% 50%, #404040 0%, #4B4B4B 0.01%, #373737 100%);
+    position: relative;
+}
+.zone_main .sc-fFubgz.bjBUrT {
+    height: 100%;
+}
+.zone_main .sc-fFubgz.bjBUrT .sc-fubCfw.bpgaAu {
+    background: no-repeat;
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+.zone_main .sc-fFubgz.bjBUrT .sc-fubCfw.bpgaAu:nth-child(1){
+    width: 20%;
+    padding: 90px 0px;
+}
+.zone_main .sc-fFubgz.bjBUrT .sc-fubCfw.bpgaAu:nth-child(2){
+    width: 60%;
+}
+.zone_main .sc-fFubgz.bjBUrT .sc-fubCfw.bpgaAu:nth-child(3){
+    width: 20%;
+    padding: 90px 0px;
+}
+.zone_main .sc-fFubgz.bjBUrT .sc-bkzZxe.blUVQy {
+    height: 100%;
+    width: 100%;
+}
+.zone_main .sc-fFubgz.bjBUrT .sc-fubCfw.bpgaAu:nth-child(1) .sc-pFZIQ.kGZzoj {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-around;
+}
+.blue_team .blue_team_icon {
+    position: relative;
+}
+.blue_team .blue_team_icon .blue_coins_count {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+.blue_team .blue_team_icon .blue_coins_count .coins_count {
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+}
+.blue_team .blue_team_icon .blue_coins_count .coins_count p {
+    margin: 0;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 26px;
+    line-height: 30px;
+    color: #fff;
+}
+.blue_team .blue_team_icon .blue_coins_count .coins_count p.coins_count_text {
+    padding: 0px 30px 0px 8px;
+}
+.blue_team {
+    position: absolute;
+    top: 20px;
+    left: 0;
+}
+.zone_main  .red_team{
+    top: auto;
+    bottom: 20px;
+}
+.zone_main .sc-fFubgz.bjBUrT .sc-fubCfw.bpgaAu .sc-pFZIQ.kGZzoj .sc-bdfBwQ.dGPREY .sc-gsTCUz.sc-kstrdz.eCNiXT.gzJvDH {
+    border: none;
+    padding: 0;
+    background: transparent;
+    margin: 0;
+}
+.zone_main .sc-fFubgz.bjBUrT .sc-fubCfw.bpgaAu .sc-pFZIQ.kGZzoj > div {
+    height: 300px;
+    border: 1px solid #fff;
+    width: 200px;
+    margin: auto auto 15px auto;
+    border-radius:10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.zone_main .sc-fFubgz.bjBUrT .sc-fubCfw.bpgaAu .sc-pFZIQ.kGZzoj .sc-bdfBwQ.dGPREY .sc-gsTCUz.sc-kstrdz.eCNiXT.gzJvDH .sc-hBEYos.zDsca {
+    border: none;
+}
+.zone_main .sc-fFubgz.bjBUrT .sc-fubCfw.bpgaAu .sc-pFZIQ.kGZzoj .sc-bdfBwQ.dGPREY .sc-gsTCUz.sc-kstrdz.eCNiXT.gzJvDH .sc-fodVxV.ejLKpO {
+    padding: 0;
+}
+.zone_main .sc-fFubgz.bjBUrT .sc-fubCfw.bpgaAu .sc-pFZIQ.kGZzoj .sc-bdfBwQ.dGPREY {
+    white-space: initial;
+    display: block;
+}

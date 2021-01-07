@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import "./Game.css"
-import Over from "./Over"
-import Board from "./Board"
-import Online from "./interface/Online"
-import { axios } from "../utils/axios"
+import Over from "../Over/Over"
+import Board from "../Board/Board"
+import Online from "../interface/Online"
+import { axios } from "../../utils/axios"
 
 const Players = {
   PlayerOne: 0,
@@ -39,12 +39,11 @@ export default function Game() {
     set_socket(socket)
   }, [restart, set_online, set_socket])
 
-
   return (
     <div className="game">
       <Online
-      start={start_online}
-      started={online}
+        start={start_online}
+        started={online}
       />
       <Board />
       {over &&
