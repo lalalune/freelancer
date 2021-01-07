@@ -1,0 +1,24 @@
+.main_menu{
+    background: radial-gradient(50% 50% at 50% 50%, #404040 0%, #4B4B4B 0.01%, #373737 100%);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.main_menu .main_menu_detail a{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 32px;
+    line-height: 37px;
+    margin: 0;
+    text-align: center;
+    color: #fff;
+    display: block;
+}
+.main_menu .main_menu_detail a:hover{
+    text-decoration: none;
+}
+.main_menu .main_menu_detail a:nth-child(2){
+    padding: 15px 0px;
+}

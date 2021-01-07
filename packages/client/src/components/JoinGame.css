@@ -1,11 +1,11 @@
-.main_menu{
+.join_manu{
     background: radial-gradient(50% 50% at 50% 50%, #404040 0%, #4B4B4B 0.01%, #373737 100%);
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.main_menu .main_menu_detail a{
+.join_manu .join_manu_deatil p{
     font-family: Roboto;
     font-style: normal;
     font-weight: bold;
@@ -15,10 +15,44 @@
     text-align: center;
     color: #fff;
     display: block;
+    padding-bottom: 15px;
 }
-.main_menu .main_menu_detail a:hover{
+.join_manu .join_manu_deatil .cancel{
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 32px;
+    line-height: 37px;
+    margin: 0;
+    text-align: center;
+    color: #fff;
+    display: block;
+    margin-top: 50px;
+}
+.join_manu .join_manu_deatil .cancel:hover{
     text-decoration: none;
 }
-.main_menu .main_menu_detail a:nth-child(2){
-    padding: 15px 0px;
+.join_manu .join_manu_deatil .code_box_tab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.join_manu .join_manu_deatil .code_box_tab input[type="text"] {
+    border: 3px solid #FFFFFF;
+    box-sizing: border-box;
+    border-radius: 5px;
+    background: transparent;
+    height: 50px;
+    outline: none;
+    padding: 0px 5px;
+    color:#fff;
+    width: 100%;
+}
+.join_manu .join_manu_deatil .code_box_tab input[type="text"]:focus{
+    outline: none;
+    box-shadow: none;
+}
+.join_manu .join_manu_deatil .code_box_tab svg.MuiSvgIcon-root {
+    color: #fff;
+    font-size: 54px;
 }

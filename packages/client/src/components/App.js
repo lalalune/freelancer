@@ -9,8 +9,10 @@ import {
 } from "react-router-dom";
 
 import Game from "./Game";
-import JoinGame from "./JoinGame";
+import ManiMenu from "./ManiMenu";
 import HostGame from "./HostGame";
+import QuickMatch from "./QuickMatch";
+import JoinGame from "./JoinGame";
 
 import "./App.css";
 import "normalize.css";
@@ -24,11 +26,17 @@ export default function App() {
             <Route path="/users" exact>
                <ViewCardsForUser />
             </Route>
-            <Route path="/join" exact>
-               <JoinGame />
+            <Route path="/mainmenu" exact>
+               <ManiMenu />
             </Route>
             <Route path="/hostgame" exact>
                <HostGame />
+            </Route>
+            <Route path="/quickmatch" exact>
+               <QuickMatch />
+            </Route>
+            <Route path="/join" exact>
+               <JoinGame />
             </Route>
             <Route path="/" exact>
                <div>
