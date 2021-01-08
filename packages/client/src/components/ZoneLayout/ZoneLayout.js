@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Board, { moveCard } from "@lourenci/react-kanban";
 
 import "./ZoneLayout.css";
 
@@ -104,7 +103,7 @@ const ZoneLayout = () => {
           <button>ACTION BUTTON</button>
         </div> */}
         <div className="card_box">
-          <div className="card_text">
+        <div className="card_text">
             <p>RED TEAM DECK</p>
           </div>
         </div>

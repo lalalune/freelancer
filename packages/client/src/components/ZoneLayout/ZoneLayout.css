@@ -4,6 +4,7 @@ body{
 .zone_main{
     position: relative;
     display: flex;
+    background: radial-gradient(50% 50% at 50% 50%, #404040 0%, #4B4B4B 0.01%, #373737 100%);
 }
 .blue_team .blue_team_icon {
     position: relative;
@@ -131,3 +132,6 @@ body{
     flex-flow: column;
     justify-content: space-around;
 }
+
+
+
