@@ -31,15 +31,15 @@ export default function Online({ start, started }) {
     }
   }, [socket]);
 
- 
+
   let message;
   if (error) {
     message = <p>
-        connection error <Icon icon={IconNames.ERROR} iconSize={20} intent="danger" />
+      connection error <Icon icon={IconNames.ERROR} iconSize={20} intent="danger" />
     </p>;
   } else if (data) {
     message = <p>
-        currently online <Icon icon={IconNames.GLOBE_NETWORK} iconSize={20} intent="success" />
+      currently online <Icon icon={IconNames.GLOBE_NETWORK} iconSize={20} intent="success" />
     </p>;
   } else if (!data) {
     message = <p>currently offline <Icon icon={IconNames.GLOBE_NETWORK} iconSize={20} intent="warning" /></p>;
@@ -57,7 +57,7 @@ export default function Online({ start, started }) {
       <div className="online">
         {message}
         <Button loading={loading} active={data} onClick={(data || loading) ? refetch : connect}>
-            go online
+          go online
         </Button>
       </div>
       {!started && data && connected && (

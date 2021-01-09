@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 
-import { CardEffects } from "../engine/CardEffects";
+import { CardEffects } from "../../engine/CardEffects";
 
 const Card = ({ cards }) => {
    const [state, setstate] = useState([]);

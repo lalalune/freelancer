@@ -2,7 +2,7 @@
     "name": "freelancer-workspace",
     "version": "0.0.1",
     "private": true,
-    "workspaces": ["@freelancer-ccg/client", "@freelancer-ccg/server", "@freelancer-ccg/engine"],
+    "workspaces": ["packages/*"],
     "scripts": {
       "start:server": "cd server && npm start",
       "start:client": "cd client && npm start",

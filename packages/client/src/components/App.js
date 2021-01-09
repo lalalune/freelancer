@@ -8,16 +8,18 @@ import {
    useParams,
 } from "react-router-dom";
 
-import Game from "./Game";
-import ManiMenu from "./ManiMenu";
-import HostGame from "./HostGame";
-import QuickMatch from "./QuickMatch";
-import JoinGame from "./JoinGame";
+import Game from "./Game/Game";
+import ManiMenu from "./ManiMenu/ManiMenu";
+import HostGame from "./HostGame/HostGame";
+import QuickMatch from "./QuickMatch/QuickMatch";
+import JoinGame from "./JoinGame/JoinGame";
+import Zone from "./Zone/Zone";
+import ZoneLayout from "./ZoneLayout/ZoneLayout";
 
 import "./App.css";
 import "normalize.css";
 import "@blueprintjs/core/lib/css/blueprint.css";
-import ViewCardsForUser from "./ViewCardsForUser";
+import ViewCardsForUser from "./ViewCardsForUser/ViewCardsForUser";
 
 export default function App() {
    return (
@@ -37,6 +39,12 @@ export default function App() {
             </Route>
             <Route path="/join" exact>
                <JoinGame />
+            </Route>
+            <Route path="/zone" exact>
+               <Zone />
+            </Route>
+            <Route path="/zonelayout" exact>
+               <ZoneLayout />
             </Route>
             <Route path="/" exact>
                <div>

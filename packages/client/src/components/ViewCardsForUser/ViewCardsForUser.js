@@ -3,9 +3,7 @@ import { Button, TextField } from "@material-ui/core";
 import axios from "axios";
 
 import "./ViewCardsForUser.css";
-import Card from "./Card";
-
-const { retrieveData } = require("../data2png/src/index");
+import Card from "../Card/Card";
 
 const ViewCardsForUser = () => {
    const [result, setResult] = useState(null);
@@ -17,7 +15,6 @@ const ViewCardsForUser = () => {
             response.data
                .filter((obj) => obj.description === "(Freelancer)")
                .map(async (data) => {
-                  // let parseData = await retrieveData(data.image);
                   let parseData = {
                      name: "Test Deck 1",
                      cards: [

@@ -1,0 +1,137 @@
+body{
+    background: radial-gradient(50% 50% at 50% 50%, #404040 0%, #4B4B4B 0.01%, #373737 100%);
+}
+.zone_main{
+    position: relative;
+    display: flex;
+    background: radial-gradient(50% 50% at 50% 50%, #404040 0%, #4B4B4B 0.01%, #373737 100%);
+}
+.blue_team .blue_team_icon {
+    position: relative;
+}
+.blue_team .blue_team_icon .blue_coins_count {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+.blue_team .blue_team_icon .blue_coins_count .coins_count {
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+}
+.blue_team .blue_team_icon .blue_coins_count .coins_count p {
+    margin: 0;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 26px;
+    line-height: 30px;
+    color: #fff;
+}
+.blue_team .blue_team_icon .blue_coins_count .coins_count p.coins_count_text {
+    padding: 0px 30px 0px 8px;
+}
+.blue_team {
+    position: absolute;
+    top: 20px;
+    left: 0;
+}
+.zone_main  .red_team{
+    top: auto;
+    bottom: 20px;
+}
+.zone_main .zone_left_bar {
+    width: 20%;
+    padding: 90px 0px;
+    position: relative;
+}
+.zone_main .zone_centre_bar {
+    width: 60%;
+}
+.zone_main .zone_right_bar {
+    width: 20%;
+    position: relative;
+}
+.card_box {
+    border: 1px solid #fff;
+    width: 205px;
+    height: 273px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    padding: 15px;
+}
+.card_box .card_text p {
+    margin: 0;
+    font-size: 18px;
+    line-height: 21px;
+    text-align: center;
+    color: #FFFFFF;
+}
+.zone_main .zone_centre_bar .blue_team_main .blue_team_hand ,
+.zone_main .zone_centre_bar .red_team_main .red_team_hand{
+    height: 205px;
+    border: 1px solid #FFFFFF;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+    color: #fff;
+}
+.zone_main .zone_centre_bar .blue_team_main .blue_team_play_area,
+.zone_main .zone_centre_bar .red_team_main .redteam_play_area {
+    height: 205px;
+    border: 1px solid #FFFFFF;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+    color: #fff;
+}
+.zone_main .zone_centre_bar .status_message_area {
+    text-align: center;
+}
+.zone_main .zone_centre_bar .status_message_area p {
+    margin: 0;
+    background: #FFD600;
+    border-radius: 10px;
+    display: inline-block;
+    padding: 15px;
+    font-weight: normal;
+    font-size: 18px;
+    font-family: Roboto;
+}
+.menu_set {
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+.zone_main .zone_right_bar .action_button {
+    text-align: center;
+}
+.zone_main .zone_right_bar .action_button button {
+    background: #272727;
+    border-radius: 10px;
+    color: #FFFFFF;
+    font-weight: normal;
+    font-size: 18px;
+    font-family: Roboto;
+    border: none;
+    padding: 15px 6px;
+    cursor: pointer;
+}
+.zone_main .zone_right_bar,
+.zone_main .zone_left_bar {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-around;
+}
+
+
+
