@@ -139,6 +139,7 @@ body{
     width: 134px;
     overflow: hidden;
     display: inline-block;
+    cursor: pointer;
 }
 .play_card .card_name {
     background: linear-gradient(90deg, #F80000 34.8%, #930000 100%);

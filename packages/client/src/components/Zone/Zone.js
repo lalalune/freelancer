@@ -10,6 +10,92 @@ const getItems = (count, offset = 0) =>
     content: `item ${k + offset}`
   }));
 
+const getDecks = {
+  name: "Test Deck",
+  cards: [
+    {
+      type: "lead",
+      abilities: ["DRAW_1", "DISCARD_1"]
+    },
+    {
+      type: "lead",
+      abilities: ["CHARGE_1", "SPEND_1"]
+    },
+    {
+      type: "lead",
+      abilities: ["DRAW_1", "DISCARD_1"]
+    },
+    {
+      type: "lead",
+      abilities: ["CHARGE_1", "SPEND_1"]
+    },
+    {
+      type: "lead",
+      abilities: ["DRAW_1", "DISCARD_1"]
+    },
+    {
+      type: "lead",
+      abilities: ["CHARGE_1", "SPEND_1"]
+    },
+    {
+      type: "lead",
+      abilities: ["DRAW_1", "DISCARD_1"]
+    },
+    {
+      type: "lead",
+      abilities: ["CHARGE_1", "SPEND_1"]
+    },
+    {
+      type: "lead",
+      abilities: ["DRAW_1", "DISCARD_1"]
+    },
+    {
+      type: "lead",
+      abilities: ["DRAW_1", "DISCARD_1"]
+    },
+    {
+      type: "lead",
+      abilities: ["DRAW_1", "DISCARD_1"]
+    },
+    {
+      type: "lead",
+      abilities: ["DRAW_1", "DISCARD_1"]
+    },
+    {
+      type: "lead",
+      abilities: ["DRAW_1", "DISCARD_1"]
+    },
+    {
+      type: "lead",
+      abilities: ["DRAW_1", "DISCARD_1"]
+    },
+    {
+      type: "lead",
+      abilities: ["DRAW_1", "DISCARD_1"]
+    },
+    {
+      type: "lead",
+      abilities: ["DRAW_1", "DISCARD_1"]
+    },
+    {
+      type: "lead",
+      abilities: ["DRAW_1", "DISCARD_1"]
+    },
+    {
+      type: "lead",
+      abilities: ["CHARGE_1", "SPEND_1"]
+    },
+    {
+      type: "lead",
+      abilities: ["DRAW_1", "DISCARD_1"]
+    },
+    {
+      type: "lead",
+      abilities: ["CHARGE_1", "SPEND_1"]
+    },
+  ].map((item, index) => { item.id = index; return item; })
+}
+
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -35,8 +121,6 @@ const move = (source, destination, droppableSource, droppableDestination) => {
 
   return result;
 };
-
-const grid = 8;
 
 const getItemStyle = (isDragging, draggableStyle) => ({
   // some basic styles to make the items look a bit nicer
@@ -225,7 +309,7 @@ const Zone = () => {
         </div>
       </div>
       <div className="zone_centre_bar">
-        {/* ---------------------- */}
+        {/* -----------blue----------- */}
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="droppable">
             {(provided, snapshot) => (
@@ -247,17 +331,17 @@ const Zone = () => {
                           provided.draggableProps.style
                         )}>
                         {/* {item.content} */}
-                        <div class="play_card blue_play_card">
-                          <div class="card_name">
+                        <div className="play_card blue_play_card">
+                          <div className="card_name">
                             <p>CARD NAME</p>
                           </div>
-                          <div class="card_space">
+                          <div className="card_space">
 
                           </div>
-                          <div class="hire">
+                          <div className="hire">
                             <p>hire</p>
                           </div>
-                          <div class="card_detail">
+                          <div className="card_detail">
                             <p>Discard 1.</p>
                             <p>Draw 3.</p>
                           </div>
@@ -290,17 +374,17 @@ const Zone = () => {
                           provided.draggableProps.style
                         )}>
                         {/* {item.content} */}
-                        <div class="play_card blue_play_card">
-                          <div class="card_name">
+                        <div className="play_card blue_play_card">
+                          <div className="card_name">
                             <p>CARD NAME</p>
                           </div>
-                          <div class="card_space">
+                          <div className="card_space">
 
                           </div>
-                          <div class="hire">
+                          <div className="hire">
                             <p>hire</p>
                           </div>
-                          <div class="card_detail">
+                          <div className="card_detail">
                             <p>Discard 1.</p>
                             <p>Draw 3.</p>
                           </div>
@@ -314,7 +398,7 @@ const Zone = () => {
             )}
           </Droppable>
         </DragDropContext>
-        {/* ---------------------- */}
+        {/* ---------blue------------- */}
         {/* <div className="status_message_area">
           <p>Status Message Area</p>
         </div> */}
@@ -340,17 +424,17 @@ const Zone = () => {
                           provided.draggableProps.style
                         )}>
                         {/* {item.content} */}
-                        <div class="play_card">
-                          <div class="card_name">
+                        <div className="play_card">
+                          <div className="card_name">
                             <p>CARD NAME</p>
                           </div>
-                          <div class="card_space">
+                          <div className="card_space">
 
                           </div>
-                          <div class="hire">
+                          <div className="hire">
                             <p>hire</p>
                           </div>
-                          <div class="card_detail">
+                          <div className="card_detail">
                             <p>Discard 1.</p>
                             <p>Draw 3.</p>
                           </div>
@@ -383,17 +467,17 @@ const Zone = () => {
                           provided.draggableProps.style
                         )}>
                         {/* {item.content} */}
-                        <div class="play_card">
-                          <div class="card_name">
+                        <div className="play_card">
+                          <div className="card_name">
                             <p>CARD NAME</p>
                           </div>
-                          <div class="card_space">
+                          <div className="card_space">
 
                           </div>
-                          <div class="hire">
+                          <div className="hire">
                             <p>hire</p>
                           </div>
-                          <div class="card_detail">
+                          <div className="card_detail">
                             <p>Discard 1.</p>
                             <p>Draw 3.</p>
                           </div>
@@ -418,17 +502,17 @@ const Zone = () => {
           </svg>
         </div>
         <div className="card_box">
-          <div class="play_card blue_play_card">
-            <div class="card_name">
+          <div className="play_card blue_play_card">
+            <div className="card_name">
               <p>CARD NAME</p>
             </div>
-            <div class="card_space">
+            <div className="card_space">
 
             </div>
-            <div class="hire">
+            <div className="hire">
               <p>hire</p>
             </div>
-            <div class="card_detail">
+            <div className="card_detail">
               <p>Discard 1.</p>
               <p>Draw 3.</p>
             </div>
@@ -438,17 +522,17 @@ const Zone = () => {
           <button>ACTION BUTTON</button>
         </div> */}
         <div className="card_box">
-          <div class="play_card">
-            <div class="card_name">
+          <div className="play_card">
+            <div className="card_name">
               <p>CARD NAME</p>
             </div>
-            <div class="card_space">
+            <div className="card_space">
 
             </div>
-            <div class="hire">
+            <div className="hire">
               <p>hire</p>
             </div>
-            <div class="card_detail">
+            <div className="card_detail">
               <p>Discard 1.</p>
               <p>Draw 3.</p>
             </div>
