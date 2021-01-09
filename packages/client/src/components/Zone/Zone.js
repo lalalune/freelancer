@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import React, { useState } from "react";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-import './Zone.css';
+import "./Zone.css";
 
 // fake data generator
 const getItems = (count, offset = 0) =>
-  Array.from({ length: count }, (v, k) => k).map(k => ({
+  Array.from({ length: count }, (v, k) => k).map((k) => ({
     id: `item-${k + offset}`,
-    content: `item ${k + offset}`
+    content: `item ${k + offset}`,
   }));
 
 const getDecks = {
@@ -15,93 +15,96 @@ const getDecks = {
   cards: [
     {
       type: "lead",
-      abilities: ["DRAW_1", "DISCARD_1"]
+      abilities: ["DRAW_1", "DISCARD_1"],
     },
     {
       type: "lead",
-      abilities: ["CHARGE_1", "SPEND_1"]
+      abilities: ["CHARGE_1", "SPEND_1"],
     },
     {
       type: "lead",
-      abilities: ["DRAW_1", "DISCARD_1"]
+      abilities: ["DRAW_1", "DISCARD_1"],
     },
     {
       type: "lead",
-      abilities: ["CHARGE_1", "SPEND_1"]
+      abilities: ["CHARGE_1", "SPEND_1"],
     },
     {
       type: "lead",
-      abilities: ["DRAW_1", "DISCARD_1"]
+      abilities: ["DRAW_1", "DISCARD_1"],
     },
     {
       type: "lead",
-      abilities: ["CHARGE_1", "SPEND_1"]
+      abilities: ["CHARGE_1", "SPEND_1"],
     },
     {
       type: "lead",
-      abilities: ["DRAW_1", "DISCARD_1"]
+      abilities: ["DRAW_1", "DISCARD_1"],
     },
     {
       type: "lead",
-      abilities: ["CHARGE_1", "SPEND_1"]
+      abilities: ["CHARGE_1", "SPEND_1"],
     },
     {
       type: "lead",
-      abilities: ["DRAW_1", "DISCARD_1"]
+      abilities: ["DRAW_1", "DISCARD_1"],
     },
     {
       type: "lead",
-      abilities: ["DRAW_1", "DISCARD_1"]
+      abilities: ["DRAW_1", "DISCARD_1"],
     },
     {
       type: "lead",
-      abilities: ["DRAW_1", "DISCARD_1"]
+      abilities: ["DRAW_1", "DISCARD_1"],
     },
     {
       type: "lead",
-      abilities: ["DRAW_1", "DISCARD_1"]
+      abilities: ["DRAW_1", "DISCARD_1"],
     },
     {
       type: "lead",
-      abilities: ["DRAW_1", "DISCARD_1"]
+      abilities: ["DRAW_1", "DISCARD_1"],
     },
     {
       type: "lead",
-      abilities: ["DRAW_1", "DISCARD_1"]
+      abilities: ["DRAW_1", "DISCARD_1"],
     },
     {
       type: "lead",
-      abilities: ["DRAW_1", "DISCARD_1"]
+      abilities: ["DRAW_1", "DISCARD_1"],
     },
     {
       type: "lead",
-      abilities: ["DRAW_1", "DISCARD_1"]
+      abilities: ["DRAW_1", "DISCARD_1"],
     },
     {
       type: "lead",
-      abilities: ["DRAW_1", "DISCARD_1"]
+      abilities: ["DRAW_1", "DISCARD_1"],
     },
     {
       type: "lead",
-      abilities: ["CHARGE_1", "SPEND_1"]
+      abilities: ["CHARGE_1", "SPEND_1"],
     },
     {
       type: "lead",
-      abilities: ["DRAW_1", "DISCARD_1"]
+      abilities: ["DRAW_1", "DISCARD_1"],
     },
     {
       type: "lead",
-      abilities: ["CHARGE_1", "SPEND_1"]
+      abilities: ["CHARGE_1", "SPEND_1"],
     },
-  ].map((item, index) => { item.id = index; return item; })
-}
+  ],
+};
+// .map((item, index) => {
+//   item.id = index;
+//   return item;
+// }),
 
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);
-
   return result;
 };
 
@@ -124,17 +127,17 @@ const move = (source, destination, droppableSource, droppableDestination) => {
 
 const getItemStyle = (isDragging, draggableStyle) => ({
   // some basic styles to make the items look a bit nicer
-  userSelect: 'none',
+  userSelect: "none",
   margin: "5px",
 
   // change background colour if dragging
   // background: isDragging ? 'lightgreen' : 'grey',
 
   // styles we need to apply on draggables
-  ...draggableStyle
+  ...draggableStyle,
 });
 
-const getListStyle = isDraggingOver => ({
+const getListStyle = (isDraggingOver) => ({
   padding: "0px 5px",
   width: "100%",
   height: "205px",
@@ -145,29 +148,42 @@ const getListStyle = isDraggingOver => ({
   justifyContent: " center",
   margin: "10px",
   overflow: "hidden",
-
-
 });
 
 //---------------------------------------------------------------------
 const Zone = () => {
+  //state 1=blue
   const [state1, setState1] = useState({
-    items: getItems(7),
-    selected: getItems(2, 7)
-  })
+    items: [],
+    selected: [],
+  });
+
+  //state 2 = red
   const [state2, setState2] = useState({
     items: getItems(3),
-    selected: getItems(1, 3)
-  })
+    selected: getItems(1, 3),
+  });
 
   const id1List = {
-    droppable: 'items',
-    droppable2: 'selected'
+    droppable: "items",
+    droppable2: "selected",
   };
 
-  const getList = id => state1[id1List[id]];
+  const getList = (id) => state1[id1List[id]];
+  const handleClick = (e) => {
+    e.preventDefault();
+    var card = getDecks.cards;
+    // var f1 = [1, 2, 3,4];
+    console.log(card);
+    if (card.length == 0) {
+      console.log("Card finish");
+    } else {
+      var f = card.shift();
+      console.log(f, "shifting");
+    }
+  };
 
-  const onDragEnd = result => {
+  const onDragEnd = (result) => {
     const { source, destination } = result;
 
     // dropped outside the list
@@ -176,15 +192,16 @@ const Zone = () => {
     }
 
     if (source.droppableId === destination.droppableId) {
+      console.log(destination.droppableId, "hkj");
+      console.log(source.droppableId, "hkjj");
       const items = reorder(
         getList(source.droppableId),
         source.index,
         destination.index
       );
-
       let state = { items };
 
-      if (source.droppableId === 'droppable2') {
+      if (source.droppableId === "droppable2") {
         state = { selected: items };
       }
 
@@ -199,19 +216,19 @@ const Zone = () => {
 
       setState1({
         items: result.droppable,
-        selected: result.droppable2
+        selected: result.droppable2,
       });
     }
   };
 
   const id2List = {
-    droppable3: 'items',
-    droppable4: 'selected'
+    droppable3: "items",
+    droppable4: "selected",
   };
 
-  const getList2 = id => state1[id2List[id]];
+  const getList2 = (id) => state1[id2List[id]];
 
-  const onDragEnd1 = result => {
+  const onDragEnd1 = (result) => {
     const { source, destination } = result;
 
     // dropped outside the list
@@ -225,10 +242,10 @@ const Zone = () => {
         source.index,
         destination.index
       );
-
+      console.log(items, "items");
       let state = { items };
 
-      if (source.droppableId === 'droppable4') {
+      if (source.droppableId === "droppable4") {
         state = { selected: items };
       }
 
@@ -243,7 +260,7 @@ const Zone = () => {
 
       setState2({
         items: result.droppable,
-        selected: result.droppable2
+        selected: result.droppable2,
       });
     }
   };
@@ -253,21 +270,48 @@ const Zone = () => {
       <div className="zone_left_bar">
         <div className="blue_team">
           <div className="blue_team_icon">
-            <svg width="356" height="62" viewBox="0 0 356 62" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M0 0.00012207L310.144 6.60975e-05L356 33.0001L5.58998e-06 33.0002L0 0.00012207Z" fill="#062AAA" />
-              <path d="M-4 61.0551L296.325 61.0551L320.67 42L-4 42.0001L-4 61.0551Z" fill="#062AAA" />
-              <path d="M328.634 43.1747L306.624 60.141L314.876 60.141L337.436 43.1747L328.634 43.1747Z" fill="#062AAA" />
-              <path d="M347.131 43.1935L325.319 60.1411L334.671 60.1411L355.933 43.1935L347.131 43.1935Z" fill="#062AAA" />
+            <svg
+              width="356"
+              height="62"
+              viewBox="0 0 356 62"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M0 0.00012207L310.144 6.60975e-05L356 33.0001L5.58998e-06 33.0002L0 0.00012207Z"
+                fill="#062AAA"
+              />
+              <path
+                d="M-4 61.0551L296.325 61.0551L320.67 42L-4 42.0001L-4 61.0551Z"
+                fill="#062AAA"
+              />
+              <path
+                d="M328.634 43.1747L306.624 60.141L314.876 60.141L337.436 43.1747L328.634 43.1747Z"
+                fill="#062AAA"
+              />
+              <path
+                d="M347.131 43.1935L325.319 60.1411L334.671 60.1411L355.933 43.1935L347.131 43.1935Z"
+                fill="#062AAA"
+              />
             </svg>
             <div className="blue_coins_count">
               <div className="coins_count">
-                <svg width="21" height="34" viewBox="0 0 21 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg
+                  width="21"
+                  height="34"
+                  viewBox="0 0 21 34"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   <path d="M10 21V13L0 17.2786L10 21Z" fill="white" />
                   <path d="M10 11.8288V0L0 16L10 11.8288Z" fill="white" />
                   <path d="M11 0V11.7866L21 16L11 0Z" fill="white" />
                   <path d="M11 13V21L21 17.2813L11 13Z" fill="white" />
                   <path d="M11 22.1712L11 34L21 18L11 22.1712Z" fill="white" />
-                  <path d="M10 34L10 22.2134L-1.39876e-06 18L10 34Z" fill="white" />
+                  <path
+                    d="M10 34L10 22.2134L-1.39876e-06 18L10 34Z"
+                    fill="white"
+                  />
                 </svg>
                 <p className="coins_count_text">COIN</p>
                 <p className="team_name">BLUE TEAM</p>
@@ -277,21 +321,48 @@ const Zone = () => {
         </div>
         <div className="blue_team red_team">
           <div className="blue_team_icon">
-            <svg width="356" height="64" viewBox="0 0 356 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M-1.5 0.00012207L310.144 8.14737e-05L356 33.0001L-1.49999 33.0002L-1.5 0.00012207Z" fill="#AA0606" />
-              <path d="M-4 63.0551L296.325 63.055L320.67 44L-4 44L-4 63.0551Z" fill="#AA0606" />
-              <path d="M328.634 45.1747L306.624 62.141L314.876 62.141L337.436 45.1747L328.634 45.1747Z" fill="#AA0606" />
-              <path d="M347.131 45.1935L325.319 62.1411L334.671 62.1411L355.933 45.1935L347.131 45.1935Z" fill="#AA0606" />
+            <svg
+              width="356"
+              height="64"
+              viewBox="0 0 356 64"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M-1.5 0.00012207L310.144 8.14737e-05L356 33.0001L-1.49999 33.0002L-1.5 0.00012207Z"
+                fill="#AA0606"
+              />
+              <path
+                d="M-4 63.0551L296.325 63.055L320.67 44L-4 44L-4 63.0551Z"
+                fill="#AA0606"
+              />
+              <path
+                d="M328.634 45.1747L306.624 62.141L314.876 62.141L337.436 45.1747L328.634 45.1747Z"
+                fill="#AA0606"
+              />
+              <path
+                d="M347.131 45.1935L325.319 62.1411L334.671 62.1411L355.933 45.1935L347.131 45.1935Z"
+                fill="#AA0606"
+              />
             </svg>
             <div className="blue_coins_count">
               <div className="coins_count">
-                <svg width="21" height="34" viewBox="0 0 21 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg
+                  width="21"
+                  height="34"
+                  viewBox="0 0 21 34"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   <path d="M10 21V13L0 17.2786L10 21Z" fill="white" />
                   <path d="M10 11.8288V0L0 16L10 11.8288Z" fill="white" />
                   <path d="M11 0V11.7866L21 16L11 0Z" fill="white" />
                   <path d="M11 13V21L21 17.2813L11 13Z" fill="white" />
                   <path d="M11 22.1712L11 34L21 18L11 22.1712Z" fill="white" />
-                  <path d="M10 34L10 22.2134L-1.39876e-06 18L10 34Z" fill="white" />
+                  <path
+                    d="M10 34L10 22.2134L-1.39876e-06 18L10 34Z"
+                    fill="white"
+                  />
                 </svg>
                 <p className="coins_count_text">COIN</p>
                 <p className="team_name">RED TEAM</p>
@@ -300,12 +371,10 @@ const Zone = () => {
           </div>
         </div>
         <div className="card_box">
-          <div className="card_text">
-          </div>
+          <div className="card_text"></div>
         </div>
         <div className="card_box">
-          <div className="card_text">
-          </div>
+          <div className="card_text"></div>
         </div>
       </div>
       <div className="zone_centre_bar">
@@ -315,12 +384,10 @@ const Zone = () => {
             {(provided, snapshot) => (
               <div
                 ref={provided.innerRef}
-                style={getListStyle(snapshot.isDraggingOver)}>
+                style={getListStyle(snapshot.isDraggingOver)}
+              >
                 {state1.items.map((item, index) => (
-                  <Draggable
-                    key={item.id}
-                    draggableId={item.id}
-                    index={index}>
+                  <Draggable key={item.id} draggableId={item.id} index={index}>
                     {(provided, snapshot) => (
                       <div
                         ref={provided.innerRef}
@@ -329,15 +396,14 @@ const Zone = () => {
                         style={getItemStyle(
                           snapshot.isDragging,
                           provided.draggableProps.style
-                        )}>
+                        )}
+                      >
                         {/* {item.content} */}
                         <div className="play_card blue_play_card">
                           <div className="card_name">
                             <p>CARD NAME</p>
                           </div>
-                          <div className="card_space">
-
-                          </div>
+                          <div className="card_space"></div>
                           <div className="hire">
                             <p>hire</p>
                           </div>
@@ -358,12 +424,10 @@ const Zone = () => {
             {(provided, snapshot) => (
               <div
                 ref={provided.innerRef}
-                style={getListStyle(snapshot.isDraggingOver)}>
+                style={getListStyle(snapshot.isDraggingOver)}
+              >
                 {state1.selected.map((item, index) => (
-                  <Draggable
-                    key={item.id}
-                    draggableId={item.id}
-                    index={index}>
+                  <Draggable key={item.id} draggableId={item.id} index={index}>
                     {(provided, snapshot) => (
                       <div
                         ref={provided.innerRef}
@@ -372,15 +436,14 @@ const Zone = () => {
                         style={getItemStyle(
                           snapshot.isDragging,
                           provided.draggableProps.style
-                        )}>
+                        )}
+                      >
                         {/* {item.content} */}
                         <div className="play_card blue_play_card">
                           <div className="card_name">
                             <p>CARD NAME</p>
                           </div>
-                          <div className="card_space">
-
-                          </div>
+                          <div className="card_space"></div>
                           <div className="hire">
                             <p>hire</p>
                           </div>
@@ -408,12 +471,10 @@ const Zone = () => {
             {(provided, snapshot) => (
               <div
                 ref={provided.innerRef}
-                style={getListStyle(snapshot.isDraggingOver)}>
+                style={getListStyle(snapshot.isDraggingOver)}
+              >
                 {state2.items.map((item, index) => (
-                  <Draggable
-                    key={item.id}
-                    draggableId={item.id}
-                    index={index}>
+                  <Draggable key={item.id} draggableId={item.id} index={index}>
                     {(provided, snapshot) => (
                       <div
                         ref={provided.innerRef}
@@ -422,15 +483,14 @@ const Zone = () => {
                         style={getItemStyle(
                           snapshot.isDragging,
                           provided.draggableProps.style
-                        )}>
+                        )}
+                      >
                         {/* {item.content} */}
                         <div className="play_card">
                           <div className="card_name">
                             <p>CARD NAME</p>
                           </div>
-                          <div className="card_space">
-
-                          </div>
+                          <div className="card_space"></div>
                           <div className="hire">
                             <p>hire</p>
                           </div>
@@ -451,12 +511,10 @@ const Zone = () => {
             {(provided, snapshot) => (
               <div
                 ref={provided.innerRef}
-                style={getListStyle(snapshot.isDraggingOver)}>
+                style={getListStyle(snapshot.isDraggingOver)}
+              >
                 {state2.selected.map((item, index) => (
-                  <Draggable
-                    key={item.id}
-                    draggableId={item.id}
-                    index={index}>
+                  <Draggable key={item.id} draggableId={item.id} index={index}>
                     {(provided, snapshot) => (
                       <div
                         ref={provided.innerRef}
@@ -465,15 +523,14 @@ const Zone = () => {
                         style={getItemStyle(
                           snapshot.isDragging,
                           provided.draggableProps.style
-                        )}>
+                        )}
+                      >
                         {/* {item.content} */}
                         <div className="play_card">
                           <div className="card_name">
                             <p>CARD NAME</p>
                           </div>
-                          <div className="card_space">
-
-                          </div>
+                          <div className="card_space"></div>
                           <div className="hire">
                             <p>hire</p>
                           </div>
@@ -495,52 +552,58 @@ const Zone = () => {
       </div>
       <div className="zone_right_bar">
         <div className="menu_set">
-          <svg width="30" height="23" viewBox="0 0 30 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg
+            width="30"
+            height="23"
+            viewBox="0 0 30 23"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <path d="M0 2H30" stroke="white" strokeWidth="3" />
             <path d="M0 11.5H30" stroke="white" strokeWidth="3" />
             <path d="M0 21.5H30" stroke="white" strokeWidth="3" />
           </svg>
         </div>
         <div className="card_box">
-          <div className="play_card blue_play_card">
-            <div className="card_name">
-              <p>CARD NAME</p>
+          {getDecks.cards.length > 0 ? (
+            <div className="play_card blue_play_card" onClick={handleClick}>
+              <div className="card_name">
+                <p>CARD NAME</p>
+              </div>
+              <div className="card_space"></div>
+              <div className="hire">
+                <p>hire</p>
+              </div>
+              <div className="card_detail">
+                <p>Discard 1.</p>
+                <p>Draw 33.</p>
+              </div>
             </div>
-            <div className="card_space">
-
-            </div>
-            <div className="hire">
-              <p>hire</p>
-            </div>
-            <div className="card_detail">
-              <p>Discard 1.</p>
-              <p>Draw 3.</p>
-            </div>
-          </div>
+          ) : (
+            <h3>hello </h3>
+          )}
         </div>
         {/* <div className="action_button">
           <button>ACTION BUTTON</button>
         </div> */}
-        <div className="card_box">
+        <div className="card_box" onClick={handleClick}>
           <div className="play_card">
             <div className="card_name">
               <p>CARD NAME</p>
             </div>
-            <div className="card_space">
-
-            </div>
+            <div className="card_space"></div>
             <div className="hire">
               <p>hire</p>
             </div>
             <div className="card_detail">
               <p>Discard 1.</p>
-              <p>Draw 3.</p>
+              <p>Draw 31.</p>
             </div>
           </div>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Zone;
