@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom'
 import Browse from './Browse';
 import BrowseInfo from './BrowseInfo';
 import Mint from './Mint';
+import Duel from './Duel';
 import Assets from './Assets';
 import Land from './Land';
 import Profiles from './Profiles';
@@ -29,6 +30,7 @@ export default () =>
     <Route path='/profiles' component={() => <Profiles />} />
     <Route path='/browse' component={() => <Browse />} />
     <Route path='/mint' component={() => <Mint />} />
+    <Route path='/duel' component={() => <Duel />} />
     <Route path='/login' component={() => <Login />} />
     <Route path='/settings' component={() => <Settings />} />
     <Route path='/' exact component={() => <Home />} />

@@ -2,15 +2,14 @@
   margin-bottom: 0;
   border-bottom: none;
   position: relative;
-  height: 64px;
-  padding: 10px 0;
-  border-bottom: 1px solid rgba(103,99,112,.2);
+  padding: 0;
   width: 100%;
   box-sizing: content-box;
   z-index: 20;
-  background-color: transparent;
+  background: linear-gradient(180deg, #696969 0%, #424242 100%);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-color: transparent;
-  transition: background-color .5s ease,border-color .5s ease;
+  height: 64px;
 }
 .navbar .container {
   position: relative;
@@ -20,9 +19,8 @@
   height: 100%;
   background-color: transparent;
   transition: background-color .25s ease;
-  width: 933px;
-  margin-left: auto!important;
-  margin-right: auto!important;
+  width: 100%;
+  padding: 0;
   display: block;
   max-width: 100%!important;
 }
@@ -34,21 +32,22 @@
   display: inline;
 }
 .navbar .container .navbar-menu .secondary-menu {
-  margin-left: 20px;
-  margin-top: 10px;
+  margin-left: 30px;
+  margin-top: 20px;
 }
 .navbar .container .navbar-menu .right-menu-container {
-  margin-top: 10px;
+  margin-top: 23px;
   margin-left: auto;
 }
 .navbar .container .item {
   text-shadow: 0 0 0.2em rgba(0,0,0,.5);
-  font-weight: 400;
-  color: #676370;
+  font-weight: 300;
+  color: white;
   border-radius: 6px;
   text-transform: uppercase;
   padding: 0;
-  font-size: 13px;
+  font-size: 20px;
+  line-height: 23px;
   box-shadow: none;
   border: none;
   margin: 0 .85714286em;
@@ -61,23 +60,41 @@
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  font-family: Roboto;
+  text-align: center;
+}
+.navbar .container .item.logo-string {
+  font-weight: bold;
+  font-size: 30px;
+  line-height: 35px;
+  font-style: italic;
+}
+.right-menu-container .item{
+  font-size: 24px!important;
 }
 .navbar .navbar-menu .secondary-menu {
   margin: 0;
 }
-.navbar .logo,
+.navbar .logo{
+  cursor: pointer;
+  width: 36px;
+  height: 64px;
+  margin-right: -20px;
+  margin-top: 0;
+}
 .accountPicture {
   cursor: pointer;
   width: 36px;
   height: 36px;
-  margin-top: 2px;
-}
-.accountPicture {
+  margin-top: 12px;
   border: 2px solid #312936;
-  border-radius: 10px;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
+  border-radius: 50%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
 }
 .accountPicture.loggedIn {
   box-shadow: 0px 0px 5px #c4005d;
+}
+.user-logo{
+  padding-right: 30px;
 }
