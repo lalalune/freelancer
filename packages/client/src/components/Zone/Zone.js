@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-
 import "./Zone.css";
-
 // fake data generator
-const getItems = (count, offset = 0) =>
-  Array.from({ length: count }, (v, k) => k).map((k) => ({
-    id: `item-${k + offset}`,
-    content: `item ${k + offset}`,
-  }));
+// const getItems = (count, offset = 0) =>
+//   Array.from({ length: count }, (v, k) => k).map((k) => ({
+//     id: `item-${k + offset}`,
+//     content: `item ${k + offset}`,
+//   }));
 
-const getDecks = {
+const getBlueDecks = {
   name: "Test Deck",
   cards: [
     {
@@ -93,15 +91,103 @@ const getDecks = {
       type: "lead",
       abilities: ["CHARGE_1", "SPEND_1"],
     },
-  ],
+  ].map((item, index) => {
+    item.id = index;
+    return item;
+  }),
 };
-// .map((item, index) => {
-//   item.id = index;
-//   return item;
-// }),
+const getRedDecks = {
+  name: "Test Deck",
+  cards: [
+    {
+      type: "lead",
+      abilities: ["DRAW_1", "DISCARD_1"],
+    },
+    {
+      type: "lead",
+      abilities: ["CHARGE_1", "SPEND_1"],
+    },
+    {
+      type: "lead",
+      abilities: ["DRAW_1", "DISCARD_1"],
+    },
+    {
+      type: "lead",
+      abilities: ["CHARGE_1", "SPEND_1"],
+    },
+    {
+      type: "lead",
+      abilities: ["DRAW_1", "DISCARD_1"],
+    },
+    {
+      type: "lead",
+      abilities: ["CHARGE_1", "SPEND_1"],
+    },
+    {
+      type: "lead",
+      abilities: ["DRAW_1", "DISCARD_1"],
+    },
+    {
+      type: "lead",
+      abilities: ["CHARGE_1", "SPEND_1"],
+    },
+    {
+      type: "lead",
+      abilities: ["DRAW_1", "DISCARD_1"],
+    },
+    {
+      type: "lead",
+      abilities: ["DRAW_1", "DISCARD_1"],
+    },
+    {
+      type: "lead",
+      abilities: ["DRAW_1", "DISCARD_1"],
+    },
+    {
+      type: "lead",
+      abilities: ["DRAW_1", "DISCARD_1"],
+    },
+    {
+      type: "lead",
+      abilities: ["DRAW_1", "DISCARD_1"],
+    },
+    {
+      type: "lead",
+      abilities: ["DRAW_1", "DISCARD_1"],
+    },
+    {
+      type: "lead",
+      abilities: ["DRAW_1", "DISCARD_1"],
+    },
+    {
+      type: "lead",
+      abilities: ["DRAW_1", "DISCARD_1"],
+    },
+    {
+      type: "lead",
+      abilities: ["DRAW_1", "DISCARD_1"],
+    },
+    {
+      type: "lead",
+      abilities: ["CHARGE_1", "SPEND_1"],
+    },
+    {
+      type: "lead",
+      abilities: ["DRAW_1", "DISCARD_1"],
+    },
+    {
+      type: "lead",
+      abilities: ["CHARGE_1", "SPEND_1"],
+    },
+  ].map((item, index) => {
+    item.id = index;
+    return item;
+  }),
+};
 
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
+  console.log(startIndex, endIndex, "start");
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);
@@ -111,17 +197,15 @@ const reorder = (list, startIndex, endIndex) => {
 /**
  * Moves an item from one list to another list.
  */
+
 const move = (source, destination, droppableSource, droppableDestination) => {
   const sourceClone = Array.from(source);
   const destClone = Array.from(destination);
   const [removed] = sourceClone.splice(droppableSource.index, 1);
-
   destClone.splice(droppableDestination.index, 0, removed);
-
   const result = {};
   result[droppableSource.droppableId] = sourceClone;
   result[droppableDestination.droppableId] = destClone;
-
   return result;
 };
 
@@ -129,7 +213,6 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   // some basic styles to make the items look a bit nicer
   userSelect: "none",
   margin: "5px",
-
   // change background colour if dragging
   // background: isDragging ? 'lightgreen' : 'grey',
 
@@ -147,21 +230,17 @@ const getListStyle = (isDraggingOver) => ({
   alignItems: "center",
   justifyContent: " center",
   margin: "10px",
-  overflow: "hidden",
+  overflowX: "scroll",
 });
 
-//---------------------------------------------------------------------
 const Zone = () => {
-  //state 1=blue
   const [state1, setState1] = useState({
     items: [],
     selected: [],
   });
-
-  //state 2 = red
   const [state2, setState2] = useState({
-    items: getItems(3),
-    selected: getItems(1, 3),
+    items: [],
+    selected: [],
   });
 
   const id1List = {
@@ -170,42 +249,40 @@ const Zone = () => {
   };
 
   const getList = (id) => state1[id1List[id]];
-  const handleClick = (e) => {
+  const handleBlueClick = (e) => {
     e.preventDefault();
-    var card = getDecks.cards;
-    // var f1 = [1, 2, 3,4];
-    console.log(card);
-    if (card.length == 0) {
-      console.log("Card finish");
-    } else {
-      var f = card.shift();
-      console.log(f, "shifting");
-    }
+    var card = getBlueDecks.cards;
+    var f = card.shift();
+    state1.items.push(f);
+    setState1({ ...state1 });
   };
-
+  const handleRedClick = (e) => {
+    e.preventDefault();
+    var card = getRedDecks.cards;
+    var f = card.shift();
+    state2.items.push(f);
+    setState2({ ...state2 });
+  };
   const onDragEnd = (result) => {
     const { source, destination } = result;
-
     // dropped outside the list
     if (!destination) {
       return;
     }
 
     if (source.droppableId === destination.droppableId) {
-      console.log(destination.droppableId, "hkj");
-      console.log(source.droppableId, "hkjj");
       const items = reorder(
         getList(source.droppableId),
         source.index,
         destination.index
       );
-      let state = { items };
+
+      let state1 = { items };
 
       if (source.droppableId === "droppable2") {
-        state = { selected: items };
+        state1 = { selected: items };
       }
-
-      setState1(state);
+      setState1(state1);
     } else {
       const result = move(
         getList(source.droppableId),
@@ -213,7 +290,6 @@ const Zone = () => {
         source,
         destination
       );
-
       setState1({
         items: result.droppable,
         selected: result.droppable2,
@@ -226,11 +302,10 @@ const Zone = () => {
     droppable4: "selected",
   };
 
-  const getList2 = (id) => state1[id2List[id]];
+  const getList2 = (id) => state2[id2List[id]];
 
   const onDragEnd1 = (result) => {
     const { source, destination } = result;
-
     // dropped outside the list
     if (!destination) {
       return;
@@ -242,14 +317,14 @@ const Zone = () => {
         source.index,
         destination.index
       );
-      console.log(items, "items");
-      let state = { items };
+
+      let state2 = { items };
 
       if (source.droppableId === "droppable4") {
         state = { selected: items };
       }
 
-      setState2(state);
+      setState2(state2);
     } else {
       const result = move(
         getList2(source.droppableId),
@@ -259,8 +334,8 @@ const Zone = () => {
       );
 
       setState2({
-        items: result.droppable,
-        selected: result.droppable2,
+        items: result.droppable3,
+        selected: result.droppable4,
       });
     }
   };
@@ -386,36 +461,43 @@ const Zone = () => {
                 ref={provided.innerRef}
                 style={getListStyle(snapshot.isDraggingOver)}
               >
-                {state1.items.map((item, index) => (
-                  <Draggable key={item.id} draggableId={item.id} index={index}>
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        style={getItemStyle(
-                          snapshot.isDragging,
-                          provided.draggableProps.style
-                        )}
-                      >
-                        {/* {item.content} */}
-                        <div className="play_card blue_play_card">
-                          <div className="card_name">
-                            <p>CARD NAME</p>
-                          </div>
-                          <div className="card_space"></div>
-                          <div className="hire">
-                            <p>hire</p>
-                          </div>
-                          <div className="card_detail">
-                            <p>Discard 1.</p>
-                            <p>Draw 3.</p>
+                {state1.items.map((item, index) => {
+                  return (
+                    <Draggable
+                      key={item.id}
+                      draggableId={item.id.toString()}
+                      index={index}
+                    >
+                      {(provided, snapshot) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          style={getItemStyle(
+                            snapshot.isDragging,
+                            provided.draggableProps.style
+                          )}
+                        >
+                          {/* {item.content} */}
+
+                          <div className="play_card blue_play_card">
+                            <div className="card_name">
+                              <p>{item.name}</p>
+                            </div>
+                            <div className="card_space"></div>
+                            <div className="hire">
+                              <p>hire</p>
+                            </div>
+                            <div className="card_detail">
+                              <p>{item.abilities[0]}</p>
+                              <p>{item.abilities[1]}</p>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
+                      )}
+                    </Draggable>
+                  );
+                })}
                 {provided.placeholder}
               </div>
             )}
@@ -427,7 +509,11 @@ const Zone = () => {
                 style={getListStyle(snapshot.isDraggingOver)}
               >
                 {state1.selected.map((item, index) => (
-                  <Draggable key={item.id} draggableId={item.id} index={index}>
+                  <Draggable
+                    key={item.id}
+                    draggableId={item.id.toString()}
+                    index={index}
+                  >
                     {(provided, snapshot) => (
                       <div
                         ref={provided.innerRef}
@@ -448,8 +534,8 @@ const Zone = () => {
                             <p>hire</p>
                           </div>
                           <div className="card_detail">
-                            <p>Discard 1.</p>
-                            <p>Draw 3.</p>
+                            <p>{item.abilities[0]}</p>
+                            <p>{item.abilities[1]}</p>
                           </div>
                         </div>
                       </div>
@@ -473,36 +559,42 @@ const Zone = () => {
                 ref={provided.innerRef}
                 style={getListStyle(snapshot.isDraggingOver)}
               >
-                {state2.items.map((item, index) => (
-                  <Draggable key={item.id} draggableId={item.id} index={index}>
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        style={getItemStyle(
-                          snapshot.isDragging,
-                          provided.draggableProps.style
-                        )}
-                      >
-                        {/* {item.content} */}
-                        <div className="play_card">
-                          <div className="card_name">
-                            <p>CARD NAME</p>
-                          </div>
-                          <div className="card_space"></div>
-                          <div className="hire">
-                            <p>hire</p>
-                          </div>
-                          <div className="card_detail">
-                            <p>Discard 1.</p>
-                            <p>Draw 3.</p>
+                {state2.items.map((item, index) => {
+                  return (
+                    <Draggable
+                      key={item.id}
+                      draggableId={item.id.toString()}
+                      index={index}
+                    >
+                      {(provided, snapshot) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          style={getItemStyle(
+                            snapshot.isDragging,
+                            provided.draggableProps.style
+                          )}
+                        >
+                          {/* {item.content} */}
+                          <div className="play_card">
+                            <div className="card_name">
+                              <p>{item.name}</p>
+                            </div>
+                            <div className="card_space"></div>
+                            <div className="hire">
+                              <p>hire</p>
+                            </div>
+                            <div className="card_detail">
+                              <p>{item.abilities[0]}</p>
+                              <p>{item.abilities[1]}</p>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
+                      )}
+                    </Draggable>
+                  );
+                })}
                 {provided.placeholder}
               </div>
             )}
@@ -514,7 +606,11 @@ const Zone = () => {
                 style={getListStyle(snapshot.isDraggingOver)}
               >
                 {state2.selected.map((item, index) => (
-                  <Draggable key={item.id} draggableId={item.id} index={index}>
+                  <Draggable
+                    key={item.id}
+                    draggableId={item.id.toString()}
+                    index={index}
+                  >
                     {(provided, snapshot) => (
                       <div
                         ref={provided.innerRef}
@@ -535,8 +631,8 @@ const Zone = () => {
                             <p>hire</p>
                           </div>
                           <div className="card_detail">
-                            <p>Discard 1.</p>
-                            <p>Draw 3.</p>
+                            <p>{item.abilities[0]}</p>
+                            <p>{item.abilities[1]}</p>
                           </div>
                         </div>
                       </div>
@@ -565,41 +661,47 @@ const Zone = () => {
           </svg>
         </div>
         <div className="card_box">
-          {getDecks.cards.length > 0 ? (
-            <div className="play_card blue_play_card" onClick={handleClick}>
+          {getBlueDecks.cards.length != 0 ? (
+            <div className="play_card blue_play_card" onClick={handleBlueClick}>
               <div className="card_name">
-                <p>CARD NAME</p>
+                <p>{getBlueDecks.name}</p>
               </div>
               <div className="card_space"></div>
               <div className="hire">
                 <p>hire</p>
               </div>
               <div className="card_detail">
-                <p>Discard 1.</p>
-                <p>Draw 33.</p>
+                <p>{getBlueDecks.cards[0].abilities[0]}</p>
+                <p>{getBlueDecks.cards[0].abilities[1]}</p>
               </div>
             </div>
           ) : (
-            <h3>hello </h3>
+            ""
           )}
         </div>
         {/* <div className="action_button">
           <button>ACTION BUTTON</button>
         </div> */}
-        <div className="card_box" onClick={handleClick}>
-          <div className="play_card">
-            <div className="card_name">
-              <p>CARD NAME</p>
+        <div className="card_box">
+          {getRedDecks.cards.length != 0 ? (
+            <div className="play_card" onClick={handleRedClick}>
+              <div>
+                <div className="card_name">
+                  <p>{getRedDecks.name}</p>
+                </div>
+                <div className="card_space"></div>
+                <div className="hire">
+                  <p>hire</p>
+                </div>
+                <div className="card_detail">
+                  <p>{getRedDecks.cards[0].abilities[0]}</p>
+                  <p>{getRedDecks.cards[0].abilities[1]}</p>
+                </div>
+              </div>
             </div>
-            <div className="card_space"></div>
-            <div className="hire">
-              <p>hire</p>
-            </div>
-            <div className="card_detail">
-              <p>Discard 1.</p>
-              <p>Draw 31.</p>
-            </div>
-          </div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </div>
