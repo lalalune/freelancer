@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from "react-router-dom";
-import { Container, Row } from 'react-grid-system';
+// import { Container, Row } from 'react-grid-system';
 import { useAppContext } from "../../libs/contextLib";
 import { getBooths } from "../../functions/UIStateFunctions.js";
+import './style.css';
 
 import Loader from "../../components/Loader";
 import CardGrid from "../../components/CardGrid";
@@ -57,8 +58,18 @@ export default () => {
   }, [currentCard]);
 
   return !loading && booths && booths.length > 0 ?
-    <div className="container">
-      <CardGrid data={booths} globalState={globalState} cardSize="" currentCard={currentCard} setCurrentCard={setCurrentCard} />
+    <div className="container row construct-row">
+      <div className="col-2">
+        <div className="gray-card">
+          <div className="gray-card-detail">
+            <p>SELECT DECK</p>
+            <p>New</p>
+          </div>
+        </div>
+      </div>
+      <div className="col-10">
+        <CardGrid data={booths} globalState={globalState} cardSize="" currentCard={currentCard} setCurrentCard={setCurrentCard} />
+      </div>
     </div>
   :
     <div className="container">

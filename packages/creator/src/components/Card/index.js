@@ -7,6 +7,7 @@ import iconGlb from '../../assets/images/exts/icon-glb.svg';
 import iconJpg from '../../assets/images/exts/icon-jpg.svg';
 import iconPng from '../../assets/images/exts/icon-jpg.svg';
 import iconVrm from '../../assets/images/exts/icon-vrm.svg';
+import iconLowerLogo from '../../assets/images/lowerCardInfoIcon.png';
 
 
 export default ({
@@ -72,44 +73,61 @@ export default ({
   }
   
   return (
-      <div
-        className={`card cardItem ${rarity}`}
-          onClick={onClickFunction}
-      >
-        <div className={`${rarity} upperCardInfo upperCardInfo ${cardSize} upperCardInfo upperCardInfo_${(ext ?? "").replace('.','')}`}>
-          <div className={`upperCardInfoLeft upperCardInfoLeft ${cardSize}`}>
+      <div className={`card cardItem ${rarity}`} onClick={onClickFunction}>
+        <div className={`${rarity} upperCardInfo  ${cardSize} upperCardInfo_${(ext ?? "").replace('.','')}`}>
+          <div className={`upperCardInfoLeft ${cardSize}`}>
             <span className={`cardAssetName cardName ${cardSize}`}>{assetName}</span>
           </div>
-          <div className={`upperCardInfoRight upperCardInfoRight ${cardSize}`}>
+          {/* <div className={`upperCardInfoRight ${cardSize}`}>
             <div className={`itemType ext ${cardSize} ext_${ext}`}>
               <img className={`itemTypeIcon itemTypeIcon ${cardSize}`} src={extIcon} />
               <span className={`itemTypeExt itemTypeExt ${cardSize}`}>.{ext}</span> 
             </div>
-          </div>
+          </div> */}
         </div>
         <div className={`assetImage assetImage ${cardSize}`}><img src={image} /></div>
-        <div className={`lowerCardInfo lowerCardInfo ${cardSize}`}>
-          <div className={`lowerCardInfoTop ${rarity} lowerCardInfoTop ${cardSize} lowerCardInfoTop`}>
-            <div className={`lowerCardInfoTopLeft lowerCardInfoTopLeft ${cardSize}`}>
+        <div className={`lowerCardInfo ${cardSize}`}>
+          <div className={`lowerCardInfoTop ${rarity} ${cardSize}`}>
+            <div className={`lowerCardInfoTopLeft ${cardSize}`}>
               <div className={`lowerCardInfoTopLeftGroup`}>
-                <span className={`creator creator ${cardSize}`}>
-                  <span className={`creatorIcon creatorIcon tooltip ${cardSize}`}>
-                    <img src={minterAvatarPreview.replace(/\.[^.]*$/, '.png')} />
-                    <span className={`creatorName creatorName tooltiptext ${cardSize}`}>{minterUsername}</span>
+                <span className={`creator ${cardSize}`}>
+                  <span className={`creatorIcon ${cardSize}`}>
+                  {/* <span className={`creatorIcon tooltip ${cardSize}`}> */}
+                    {/* <img src={minterAvatarPreview.replace(/\.[^.]*$/, '.png')} /> */}
+                    <img src={iconLowerLogo} />
+                    <img src={iconLowerLogo} />
+                    {/* <span className={`creatorName tooltiptext ${cardSize}`}>
+                      {minterUsername}
+                    </span> */}
                   </span>
                 </span>
                 <span className={`arrow-down arrow-down ${cardSize}`}></span>
               </div>
-              <div className="lowerCardInfoTopClear"></div>
+              {/* <div className="lowerCardInfoTopClear"></div> */}
             </div>
-            <span className={`greaseLoadedIntoAsset greaseLoadedIntoAsset ${cardSize}`}>{`${buyPrice ? "岾 " + buyPrice : ""} ${buyPrice ? "FLUX" : ""}`}</span>
+            <span className={`lowerCardInfoTopLeftSpan ${cardSize}`}>
+              #1 out of 10
+            </span>
+            <span className={`greaseLoadedIntoAsset ${cardSize}`}>
+              {/* {`${buyPrice ? "岾 " + buyPrice : ""} ${buyPrice ? "FLUX" : ""}`} */}
+              1208W
+            </span>
           </div>
-          <div className={`lowerCardInfoMiddle lowerCardInfoMiddle ${cardSize}`}>
-            <span className={`assetDescription assetDescription ${cardSize}`}>{description}</span>
+          <div className={`lowerCardInfoMiddle ${cardSize}`}>
+            <p className={`assetDescription ${cardSize}`}>
+              {description}
+            </p>
+            <div className={`${rarity} lowerCardInfoMiddle legendary`}>
+              <div className="triangle-down"></div>
+              <div className="parallelogram"></div>
+              <div className="parallelogram parallelogram-2"></div>
+              <p>0x35ddcd7d8b66f1331f77186af17dbcf231909433</p>
+            </div>
           </div>
-          <div className={`lowerCardInfoBottom lowerCardInfoBottom ${cardSize}`}>
-            <span className={`assetHash assetHash ${cardSize}`}>{hash}</span>
-          </div>
+          
+          {/* <div className={`lowerCardInfoBottom ${cardSize}`}>
+            <span className={`assetHash ${cardSize}`}>{hash}</span>
+          </div> */}
         </div>
       </div>
   );

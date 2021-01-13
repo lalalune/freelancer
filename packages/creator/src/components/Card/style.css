@@ -3,18 +3,20 @@ img {
     height: 100%;
     object-fit: cover;
 }
-
-.card {
+.card-grid-container .card{
     background-color: transparent;
-    width: 16em;
-    height: 26em;
-    display: flex;
+    width: 207px;
+    /* height: 329px; */
+    display: flex!important;
     flex-direction: column;
-    margin: 2em;
+    margin: 26px;
     color: black;
     transition: transform .1s ease-in-out,box-shadow .1s ease-in-out;
     filter: drop-shadow(0px 0px 4px #000000);
     overflow: hidden;
+    background: none;
+    border: none!important;
+    border-radius: .5rem;
 }
 .upperCardInfo {
     background: linear-gradient(90deg, #C4008B 34.8%, #c4005d 100%);
@@ -23,6 +25,7 @@ img {
     justify-content: space-between;
     align-items: center;
     overflow: hidden;
+    height: 28px!important;
 }
 
 .upperCardInfoLeft {
@@ -39,7 +42,8 @@ img {
     color: white;
     font-weight: 500;
     text-transform: uppercase;
-    font-size: 1em;
+    font-size: 12px!important;
+    line-height: 14px!important;
 }
 
 .networkType {
@@ -71,22 +75,37 @@ img {
 }
 
 .assetImage {
-    background-color: lightgray;
-    width: 16em;
-    height: 16em;
+    background-color: white;
+    width: 207px;
+    height: 190px;
 }
 
 .lowerCardInfo {
     background: transparent;
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    height: 115px;
+}
+.lowerCardInfo span,
+.lowerCardInfo p{
+    font-size: 10px;
+    line-height: 12px;
+    font-weight: 300;
+}
+
+.lowerCardInfoTopLeftSpan {
+    color: white;
+    position: absolute;
+    left: 50px;
+    top: 3px;
 }
 
 .lowerCardInfoTop { 
     background: linear-gradient(90deg, #C4008B 34.8%, #c4005d 100%);
-    display: flex;
-    justify-content: space-between;
+    /* display: flex;
+    justify-content: space-between; */
     padding: 0.1em 0.5em 0.1em 0;
     position: relative;
+    height: 16px;
 }
 
 .lowerCardInfoTopLeft {
@@ -99,17 +118,17 @@ img {
 .lowerCardInfoTopLeftGroup {
     display: flex;
     position: absolute;
-    top: 0.35em; 
+    top: 3px;
 }
 
 .creator {
-    background-color: lightgray;
+    background-color: white;
     padding-left: 0.5em;
 }
 
 .creatorIcon img {
-    width: 1.3em;
-    height: 1.3em;
+    width: 15px;
+    height: 17px;
     border-radius: 50%;
 }
 
@@ -166,8 +185,8 @@ img {
     height:0; 
     border-right: 1.2em solid transparent;
     border-top: 1.2em solid transparent;
-    border-left: 1.2em solid lightgray;
-    border-bottom: 1.2em solid lightgray;
+    border-left: 1.2em solid white;
+    border-bottom: 1.2em solid white;
 }
 
 .lowerCardInfoTopClear {
@@ -183,30 +202,30 @@ img {
 
 .greaseLoadedIntoAsset {
     color: white;
-    font-size: 0.7em;
+    font-size: 10px;
+    position: absolute;
+    top: 3px;
+    left: 170px;
 }
 
 .lowerCardInfoMiddle {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: lightgray;
-    height: 4em;
+    background: white;
+    height: 100px;
 }
 
 .assetDescription {
     width: 100%;
     /* height: 9.4em; */
     /* padding: 1.4em 2em 2em 2em; */
-    background: lightgray;
-    font-size: .7em;
-    font-weight: 300;
+    background: white;
     font-style: italic;
     word-wrap: break-word;
+    text-align: left!important;
+    padding: 15px;
 }
 
 .lowerCardInfoBottom {
-    background: lightgray;
+    background: white;
     display: flex;
     justify-content: center;
     padding-bottom: 0.3em;
@@ -362,7 +381,7 @@ img {
     height: 19em;
     width: 22em;
 }
-.lowerCardInfo.small {
+/* .lowerCardInfo.small {
 
 }
 
@@ -372,26 +391,26 @@ img {
 
 .lowerCardInfo.large {
 
-}
+} */
 .lowerCardInfoTop.small {
     padding: 0.05em 0.5em 0.05em 0;
 }
 
-.lowerCardInfoTop.medium {
+/* .lowerCardInfoTop.medium {
 
-}
+} */
 
 .lowerCardInfoTop.large {
     padding: 0.2em 0.5em 0.2em 0;
 }
-
+/* 
 .lowerCardInfoTopLeft.small {
 
 }
 
 .lowerCardInfoTopLeft.medium {
 
-}
+} */
 
 .lowerCardInfoTopLeft.large {
     width: 55%;
@@ -423,7 +442,7 @@ img {
     height: 1.8em;
 }
 
-.creatorName.small {
+/* .creatorName.small {
 
 }
 
@@ -441,7 +460,7 @@ img {
 
 .owner.medium {
 
-}
+} */
 
 .owner.large {
     padding-right: 0.9em;
@@ -451,17 +470,17 @@ img {
     width: 1em;
     height: 1em;
 }
-
+/* 
 .ownerIcon.medium img {
 
-}
+} */
 
 .ownerIcon.large img {
     width: 1.8em;
     height: 1.8em;
 }
 
-.ownerName.small {
+/* .ownerName.small {
 
 }
 
@@ -471,7 +490,7 @@ img {
 
 .ownerName.large {
 
-}
+} */
 
 .arrow-down.small {
     border-right: 0.75em solid transparent;
@@ -513,7 +532,7 @@ img {
     font-size: 0.7em;
 }
 
-.greaseLoadedIntoAsset.medium {
+/* .greaseLoadedIntoAsset.medium {
 
 }
 
@@ -523,7 +542,7 @@ img {
 
 .lowerCardInfoMiddle.medium {
 
-}
+} */
 
 .lowerCardInfoMiddle.large {
     height: 10em;
@@ -577,7 +596,8 @@ img {
 /* color schemes */
 
 .upperCardInfo.unique,
-.lowerCardInfoTop.unique {
+.lowerCardInfoTop.unique,
+.lowerCardInfoMiddle.legendary.unique {
     background: linear-gradient(90deg, #FFC700 34.8%, #665000 100%);
 }
 .card.unique.glow,
@@ -587,7 +607,8 @@ img {
 
 
 .upperCardInfo.mythic,
-.lowerCardInfoTop.mythic {
+.lowerCardInfoTop.mythic,
+.lowerCardInfoMiddle.legendary.mythic {
    background: linear-gradient(90deg, #ef00ff 34.8%, #790971 100%);
 }
 .card.mythic.glow,
@@ -596,9 +617,49 @@ img {
 }
 
 
-.upperCardInfo.legendary,
-.lowerCardInfoTop.legendary {
-   background: linear-gradient(90deg, #AD00EA 34.8%, #32002D 100%);
+.upperCardInfo.legendary{
+    background: linear-gradient(90deg, #2300F8 34.8%, #410093 100%);
+}
+.lowerCardInfoTop.legendary,
+.lowerCardInfoMiddle.legendary {
+    background: linear-gradient(90deg, rgba(36, 0, 255, 0.9) 31.42%, rgba(126, 87, 194, 0.9) 100%);
+}
+.lowerCardInfoMiddle.legendary{
+    margin: 0 0 0 50px;
+    height: 12px;
+    text-align: left;
+}
+.lowerCardInfoMiddle.legendary *{
+    display: inline-block;
+}
+.lowerCardInfoMiddle.legendary p{
+    color: white;
+    font-size: 5px;
+    line-height: 6px;
+    position: relative;
+    top: -7px;
+    left: 10px;
+    width: 100px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.parallelogram {
+	width: 10px;
+	height: 15px;
+	transform: skew(-45deg);
+	background: white;
+}
+.parallelogram-2{
+    margin-left: 7px;
+}
+.triangle-down{
+	width: 0;
+	height: 0;
+	border-right: 12px solid transparent;
+    border-top: 12px solid white;
+    position: relative;
+    top: -3px;
 }
 .card.legendary.glow,
 .card.legendary:hover {
@@ -607,8 +668,10 @@ img {
 
 
 .upperCardInfo.epic,
-.lowerCardInfoTop.epic {
-   background: linear-gradient(90deg, #00B3DB 34.8%, #003743 100%);
+.lowerCardInfoTop.epic,
+.lowerCardInfoMiddle.legendary.epic {
+   /* background: linear-gradient(90deg, #00B3DB 34.8%, #003743 100%); */
+   background: linear-gradient(90deg, #00C02A 34.8%, #003C02 100%);
 }
 .card.epic.glow,
 .card.epic:hover {

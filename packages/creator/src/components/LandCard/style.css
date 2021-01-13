@@ -599,7 +599,8 @@ img {
 
 .upperCardInfo.legendary,
 .lowerCardInfoTop.legendary {
-   background: linear-gradient(90deg, #AD00EA 34.8%, #32002D 100%);
+   /* background: linear-gradient(90deg, #AD00EA 34.8%, #32002D 100%); */
+   background: linear-gradient(90deg, #2300F8 34.8%, #410093 100%);
 }
 .card.legendary.glow,
 .card.legendary:hover {

@@ -6,7 +6,7 @@ import BrowseInfo from './BrowseInfo';
 import Mint from './Mint';
 import Duel from './Duel';
 import Assets from './Assets';
-import Land from './Land';
+// import Land from './Land';
 import Profiles from './Profiles';
 import Profile from './Profile';
 import Settings from './Settings';
@@ -26,7 +26,7 @@ export default () =>
     }}/>
     <Route path='/profiles/:id' component={() => <Profile />} />
     <Route path='/assets' component={() => <Assets />} />
-    <Route path='/land' component={() => <Land />} />
+    {/* <Route path='/land' component={() => <Land />} /> */}
     <Route path='/profiles' component={() => <Profiles />} />
     <Route path='/browse' component={() => <Browse />} />
     <Route path='/mint' component={() => <Mint />} />

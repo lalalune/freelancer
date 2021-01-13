@@ -4,14 +4,34 @@
   display: flex;
   justify-content: center;
 }
-.small {
-
-}
 .medium {
   flex-wrap: wrap;
   width:100%;
   display:flex;
 }
-.large {
-
+.card-grid-container{
+  width: 1295px;
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: left;
+}
+.construct-border{
+  border: 1px solid white;
+  border-radius: 3px;
+}
+.right-top-div{
+  padding-right: 26px!important;
+}
+.left-top-div{
+  padding-left: 26px!important;
+}
+@media (max-width: 1750px){
+  .card-grid-container{
+    width: 1036px;
+  }
+}
+@media (max-width: 1430px){
+  .card-grid-container{
+    width: 777px;
+  }
 }
