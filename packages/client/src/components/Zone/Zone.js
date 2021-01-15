@@ -4,6 +4,7 @@ import getBlueDeck from "../helper/blueDeck";
 import getRedDeck from "../helper/redDeck";
 import BlueTeam from "../svgs/blueSvg";
 import RedTeam from "../svgs/redSvg";
+import LeftBar from "../svgs/leftBar";
 import "./Zone.css";
 
 const getBlueDecks = {
@@ -33,6 +34,8 @@ const reorder = (list, startIndex, endIndex) => {
 /**
  * Moves an item from one list to another list.
  */
+
+const grid = 3;
 const move = (source, destination, droppableSource, droppableDestination) => {
   const sourceClone = Array.from(source);
   const destClone = Array.from(destination);
@@ -45,12 +48,10 @@ const move = (source, destination, droppableSource, droppableDestination) => {
 };
 
 const getItemStyle = (isDragging, draggableStyle) => ({
-  // some basic styles to make the items look a bit nicer
   userSelect: "none",
-  margin: "5px",
-  // change background colour if dragging
+  padding: grid * 2,
+  margin: `0 ${grid}px 0 0`,
   // background: isDragging ? 'lightgreen' : 'grey',
-  // styles we need to apply on draggables
   ...draggableStyle,
 });
 
@@ -68,8 +69,10 @@ const getListStyle = (isDraggingOver) => ({
 });
 
 const Zone = () => {
-  const [player1, setplayer1] = useState(false);
-  const [player2, setplayer2] = useState(true);
+  const [playerBlue, setplayerBlue] = useState(true);
+  const [playerRed, setplayerRed] = useState(false);
+  const [Click, setClick] = useState(true);
+  const [Flag, setFlag] = useState(false);
   const [state1, setState1] = useState({
     items: [],
     selected: [],
@@ -86,32 +89,33 @@ const Zone = () => {
   };
 
   const getList = (id) => state1[id1List[id]];
-
   const handleBlueClick = (e) => {
     e.preventDefault();
-    if (player2) {
+    if (playerBlue) {
       var card = getBlueDecks.cards;
       var blueCard = card.shift();
       state1.items.push(blueCard);
       setState1({ ...state1 });
-      setplayer1(true);
-      setplayer2(false);
+      setplayerRed(true);
+      setplayerBlue(false);
     }
   };
 
   const handleRedClick = (e) => {
     e.preventDefault();
-    if (player1) {
+    if (playerRed) {
       var card = getRedDecks.cards;
       var redCard = card.shift();
       state2.items.push(redCard);
       setState2({ ...state2 });
-      setplayer2(true);
-      setplayer1(false);
+      setplayerBlue(true);
+      setplayerRed(false);
     }
   };
+
   const onDragEnd = (result) => {
-    if (player1) {
+    
+    if (playerRed) {
       const { source, destination } = result;
 
       if (!destination) {
@@ -144,8 +148,8 @@ const Zone = () => {
           selected: result.droppable2,
         });
       }
-      setplayer1(true);
-      setplayer2(false);
+      setplayerRed(true);
+      setplayerBlue(false);
     }
   };
 
@@ -157,8 +161,9 @@ const Zone = () => {
   const getList2 = (id) => state2[id2List[id]];
 
   const onDragEnd1 = (result) => {
-    if (player2) {
+    if (playerBlue) {
       const { source, destination } = result;
+
       if (!destination) {
         return;
       }
@@ -193,10 +198,14 @@ const Zone = () => {
           selected: result.droppable4,
         });
       }
-      setplayer2(true);
-      setplayer1(false);
+      setplayerBlue(true);
+      setplayerRed(false);
     }
+
+    //setClick(false);
   };
+  console.log("Click", Click);
+  console.log("Flag", Flag);
   return (
     <div className="zone_main">
       <div className="zone_left_bar">
@@ -211,9 +220,9 @@ const Zone = () => {
       </div>
       <div className="zone_centre_bar">
         {/* -----------blue----------- */}
-        <div className={player2 ? "disable" : ""}>
+        <div className={playerBlue ? "disable" : ""}>
           <DragDropContext onDragEnd={onDragEnd}>
-            <Droppable droppableId="droppable">
+            <Droppable droppableId="droppable" direction="horizontal">
               {(provided, snapshot) => (
                 <div
                   ref={provided.innerRef}
@@ -256,7 +265,7 @@ const Zone = () => {
                 </div>
               )}
             </Droppable>
-            <Droppable droppableId="droppable2">
+            <Droppable droppableId="droppable2" direction="horizontal">
               {(provided, snapshot) => (
                 <div
                   ref={provided.innerRef}
@@ -306,9 +315,9 @@ const Zone = () => {
           <pu>Status Message Area</pu
         </div> */}
         {/* ------red---------- */}
-        <div className={player1 ? "disable" : ""}>
+        <div className={playerRed ? "disable" : ""}>
           <DragDropContext onDragEnd={onDragEnd1}>
-            <Droppable droppableId="droppable3">
+            <Droppable droppableId="droppable3" direction="horizontal">
               {(provided, snapshot) => (
                 <div
                   ref={provided.innerRef}
@@ -353,7 +362,7 @@ const Zone = () => {
                 </div>
               )}
             </Droppable>
-            <Droppable droppableId="droppable4">
+            <Droppable droppableId="droppable4" direction="horizontal">
               {(provided, snapshot) => (
                 <div
                   ref={provided.innerRef}
@@ -400,20 +409,11 @@ const Zone = () => {
         </div>
       </div>
       <div className="zone_right_bar">
-        <div className="menu_set">
-          <svg
-            width="30"
-            height="23"
-            viewBox="0 0 30 23"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path d="M0 2H30" stroke="white" strokeWidth="3" />
-            <path d="M0 11.5H30" stroke="white" strokeWidth="3" />
-            <path d="M0 21.5H30" stroke="white" strokeWidth="3" />
-          </svg>
-        </div>
-        <div className={"card_box " + (player1 ? "  card_box_disable2" : "")}>
+        <LeftBar />
+
+        <div
+          className={"card_box " + (playerBlue ? "  card_box_disable2" : "  ")}
+        >
           {getBlueDecks.cards.length != 0 ? (
             <div className="play_card blue_play_card" onClick={handleBlueClick}>
               <div className="card_name">
@@ -435,7 +435,9 @@ const Zone = () => {
         {/* <div className="action_button">
           <button>ACTION BUTTON</button>
         </div> */}
-        <div className={"card_box " + (player2 ? "  card_box_disable" : "")}>
+        <div
+          className={"card_box " + (playerRed ? "  card_box_disable" : "  ")}
+        >
           {getRedDecks.cards.length != 0 ? (
             <div className="play_card" onClick={handleRedClick}>
               <div>

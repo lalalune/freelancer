@@ -1,274 +1,291 @@
 body {
-    background: radial-gradient(50% 50% at 50% 50%, #404040 0%, #4B4B4B 0.01%, #373737 100%);
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    #404040 0%,
+    #4b4b4b 0.01%,
+    #373737 100%
+  );
 }
 
 .zone_main {
-    position: relative;
-    display: flex;
-    background: radial-gradient(50% 50% at 50% 50%, #404040 0%, #4B4B4B 0.01%, #373737 100%);
+  position: relative;
+  display: flex;
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    #404040 0%,
+    #4b4b4b 0.01%,
+    #373737 100%
+  );
 }
 
 .blue_team .blue_team_icon {
-    position: relative;
+  position: relative;
 }
 
 .blue_team .blue_team_icon svg {
-    max-width: 100%;
+  max-width: 100%;
 }
 
 .blue_team .blue_team_icon .blue_coins_count {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
 }
 
 .blue_team .blue_team_icon .blue_coins_count .coins_count {
-    display: flex;
-    align-items: center;
-    padding-left: 15px;
+  display: flex;
+  align-items: center;
+  padding-left: 15px;
 }
 
 .blue_team .blue_team_icon .blue_coins_count .coins_count p {
-    margin: 0;
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 26px;
-    line-height: 30px;
-    color: #fff;
+  margin: 0;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 26px;
+  line-height: 30px;
+  color: #fff;
 }
 
 .blue_team .blue_team_icon .blue_coins_count .coins_count p.coins_count_text {
-    padding: 0px 30px 0px 8px;
+  padding: 0px 30px 0px 8px;
 }
 
 .blue_team {
-    position: absolute;
-    top: 20px;
-    left: 0;
+  position: absolute;
+  top: 20px;
+  left: 0;
 }
 
 .zone_main .red_team {
-    top: auto;
-    bottom: 20px;
+  top: auto;
+  bottom: 20px;
 }
 
 .zone_main .zone_left_bar {
-    width: 20%;
-    padding: 90px 0px;
-    position: relative;
+  width: 20%;
+  padding: 90px 0px;
+  position: relative;
 }
 
 .zone_main .zone_centre_bar {
-    width: 60%;
+  width: 60%;
 }
 
 .zone_main .zone_right_bar {
-    width: 20%;
-    position: relative;
+  width: 20%;
+  position: relative;
 }
 
 .card_box {
-    border: 1px solid #fff;
-    width: 205px;
-    height: 273px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: auto;
-    padding: 15px;
+  border: 1px solid #fff;
+  width: 205px;
+  height: 273px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  padding: 15px;
 }
 
 .card_box .card_text p {
-    margin: 0;
-    font-size: 18px;
-    line-height: 21px;
-    text-align: center;
-    color: #FFFFFF;
+  margin: 0;
+  font-size: 18px;
+  line-height: 21px;
+  text-align: center;
+  color: #ffffff;
 }
 
 .zone_main .zone_centre_bar .red_team_main .red_team_hand {
-    height: 205px;
-    border: 1px solid #FFFFFF;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 10px;
-    color: #fff;
+  height: 205px;
+  border: 1px solid #ffffff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+  color: #fff;
 }
 
 .zone_main .zone_centre_bar .red_team_main .redteam_play_area {
-    height: 205px;
-    border: 1px solid #FFFFFF;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 10px;
-    color: #fff;
+  height: 205px;
+  border: 1px solid #ffffff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+  color: #fff;
 }
 
 .zone_main .zone_centre_bar .status_message_area {
-    text-align: center;
+  text-align: center;
 }
 
 .zone_main .zone_centre_bar .status_message_area p {
-    margin: 0;
-    background: #FFD600;
-    border-radius: 10px;
-    display: inline-block;
-    padding: 15px;
-    font-weight: normal;
-    font-size: 18px;
-    font-family: Roboto;
+  margin: 0;
+  background: #ffd600;
+  border-radius: 10px;
+  display: inline-block;
+  padding: 15px;
+  font-weight: normal;
+  font-size: 18px;
+  font-family: Roboto;
 }
 
 .menu_set {
-    cursor: pointer;
-    position: absolute;
-    top: 20px;
-    right: 20px;
+  cursor: pointer;
+  position: absolute;
+  top: 20px;
+  right: 20px;
 }
 
 .zone_main .zone_right_bar .action_button {
-    text-align: center;
+  text-align: center;
 }
 
 .zone_main .zone_right_bar .action_button button {
-    background: #272727;
-    border-radius: 10px;
-    color: #FFFFFF;
-    font-weight: normal;
-    font-size: 18px;
-    font-family: Roboto;
-    border: none;
-    padding: 15px 6px;
-    cursor: pointer;
+  background: #272727;
+  border-radius: 10px;
+  color: #ffffff;
+  font-weight: normal;
+  font-size: 18px;
+  font-family: Roboto;
+  border: none;
+  padding: 15px 6px;
+  cursor: pointer;
 }
 
 .zone_main .zone_right_bar,
 .zone_main .zone_left_bar {
-    display: flex;
-    flex-flow: column;
-    justify-content: space-around;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-around;
 }
 
 .play_card {
-    width: 134px;
-    overflow: hidden;
-    display: inline-block;
-    cursor: pointer;
+  width: 134px;
+  overflow: hidden;
+  display: inline-block;
+  cursor: pointer;
 }
 
 .play_card .card_name {
-    background: linear-gradient(90deg, #F80000 34.8%, #930000 100%);
-    border-radius: 10px 10px 0px 0px;
+  background: linear-gradient(90deg, #f80000 34.8%, #930000 100%);
+  border-radius: 10px 10px 0px 0px;
 }
 
 .blue_play_card .card_name {
-    background: linear-gradient(90deg, #2300F8 34.8%, #410093 100%);
+  background: linear-gradient(90deg, #2300f8 34.8%, #410093 100%);
 }
 
 .play_card .card_name p {
-    margin: 0;
-    color: #fff;
-    font-size: 10px;
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: bold;
-    padding: 2px 0px 2px 11px;
+  margin: 0;
+  color: #fff;
+  font-size: 10px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  padding: 2px 0px 2px 11px;
 }
 
 .play_card .card_space {
-    background: #fff;
-    height: 90px;
+  background: #fff;
+  height: 90px;
 }
 
 .play_card .hire {
-    background: linear-gradient(270deg, rgba(255, 0, 0, 0.9) 31.42%, rgba(194, 87, 87, 0.9) 100%);
-    transform: rotate(180deg);
+  background: linear-gradient(
+    270deg,
+    rgba(255, 0, 0, 0.9) 31.42%,
+    rgba(194, 87, 87, 0.9) 100%
+  );
+  transform: rotate(180deg);
 }
 
 .blue_play_card .hire {
-    background: linear-gradient(270deg, rgba(36, 0, 255, 0.9) 31.42%, rgba(126, 87, 194, 0.9) 100%);
+  background: linear-gradient(
+    270deg,
+    rgba(36, 0, 255, 0.9) 31.42%,
+    rgba(126, 87, 194, 0.9) 100%
+  );
 }
 
 .play_card .hire p {
-    margin: 0;
-    transform: rotate(180deg);
-    text-align: end;
-    font-size: 8px;
-    color: #fff;
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: normal;
-    padding-right: 6px;
-    position: relative;
+  margin: 0;
+  transform: rotate(180deg);
+  text-align: end;
+  font-size: 8px;
+  color: #fff;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  padding-right: 6px;
+  position: relative;
 }
 
 .play_card .hire p::before {
-    content: "";
-    position: absolute;
-    width: 40%;
-    height: 7px;
-    background: #fff;
-    left: -4px;
-    bottom: 0;
-    transform: skew(50deg);
+  content: "";
+  position: absolute;
+  width: 40%;
+  height: 7px;
+  background: #fff;
+  left: -4px;
+  bottom: 0;
+  transform: skew(50deg);
 }
 
 .play_card .card_detail {
-    background: #fff;
-    padding: 8px 0px;
-    border-radius: 0px 0px 10px 10px;
+  background: #fff;
+  padding: 8px 0px;
+  border-radius: 0px 0px 10px 10px;
 }
 
 .play_card .card_detail p {
-    margin: 0;
-    color: #000000;
-    font-size: 10px;
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: bold;
-    text-align: center;
+  margin: 0;
+  color: #000000;
+  font-size: 10px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  text-align: center;
 }
 
-
-.zone_main .zone_centre_bar>div>div::-webkit-scrollbar {
-    height: 5px;
+.zone_main .zone_centre_bar > div > div::-webkit-scrollbar {
+  height: 5px;
 }
 
-.zone_main .zone_centre_bar>div>div::-webkit-scrollbar-thumb {
-    border-radius: 10px;
+.zone_main .zone_centre_bar > div > div::-webkit-scrollbar-thumb {
+  border-radius: 10px;
 }
 
-.zone_main .zone_centre_bar>div>div:nth-child(1)::-webkit-scrollbar-thumb {
-    background: #062aaa;
+.zone_main .zone_centre_bar > div > div:nth-child(1)::-webkit-scrollbar-thumb {
+  background: #062aaa;
 }
 
-.zone_main .zone_centre_bar>div>div:nth-child(2)::-webkit-scrollbar-thumb {
-    background: #062aaa;
+.zone_main .zone_centre_bar > div > div :nth-child(2)::-webkit-scrollbar-thumb {
+  background: #062aaa;
 }
 
-.zone_main .zone_centre_bar>div>div:nth-child(3)::-webkit-scrollbar-thumb {
-    background: red;
+.zone_main .zone_centre_bar > div > div:nth-child(3)::-webkit-scrollbar-thumb {
+  background: red;
 }
 
-.zone_main .zone_centre_bar>div>div:nth-child(4)::-webkit-scrollbar-thumb {
-    background: red;
+.zone_main .zone_centre_bar > div > div:nth-child(4)::-webkit-scrollbar-thumb {
+  background: red;
 }
 
 .card_box_disable {
-    border: 3px solid #a72a2a !important;
+  border: 3px solid #a72a2a !important;
 }
 
 .card_box_disable2 {
-    border: 3px solid blue !important;
+  border: 3px solid blue !important;
 }
 
 .disable {
-    pointer-events: none;
+  pointer-events: none;
 }
