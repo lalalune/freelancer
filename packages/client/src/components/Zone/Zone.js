@@ -71,28 +71,39 @@ const getListStyle = (isDraggingOver) => ({
 const Zone = () => {
   const [playerBlue, setplayerBlue] = useState(true);
   const [playerRed, setplayerRed] = useState(false);
-  const [Click, setClick] = useState(true);
-  const [Flag, setFlag] = useState(false);
+  const [blueData, setBlueData] = useState(getBlueDecks.cards.slice(7));
+  const [redData, setRedData] = useState(getRedDecks.cards.slice(7));
+  const [isBlueTurn, setBlueTurn] = useState({ items: [] });
   const [state1, setState1] = useState({
-    items: [],
+    items: getBlueDecks.cards.slice(0, 7),
     selected: [],
   });
 
   const [state2, setState2] = useState({
     items: [],
-    selected: [],
+    selected: getRedDecks.cards.slice(0, 7),
   });
 
   const id1List = {
     droppable: "items",
     droppable2: "selected",
   };
-
+  const handleRightClick = () => {
+    var f = state1.items;
+    console.log(f, "f");
+    var cards = f.shift();
+    console.log(cards, "cards");
+    isBlueTurn.items.push(cards);
+    console.log(cards);
+    setBlueTurn({ ...isBlueTurn });
+    console.log("hello", ...isBlueTurn);
+  };
   const getList = (id) => state1[id1List[id]];
   const handleBlueClick = (e) => {
     e.preventDefault();
     if (playerBlue) {
-      var card = getBlueDecks.cards;
+      var card = blueData;
+      console.log(card, "card");
       var blueCard = card.shift();
       state1.items.push(blueCard);
       setState1({ ...state1 });
@@ -104,9 +115,9 @@ const Zone = () => {
   const handleRedClick = (e) => {
     e.preventDefault();
     if (playerRed) {
-      var card = getRedDecks.cards;
+      var card = redData;
       var redCard = card.shift();
-      state2.items.push(redCard);
+      state2.selected.push(redCard);
       setState2({ ...state2 });
       setplayerBlue(true);
       setplayerRed(false);
@@ -114,7 +125,6 @@ const Zone = () => {
   };
 
   const onDragEnd = (result) => {
-    
     if (playerRed) {
       const { source, destination } = result;
 
@@ -201,21 +211,33 @@ const Zone = () => {
       setplayerBlue(true);
       setplayerRed(false);
     }
-
-    //setClick(false);
   };
-  console.log("Click", Click);
-  console.log("Flag", Flag);
   return (
     <div className="zone_main">
       <div className="zone_left_bar">
         <RedTeam />
         <BlueTeam />
         <div className="card_box">
-          <div className="card_text"></div>
+          {isBlueTurn.items.map((item, index) => {
+            return (
+              <div className="play_card blue_play_card" key={index}>
+                <div className="card_name">
+                  <p>{getBlueDecks.name}</p>
+                </div>
+                <div className="card_space"></div>
+                <div className="hire">
+                  <p>hire</p>
+                </div>
+                <div className="card_detail">
+                  <p>{item.abilities[0]}</p>
+                  <p>{item.abilities[1]}</p>
+                </div>
+              </div>
+            );
+          })}
         </div>
         <div className="card_box">
-          <div className="card_text"></div>
+          <div className="card_text"> </div>
         </div>
       </div>
       <div className="zone_centre_bar">
@@ -250,7 +272,7 @@ const Zone = () => {
                             </div>
                             <div className="card_space"></div>
                             <div className="hire">
-                              <p>hire</p>
+                              <p>{item.type}</p>
                             </div>
                             <div className="card_detail">
                               <p>{item.abilities[0]}</p>
@@ -293,7 +315,7 @@ const Zone = () => {
                             </div>
                             <div className="card_space"></div>
                             <div className="hire">
-                              <p>hire</p>
+                              <p>{item.type}</p>
                             </div>
                             <div className="card_detail">
                               <p>{item.abilities[0]}</p>
@@ -310,12 +332,14 @@ const Zone = () => {
             </Droppable>
           </DragDropContext>
         </div>
-        {/* ---------blue------------- */}
-        {/* <div className="status_message_area">
-          <pu>Status Message Area</pu
-        </div> */}
-        {/* ------red---------- */}
-        <div className={playerRed ? "disable" : ""}>
+
+        <div className="status_message_area">
+          <button className="btn" onClick={handleRightClick}>
+            It's <strong>your</strong> turn , draw <strong>one</strong> card
+          </button>
+        </div>
+
+        <div className={(playerRed ? "disable" : "", "classname1")}>
           <DragDropContext onDragEnd={onDragEnd1}>
             <Droppable droppableId="droppable3" direction="horizontal">
               {(provided, snapshot) => (
@@ -346,7 +370,7 @@ const Zone = () => {
                               </div>
                               <div className="card_space"></div>
                               <div className="hire">
-                                <p>hire</p>
+                                <p>{item.type}</p>
                               </div>
                               <div className="card_detail">
                                 <p>{item.abilities[0]}</p>
@@ -390,7 +414,7 @@ const Zone = () => {
                             </div>
                             <div className="card_space"></div>
                             <div className="hire">
-                              <p>hire</p>
+                              <p>{item.type}</p>
                             </div>
                             <div className="card_detail">
                               <p>{item.abilities[0]}</p>
@@ -411,52 +435,57 @@ const Zone = () => {
       <div className="zone_right_bar">
         <LeftBar />
 
-        <div
-          className={"card_box " + (playerBlue ? "  card_box_disable2" : "  ")}
-        >
-          {getBlueDecks.cards.length != 0 ? (
-            <div className="play_card blue_play_card" onClick={handleBlueClick}>
-              <div className="card_name">
-                <p>{getBlueDecks.name}</p>
-              </div>
-              <div className="card_space"></div>
-              <div className="hire">
-                <p>hire</p>
-              </div>
-              <div className="card_detail">
-                <p>{getBlueDecks.cards[0].abilities[0]}</p>
-                <p>{getBlueDecks.cards[0].abilities[1]}</p>
-              </div>
-            </div>
-          ) : (
-            ""
-          )}
-        </div>
-        {/* <div className="action_button">
-          <button>ACTION BUTTON</button>
-        </div> */}
-        <div
-          className={"card_box " + (playerRed ? "  card_box_disable" : "  ")}
-        >
-          {getRedDecks.cards.length != 0 ? (
-            <div className="play_card" onClick={handleRedClick}>
-              <div>
+        <div className="remainCard">
+          <div className="card_remain"> {redData.length} CARDS REMAINING</div>
+          <div className="card_box ">
+            {blueData.length != 0 ? (
+              <div
+                className="play_card blue_play_card"
+                onClick={handleBlueClick}
+              >
                 <div className="card_name">
-                  <p>{getRedDecks.name}</p>
+                  <p>{getBlueDecks.name}</p>
                 </div>
                 <div className="card_space"></div>
                 <div className="hire">
                   <p>hire</p>
                 </div>
                 <div className="card_detail">
-                  <p>{getRedDecks.cards[0].abilities[0]}</p>
-                  <p>{getRedDecks.cards[0].abilities[1]}</p>
+                  <p>{blueData[0].abilities[0]}</p>
+                  <p>{blueData[0].abilities[1]}</p>
                 </div>
               </div>
-            </div>
-          ) : (
-            ""
-          )}
+            ) : (
+              ""
+            )}
+          </div>
+        </div>
+        <div className="action_button">
+          <button className="btn">END TURN</button>
+        </div>
+        <div>
+          <div className="card_box ">
+            {redData.length != 0 ? (
+              <div className="play_card" onClick={handleRedClick}>
+                <div>
+                  <div className="card_name">
+                    <p>{getRedDecks.name}</p>
+                  </div>
+                  <div className="card_space"></div>
+                  <div className="hire">
+                    <p>hire</p>
+                  </div>
+                  <div className="card_detail">
+                    <p>{redData[0].abilities[0]}</p>
+                    <p>{redData[0].abilities[1]}</p>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
+          <div className="card_remain"> {redData.length} CARDS REMAINING</div>
         </div>
       </div>
     </div>
