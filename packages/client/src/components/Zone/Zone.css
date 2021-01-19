@@ -167,7 +167,7 @@ body {
 }
 
 .play_card {
-  width: 134px;
+  width:114px;
   overflow: hidden;
   display: inline-block;
   cursor: pointer;

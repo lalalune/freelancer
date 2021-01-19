@@ -23,17 +23,12 @@ const getRedDecks = {
   }),
 };
 
-// a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);
   return result;
 };
-
-/**
- * Moves an item from one list to another list.
- */
 
 const grid = 3;
 const move = (source, destination, droppableSource, droppableDestination) => {
@@ -73,7 +68,10 @@ const Zone = () => {
   const [playerRed, setplayerRed] = useState(false);
   const [blueData, setBlueData] = useState(getBlueDecks.cards.slice(7));
   const [redData, setRedData] = useState(getRedDecks.cards.slice(7));
+  const [blueCoin, setblueCoin] = useState(30);
+  const [redCoin, setredCoin] = useState(30);
   const [isBlueTurn, setBlueTurn] = useState({ items: [] });
+  const [rightBlock, setRightBlokck] = useState([]);
   const [state1, setState1] = useState({
     items: getBlueDecks.cards.slice(0, 7),
     selected: [],
@@ -88,27 +86,25 @@ const Zone = () => {
     droppable: "items",
     droppable2: "selected",
   };
+
   const handleRightClick = () => {
-    var f = state1.items;
-    console.log(f, "f");
-    var cards = f.shift();
-    console.log(cards, "cards");
-    isBlueTurn.items.push(cards);
-    console.log(cards);
+    const items = state1.items.filter((item) => item.id !== rightBlock.id);
+    setState1({ ...state1, items: items });
+    isBlueTurn.items.push(rightBlock);
     setBlueTurn({ ...isBlueTurn });
-    console.log("hello", ...isBlueTurn);
   };
+
   const getList = (id) => state1[id1List[id]];
+
   const handleBlueClick = (e) => {
     e.preventDefault();
     if (playerBlue) {
       var card = blueData;
-      console.log(card, "card");
       var blueCard = card.shift();
       state1.items.push(blueCard);
       setState1({ ...state1 });
-      setplayerRed(true);
-      setplayerBlue(false);
+      // setplayerRed(true);
+      // setplayerBlue(false);
     }
   };
 
@@ -119,13 +115,13 @@ const Zone = () => {
       var redCard = card.shift();
       state2.selected.push(redCard);
       setState2({ ...state2 });
-      setplayerBlue(true);
-      setplayerRed(false);
+      // setplayerBlue(true);
+      // setplayerRed(false);
     }
   };
 
   const onDragEnd = (result) => {
-    if (playerRed) {
+    if (playerBlue) {
       const { source, destination } = result;
 
       if (!destination) {
@@ -157,9 +153,17 @@ const Zone = () => {
           items: result.droppable,
           selected: result.droppable2,
         });
+
+        if (blueCoin == 0) {
+          //  setblueCoin(0);
+          setplayerBlue(!playerBlue);
+          setplayerRed(!playerRed);
+        } else {
+          setblueCoin(blueCoin - 1);
+        }
       }
-      setplayerRed(true);
-      setplayerBlue(false);
+      // setplayerRed(true);
+      // setplayerBlue(false);
     }
   };
 
@@ -171,7 +175,7 @@ const Zone = () => {
   const getList2 = (id) => state2[id2List[id]];
 
   const onDragEnd1 = (result) => {
-    if (playerBlue) {
+    if (playerRed) {
       const { source, destination } = result;
 
       if (!destination) {
@@ -208,27 +212,35 @@ const Zone = () => {
           selected: result.droppable4,
         });
       }
-      setplayerBlue(true);
-      setplayerRed(false);
+      if (redCoin == 0) {
+        //  setblueCoin(0);
+        setplayerBlue(!playerBlue);
+        setplayerRed(!playerRed);
+      } else {
+        setredCoin(redCoin - 1);
+      }
+      // setplayerBlue(true);
+      // setplayerRed(false);
     }
   };
   return (
     <div className="zone_main">
       <div className="zone_left_bar">
-        <RedTeam />
-        <BlueTeam />
+        <BlueTeam blueCoins={blueCoin} />
+        <RedTeam redCoins={redCoin} />
         <div className="card_box">
           {isBlueTurn.items.map((item, index) => {
             return (
               <div className="play_card blue_play_card" key={index}>
                 <div className="card_name">
-                  <p>{getBlueDecks.name}</p>
+                  <p>Card Name</p>
                 </div>
                 <div className="card_space"></div>
                 <div className="hire">
                   <p>hire</p>
                 </div>
                 <div className="card_detail">
+                  <p>{item.id}</p>
                   <p>{item.abilities[0]}</p>
                   <p>{item.abilities[1]}</p>
                 </div>
@@ -237,12 +249,25 @@ const Zone = () => {
           })}
         </div>
         <div className="card_box">
-          <div className="card_text"> </div>
+          <div className="play_card ">
+            <div className="card_name">
+              <p>name</p>
+            </div>
+            <div className="card_space"></div>
+            <div className="hire">
+              <p>hire</p>
+            </div>
+            <div className="card_detail">
+            
+              <p>card</p>
+              <p>card</p>
+            </div>
+          </div>
         </div>
       </div>
       <div className="zone_centre_bar">
         {/* -----------blue----------- */}
-        <div className={playerBlue ? "disable" : ""}>
+        <div className={playerRed ? "disable" : ""}>
           <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="droppable" direction="horizontal">
               {(provided, snapshot) => (
@@ -265,6 +290,7 @@ const Zone = () => {
                             snapshot.isDragging,
                             provided.draggableProps.style
                           )}
+                          onClick={() => setRightBlokck(item)}
                         >
                           <div className="play_card blue_play_card">
                             <div className="card_name">
@@ -275,6 +301,7 @@ const Zone = () => {
                               <p>{item.type}</p>
                             </div>
                             <div className="card_detail">
+                            
                               <p>{item.abilities[0]}</p>
                               <p>{item.abilities[1]}</p>
                             </div>
@@ -332,14 +359,14 @@ const Zone = () => {
             </Droppable>
           </DragDropContext>
         </div>
-
-        <div className="status_message_area">
-          <button className="btn" onClick={handleRightClick}>
-            It's <strong>your</strong> turn , draw <strong>one</strong> card
-          </button>
+        <div className={playerRed ? "disable" : ""}>
+          <div className="status_message_area">
+            <button className="btn" onClick={handleRightClick}>
+              It's <strong>your</strong> turn , draw <strong>one</strong> card
+            </button>
+          </div>
         </div>
-
-        <div className={(playerRed ? "disable" : "", "classname1")}>
+        <div className={playerBlue ? "disable classname1" : "classname1"}>
           <DragDropContext onDragEnd={onDragEnd1}>
             <Droppable droppableId="droppable3" direction="horizontal">
               {(provided, snapshot) => (
@@ -364,7 +391,7 @@ const Zone = () => {
                               provided.draggableProps.style
                             )}
                           >
-                            <div className="play_card">
+                            <div className="play_card" onClick={handleRedClick}>
                               <div className="card_name">
                                 <p>Card Name</p>
                               </div>
@@ -436,7 +463,7 @@ const Zone = () => {
         <LeftBar />
 
         <div className="remainCard">
-          <div className="card_remain"> {redData.length} CARDS REMAINING</div>
+          <div className="card_remain"> {blueData.length} CARDS REMAINING</div>
           <div className="card_box ">
             {blueData.length != 0 ? (
               <div
@@ -451,6 +478,7 @@ const Zone = () => {
                   <p>hire</p>
                 </div>
                 <div className="card_detail">
+                 
                   <p>{blueData[0].abilities[0]}</p>
                   <p>{blueData[0].abilities[1]}</p>
                 </div>
@@ -460,7 +488,13 @@ const Zone = () => {
             )}
           </div>
         </div>
-        <div className="action_button">
+        <div
+          className="action_button"
+          onClick={() => {
+            setplayerBlue(!playerBlue);
+            setplayerRed(!playerRed);
+          }}
+        >
           <button className="btn">END TURN</button>
         </div>
         <div>
@@ -476,6 +510,7 @@ const Zone = () => {
                     <p>hire</p>
                   </div>
                   <div className="card_detail">
+                  
                     <p>{redData[0].abilities[0]}</p>
                     <p>{redData[0].abilities[1]}</p>
                   </div>
