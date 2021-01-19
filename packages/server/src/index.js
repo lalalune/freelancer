@@ -37,7 +37,7 @@ const session = express_session({
 
 app.use(cors({
   origin: url,
-  credentials: true, // only if env == DEVELOPMENT
+  credentials: false, // only if env == DEVELOPMENT
 }));
 
 app.use(cookie_parser(secret))
