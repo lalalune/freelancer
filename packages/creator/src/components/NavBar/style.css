@@ -1,0 +1,56 @@
+.right-top-modal .modal-dialog {
+    margin: 65px 0 auto auto;
+    width: 280px;
+}
+.right-top-modal .modal-content {
+    background: #444444;
+}
+.right-top-modal .arrow-down,
+.setting-rectangle .arrow-down{
+    position: absolute;
+    top: -1px;
+    right: 0;
+    border: none;
+    content: "";
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-right: 0.2em solid #9A9A9A;
+    border-top: 0.2em solid #9A9A9A;
+    transform: rotate(135deg);
+    margin-right: 0.5em;
+    margin-left: 1.0em;
+}
+.right-top-modal .modal-body .row{
+    margin: 0;
+}
+.guest-warning-label {
+    color: red;
+    font-weight: 500;
+    font-size: 15px;
+    border: 2px solid red;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    margin: 0 10px 0 0;
+}
+.discord-login {
+    padding: 0;
+    width: 100%;
+}
+.button-transparent {
+    border: 1px solid transparent;
+    font-size: 16px;
+    line-height: 19px;
+    position: relative;
+    text-align: right;
+    padding-right: 35px;
+}
+/* .button-transparent:hover{
+    transform: translateY(-5px);
+} */
+.right-top-settingIcon {
+    width: 22px;
+    position: absolute;
+    right: 0;
+}

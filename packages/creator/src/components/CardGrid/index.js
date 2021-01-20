@@ -8,7 +8,8 @@ export default ({
   currentCard,
   setCurrentCard,
   globalState,
-  cardSize
+  cardSize,
+  filter
 }) => {
   console.log("Data is", data);
   const [currentAsset, setCurrentAsset] = useState(null)
@@ -39,11 +40,14 @@ export default ({
     <div className="main">
       <div className="card-grid-container">
         <div className="row m-0">
+            {filter?
             <div className="col-8 text-left left-top-div">
               <p className="inline-item pr-3 font-20">FILTER BY</p>
               <p className="construct-border inline-item p-1 pr-3 mr-3 font-16">All Types</p>
               <p className="construct-border inline-item p-1 pr-3 mr-3 font-16">In My Collection</p>
-            </div>
+            </div>:
+            <div className="col-8 text-left left-top-div"></div>
+            }
             <div className="col-4 text-right right-top-div">
               <input type="text" className="construct-border" placeholder="Search..."/>
             </div>

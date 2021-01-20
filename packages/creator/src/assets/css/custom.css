@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;500;700;900&display=swap');
 *{
   font-family: 'Roboto';
+  font-weight: 300;
 }
 body {
   font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
@@ -16,26 +17,52 @@ a {
   color: #fff;
   text-decoration: none;
 }
-.button {
-  background-color: #c4005d;
-  border-radius: 6px;
+a:hover {
+  color: white;
   text-decoration: none;
-  width: calc(50% - 1em);
-  max-width: 250px;
-  padding: .85em 4em;
-  font-size: 15px;
+}
+.button {
+  background-color:#0078AC;
+  border-radius: 5px;
+  text-decoration: none;
+  min-width: 200px;
+  padding: 20px;
+  font-size: 26px;
+  line-height: 30px;
   margin: 1em;
   white-space: nowrap;
-  font-style: normal;
   font-stretch: expanded;
   letter-spacing: normal;
   text-transform: uppercase;
   text-align: center;
-  font-weight: 600;
+  font-weight: 300;
+  width: fit-content;
+  border: none;
+  color: white;
+}
+.button.button-secondary{
+  background-color:#525252;
+  padding: 7px 16px;
+  font-size: 15px;
+  text-transform: none;
+  min-width: 110px;
 }
 .button:hover {
   transform: translateY(-2.5px);
-  background-color: #d4055a;
+  background-color: #1088Bc;
+}
+.button.button-secondary:hover{
+  background-color: #626262;
+}
+.button.button-orange{
+  background-color:#FF7043;
+  padding: 7px 16px;
+  font-size: 15px;
+  text-transform: none;
+  min-width: 110px;
+}
+.button.button-orange:hover{
+  background-color: #fa6132;
 }
 .container {
   display: -webkit-box;
@@ -46,8 +73,9 @@ a {
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   padding: 0 5rem;
-  max-width: 100%!important;
   justify-content: center;
+  max-width: 2000px!important;
+  margin: 0 auto;
 }
 .container .row{
   width: 100%;
@@ -58,4 +86,121 @@ input{
   border-radius: 3px;
   color:white;
   padding: 0.5rem;
+}
+.font-bold{
+  font-weight: bold;
+}
+.font-wh-300{
+  font-weight: 300;
+}
+.font-wh-500{
+  font-weight: 500;
+}
+.font-wh-700{
+  font-weight: 700;
+}
+.inline-div{
+  display: inline-block;
+}
+.full-width{
+  width: 100%;
+}
+.font-size-32{
+  font-size: 32px;
+  line-height: 37px;
+}
+.font-size-22{
+  font-size: 22px;
+  line-height: 24px;
+}
+.font-size-17{
+  font-size: 17px;
+  line-height: 20px;
+}
+.font-size-14{
+  font-size: 14px;
+  line-height: 16px;
+}
+.font-size-9{
+  font-size: 9px;
+  line-height: 11px;
+}
+.font-green{
+  color: #24FF00;
+}
+.font-yellow{
+  color: #FAFF00;
+}
+.font-red{
+  color: red;
+}
+.font-gray{
+  color: #c4c4c4;
+}
+.relative-position{
+  position: relative;
+}
+.alert{
+  height: 100px;
+  width: 600px;
+  background: #444444;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  margin: 15px auto;
+  padding: 0;
+  text-align: left;
+  /* padding: 20px 30px 20px 120px;
+  position: relative; */
+}
+.alert .alert-icon{
+  width: 100px;
+  height: 99px;
+  display: inline-block;
+  background-color: #FF0000;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+}
+.alert.info-alert .alert-icon{
+  background-color: #00FF29;
+}
+.alert.warning-alert .alert-icon{
+  background-color: #FFD600;
+}
+.alert .alert-message {
+  display: inline-block;
+  height: 100px;
+  vertical-align: top;
+  width: 490px;
+  padding: 30px;
+}
+.alert-icon-label {
+  border: 2px solid white;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  margin: 15px;
+  font-size: 48px;
+  line-height: 56px;
+  font-weight: bold;
+  padding: 7px 26px;
+}
+.alert.warning-alert .alert-icon-label {
+  padding: 5px 12px;
+}
+.alert.info-alert .alert-icon-label {
+  padding: 0px 15px;
+}
+.alert.info-alert img{
+  width: 40px;
+  height: 40px;
+  object-fit: initial;
+}
+.alert-message p {
+  margin: 5px 0;
+}
+@media (max-width: 2000px){
+  .container{
+    max-width: 100%;
+    margin: 0;
+  }
 }

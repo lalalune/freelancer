@@ -58,7 +58,7 @@ export default () => {
   }, [currentCard]);
 
   return !loading && booths && booths.length > 0 ?
-    <div className="container row construct-row">
+    <div className="container row construct-row mt-5">
       <div className="col-2">
         <div className="gray-card">
           <div className="gray-card-detail">
@@ -68,7 +68,7 @@ export default () => {
         </div>
       </div>
       <div className="col-10">
-        <CardGrid data={booths} globalState={globalState} cardSize="" currentCard={currentCard} setCurrentCard={setCurrentCard} />
+        <CardGrid data={booths} globalState={globalState} cardSize="" currentCard={currentCard} setCurrentCard={setCurrentCard} filter={true}/>
       </div>
     </div>
   :

@@ -10,6 +10,7 @@ import { discordOauthUrl } from '../../webaverse/constants.js';
 import Loader from '../../components/Loader';
 import Profile from '../../components/Profile';
 import Cards from '../../components/Inventory';
+import "./style.css";
 
 export default () => {
   const { globalState, setGlobalState } = useAppContext();
@@ -88,33 +89,71 @@ export default () => {
   }
 
   return (
-    <Row style={{ justifyContent: "center" }}>
-      { loading ?
-        <Loader loading={loading} />
-      :
-        globalState.address ?
-          <Redirect to={"/profiles/" + globalState.address} />
-        :
-          <Col sm={12}>
-            <Col sm={7} style={{ margin: "0 auto" }}>
-              <h2>Discord</h2>
-              <br />
-              <a className="button" href={discordOauthUrl}>
-                Login With Discord
-              </a>
-{/*
-              <h2>Private Key</h2>
-              <input
-                type="text"
-                onChange={handleChange}
-              />
-              <a className="button" onClick={() => loginWithKey(key) }>
-                Login With Key
-              </a>
-*/}
-            </Col>
-          </Col>
-      }
-    </Row>
+    <div className="container settings-container">
+      <div className="row">
+        <div className="setting-banner upper-text font-size-32 font-bold">
+          Account settings
+          <div className="triangle"></div>
+        </div>
+      </div>
+      <div className="row m-5 pl-5">
+        <div className="setting-rectangle text-left">
+          <div className="font-size-22 font-bold">Webaverse Wallet</div>
+          <div className="font-size-14 mt-3">0x35ddcd7d8b66f1331f77186af17dbcf231909433 </div>
+          <div className="font-size-14 mt-5 relative-position">
+            Copy Private Key
+            <div className="arrow-down"></div>
+          </div>
+          <div className="font-size-14 mt-4 relative-position">
+            My Account on Webaverse
+            <div className="arrow-down"></div>
+          </div>
+        </div>
+        <div className="setting-rectangle text-left mt-3">
+          <div className="font-size-22 font-bold">Metamask</div>
+          <div className="font-size-14 mt-4 relative-position font-green">
+            Metamask is installed
+          </div>
+        </div>
+        <div className="setting-rectangle text-left mt-3">
+          <div className="font-size-22 font-bold">Account Actions</div>
+          <div className="font-size-14 mt-5 relative-position">
+            Sign Out / Switch to Anonymous Account
+            <div className="arrow-down"></div>
+          </div>
+          <div className="font-size-14 mt-4 relative-position">
+            Delete Account
+            <div className="arrow-down"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    // <Row style={{ justifyContent: "center" }}>
+    //   { loading ?
+    //     <Loader loading={loading} />
+    //   :
+    //     globalState.address ?
+    //       <Redirect to={"/profiles/" + globalState.address} />
+    //     :
+    //       <Col sm={12}>
+    //         <Col sm={7} style={{ margin: "0 auto" }}>
+    //           <h2>Discord</h2>
+    //           <br />
+    //           <a className="button" href={discordOauthUrl}>
+    //             Login With Discord
+    //           </a>
+
+    //           <h2>Private Key</h2>
+    //           <input
+    //             type="text"
+    //             onChange={handleChange}
+    //           />
+    //           <a className="button" onClick={() => loginWithKey(key) }>
+    //             Login With Key
+    //           </a>
+    //         </Col>
+    //       </Col>
+    //   }
+    // </Row> 
   )
 }

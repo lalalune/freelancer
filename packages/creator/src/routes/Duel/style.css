@@ -1,0 +1,28 @@
+/* .duel-row{
+    margin-top: 250px!important;
+} */
+.duel-row .gray-card{
+    margin: 0 auto;
+}
+.duel-row .gray-card-detail{
+    height: fit-content;
+    width: fit-content;
+    left: 0;
+    margin: 0 auto;
+}
+.duel-row .gray-card-detail p{
+    margin: 5px;
+}
+.duel-right-bottom *{
+    display: block;
+}
+.duel-right-bottom input{
+    margin: 0 auto;
+    width: 300px;
+    font-size: 30px;
+    line-height: 30px;
+    height: 50px;
+}
+.duel-right-bottom button{
+    margin: 30px auto;
+}

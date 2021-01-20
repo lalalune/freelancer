@@ -21,7 +21,7 @@ export default () =>
       </div>
     </div>
 */}
-    <div className="secondary-footer">
+    {/* <div className="secondary-footer">
       <div className="social-links">
         <a href="https://discord.gg/R5wqYhvv53">
           <i className="social-icon discord">
@@ -42,6 +42,6 @@ export default () =>
       <div className="copyright">
         {"© 2020 Webaverse"}
       </div>
-    </div>
+    </div> */}
   </div>
 </div>

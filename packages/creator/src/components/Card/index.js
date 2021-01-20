@@ -73,7 +73,7 @@ export default ({
   }
   
   return (
-      <div className={`card cardItem ${rarity}`} onClick={onClickFunction}>
+      <div className={`card cardItem ${rarity} ${cardSize}`} onClick={onClickFunction}>
         <div className={`${rarity} upperCardInfo  ${cardSize} upperCardInfo_${(ext ?? "").replace('.','')}`}>
           <div className={`upperCardInfoLeft ${cardSize}`}>
             <span className={`cardAssetName cardName ${cardSize}`}>{assetName}</span>
@@ -101,7 +101,7 @@ export default ({
                     </span> */}
                   </span>
                 </span>
-                <span className={`arrow-down arrow-down ${cardSize}`}></span>
+                <span className={`arrow-down ${cardSize}`}></span>
               </div>
               {/* <div className="lowerCardInfoTopClear"></div> */}
             </div>
@@ -117,7 +117,7 @@ export default ({
             <p className={`assetDescription ${cardSize}`}>
               {description}
             </p>
-            <div className={`${rarity} lowerCardInfoMiddle legendary`}>
+            <div className={`${rarity} lowerCardInfoMiddle legendary ${cardSize}`}>
               <div className="triangle-down"></div>
               <div className="parallelogram"></div>
               <div className="parallelogram parallelogram-2"></div>

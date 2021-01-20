@@ -2,11 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'
 import logo from '../../assets/images/logo.svg';
 import preview from '../../assets/images/preview.png';
+import settingIcon from '../../assets/images/settingIcon.svg';
+import discordLogin from '../../assets/images/discord-login.png';
 import { useAppContext } from "../../libs/contextLib";
 import '../../assets/css/navbar.css';
+import Modal from 'react-bootstrap/Modal'
+import "./style.css";
 
 export default () => {
   const { globalState, setGlobalState } = useAppContext();
+
+  const [show, setShow] = useState(false);
+  const [tempLogin, setTempLogin] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   return (
     <div className="navbar">
@@ -30,22 +40,68 @@ export default () => {
             </div>
   
             <div className="right-menu-container">
-              <a className="item" href="https://discord.gg/R5wqYhvv53">Anonymous</a>
+              <a className="item" href="#">Anonymous</a>
+              {/* https://discord.gg/R5wqYhvv53">Anonymous</a> */}
             </div>
             <div className="user-logo">
-              { globalState.address ?
+              {/* { tempLogin?// globalState.address ?
                 <a href={"/profiles/" + globalState.address}>
                   <img className={`accountPicture loggedIn`} src={globalState.avatarPreview ? globalState.avatarPreview.replace(/\.[^.]*$/, '.png') : preview} />
                 </a>
-              :
-                <Link to="/settings">
+              : */}
+                <div onClick={handleShow}>
                   <img className="accountPicture" src={preview} />
-                </Link>
-              }
+                </div>
+              {/* } */}
             </div>
   
         </div>
       </div>
+      <Modal show={show} onHide={handleClose} className="right-top-modal">
+        <Modal.Body>
+        { tempLogin?
+          <div>
+            <div className="button-transparent mb-3">
+              View Account on Webaverse
+              <img src={settingIcon} className="right-top-settingIcon"/>
+            </div>
+            
+            <Link to="/settings">
+              <div className="button-transparent">
+                Settings
+                <img src={settingIcon} className="right-top-settingIcon"/>
+                </div>
+            </Link>
+            
+          </div>
+          :
+          <div>
+            <div className="row">
+              <p className="guest-warning-label">!</p>
+              <span className="font-size-14 font-wh-500 mt-1">YOU ARE A GUEST</span>
+            </div>
+            <div className="row font-size-9 mt-3 text-left">
+              To make your account permanent either login, connect an account or copy your private key somewhere safe.
+            </div>
+            <div className="row font-size-14 mt-4 relative-position">
+              Sign In With Private Key
+              <div className="arrow-down"></div>
+            </div>
+            <div className="row font-size-14 mt-4 relative-position">
+              Email Login / Signup
+              <div className="arrow-down"></div>
+            </div>
+            <button className="discord-login mt-3" onClick={()=>setTempLogin(true)}>
+              <img src={discordLogin} />
+            </button>
+            {/* <Link to="/settings">
+                Login with discord  
+            </Link> */}
+          </div>
+        }
+          
+        </Modal.Body>
+      </Modal>
     </div>
   )
 }

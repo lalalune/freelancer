@@ -22,8 +22,18 @@ input {
 .file-drop {
   /* relatively position the container bc the contents are absolute */
   position: relative;
-  height: 100%;
+  height: 300px;
   width: 100%;
+}
+.file-drop .button{
+  background: #525252;
+  border-radius: 5px;
+  text-transform: none;
+  padding: 7px 16px;
+  font-size: 15px;
+}
+.file-drop .button:hover{
+  background-color: #626262;
 }
 
 .file-drop > .file-drop-target {
@@ -80,4 +90,217 @@ input {
   /* turn stuff orange when we are dragging over the target */
   color: #c4005d;
   box-shadow: 0 0 13px 3px #c4005d;
+}
+
+/* ////////////////////Nastia///////// */
+.right-top-sequence {
+  margin-top: 50px;
+}
+.left-menu p{
+  font-size: 24px;
+  line-height: 28px;
+  font-weight: 300;
+  padding-top: 30px;
+}
+.left-menu p:hover{
+  cursor: pointer;
+}
+.left-menu .activated{
+  font-weight: 700;
+}
+.sequence-circle{
+  width: 92px;
+  height: 92px;
+  background: rgba(255, 255, 255, 0.3);
+  box-sizing: border-box;
+  border-radius: 50%;
+  font-size: 32px;
+  line-height: 37px;
+  font-weight: 500;
+  margin: 0 auto;
+  padding-top: 26px;
+  color: rgba(0,0,0,0.3);
+}
+.sequence-circle:hover{
+  cursor: pointer;
+}
+.active .sequence-circle{
+  background: white;
+  border: 1px solid #FFFFFF;
+  color: black;
+}
+.left-menu{
+  margin-top: 10px;
+}
+.sequence-txt {
+  width: fit-content;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 28px;
+  margin-top: 10px;
+  color: rgba(255,255,255,0.3);
+}
+.active .sequence-txt{
+  color: white;
+}
+.sequence-div {
+  display: inline-block;
+  margin: 30px 80px;
+}
+.right-bottom-title{
+  font-weight: 500;
+  font-size: 36px;
+  line-height: 42px;
+}
+.right-bottom-txt{
+  font-weight: 300;
+  font-size: 24px;
+  line-height: 28px;
+}
+.right-bottom-sm-txt{
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 19px;
+}
+.right-bottom-sm-txt{
+  font-size: 14px;
+  line-height: 16px;
+}
+.file-drop-div {
+  margin-top: 150px;
+  }
+.selected-file-label {
+  width: fit-content;
+  font-size: 24px;
+  line-height: 28px;
+  font-weight: 300;
+  margin: auto;
+  padding-top: 20px;
+}
+.next-button{
+  width: 60px!important;
+  padding: 10px!important;
+  background: white;
+  border: none;
+  position: absolute;
+}
+.mint-row.sequence-3 .card,
+.mint-row.sequence-2 .card{
+  position: absolute!important;
+  bottom: 0;
+  right: 0;
+}
+.mint-row.sequence-2 .assetImage img {
+  width: 103%;
+  margin-left: -1%;
+  height: unset;
+}
+.mint-input{
+  border: none;
+  border-bottom: 1px solid white;
+  width: 100%;
+  border-radius: 0;
+  padding-left: 0;
+}
+input.mint-input:focus {
+  outline: none;
+}
+.bottom-center-detail .mint-input{
+  width: 95%;
+}
+.mint-input-abilities{
+  border: none;
+  display: inline-block;
+  width: auto!important;
+  padding-left: 3px;
+}
+.bottom-right-mint-card{
+  width: 429px;
+  height: 649px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+.bottom-right-mint-card-head{
+  width: 100%;
+  height: 44px;
+  line-height: 21px;
+  font-size: 18px;
+  padding: 12px 15px 0;
+  background: rgba(219, 0, 255, 0.2);
+  border-radius: 10px 10px 0px 0px;
+}
+.bottom-right-mint-card-row-1{
+  width: 50%;
+  margin-right: 2%;
+}
+.bottom-right-mint-card-row-2{
+  width: 11%;
+  margin-right: 1%;
+  vertical-align: top;
+}
+.bottom-center-detail{
+  position: absolute;
+  bottom: 0;
+}
+.bottom-right-mint-card-body{
+  padding: 5px 15px;
+}
+.bottom-right-mint-card-head *,
+.bottom-right-mint-card-body *{
+  display: inline-block;
+}
+.bottom-right-mint-card-body .bottom-right-mint-card-row-1 *{
+  display: block;
+  margin-bottom: 0;
+}
+.bottom-right-mint-card-circle{
+  width: 26px;
+  height: 26px;
+  background: rgba(196, 196, 196, 0.2);
+  border-radius: 50%;
+  font-size: 12px;
+  line-height: 14px;
+  margin: 0;
+  padding-top: 5px;
+}
+.bottom-right-mint-card-circle:hover{
+  border: rgba(0, 163, 255);
+}
+.blue-shadow{
+  box-shadow: 0px 0px 5px 3px rgba(0, 163, 255, 0.5);
+  background: rgba(0, 163, 255, 0.4);
+}
+.ability-p{
+  position: relative;
+  height: 30px;
+  background: #797979;
+  border-radius: 5px;
+  padding: 3px 25px 3px 5px;
+  display: inline-block;
+  margin: 3px;
+  font-weight: 500;
+}
+.ability-p::after{
+  content: 'x';
+  color: #313131;
+  font-family: Arial, sans-serif;
+  position: absolute;
+  right: 6px;
+} 
+.sequence-3-right-description p{
+  font-size: 24px;
+  line-height: 28px;
+}
+.sequence-3-right-description{
+  margin-top: 100px;
+  width: 60%;
+  margin: 0 20%;
+}
+.sequence-3-right-description-bordered {
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+.sequence-3{
+  height: 38em;
 }
