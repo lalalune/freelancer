@@ -1,167 +1,37 @@
 import React, { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-
+import BlueTeam from "../svgs/blueSvg";
+import RedTeam from "../svgs/redSvg";
+import LeftBar from "../svgs/leftBar";
+import {
+  move,
+  reorder,
+  getListStyle,
+  getItemStyle,
+  getBlueDecks,
+  getRedDecks,
+} from "./functions";
 import "./Zone.css";
 
-// fake data generator
-const getItems = (count, offset = 0) =>
-  Array.from({ length: count }, (v, k) => k).map((k) => ({
-    id: `item-${k + offset}`,
-    content: `item ${k + offset}`,
-  }));
-
-const getDecks = {
-  name: "Test Deck",
-  cards: [
-    {
-      type: "lead",
-      abilities: ["DRAW_1", "DISCARD_1"],
-    },
-    {
-      type: "lead",
-      abilities: ["CHARGE_1", "SPEND_1"],
-    },
-    {
-      type: "lead",
-      abilities: ["DRAW_1", "DISCARD_1"],
-    },
-    {
-      type: "lead",
-      abilities: ["CHARGE_1", "SPEND_1"],
-    },
-    {
-      type: "lead",
-      abilities: ["DRAW_1", "DISCARD_1"],
-    },
-    {
-      type: "lead",
-      abilities: ["CHARGE_1", "SPEND_1"],
-    },
-    {
-      type: "lead",
-      abilities: ["DRAW_1", "DISCARD_1"],
-    },
-    {
-      type: "lead",
-      abilities: ["CHARGE_1", "SPEND_1"],
-    },
-    {
-      type: "lead",
-      abilities: ["DRAW_1", "DISCARD_1"],
-    },
-    {
-      type: "lead",
-      abilities: ["DRAW_1", "DISCARD_1"],
-    },
-    {
-      type: "lead",
-      abilities: ["DRAW_1", "DISCARD_1"],
-    },
-    {
-      type: "lead",
-      abilities: ["DRAW_1", "DISCARD_1"],
-    },
-    {
-      type: "lead",
-      abilities: ["DRAW_1", "DISCARD_1"],
-    },
-    {
-      type: "lead",
-      abilities: ["DRAW_1", "DISCARD_1"],
-    },
-    {
-      type: "lead",
-      abilities: ["DRAW_1", "DISCARD_1"],
-    },
-    {
-      type: "lead",
-      abilities: ["DRAW_1", "DISCARD_1"],
-    },
-    {
-      type: "lead",
-      abilities: ["DRAW_1", "DISCARD_1"],
-    },
-    {
-      type: "lead",
-      abilities: ["CHARGE_1", "SPEND_1"],
-    },
-    {
-      type: "lead",
-      abilities: ["DRAW_1", "DISCARD_1"],
-    },
-    {
-      type: "lead",
-      abilities: ["CHARGE_1", "SPEND_1"],
-    },
-  ],
-};
-// .map((item, index) => {
-//   item.id = index;
-//   return item;
-// }),
-
-// a little function to help us with reordering the result
-const reorder = (list, startIndex, endIndex) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
-  return result;
-};
-
-/**
- * Moves an item from one list to another list.
- */
-const move = (source, destination, droppableSource, droppableDestination) => {
-  const sourceClone = Array.from(source);
-  const destClone = Array.from(destination);
-  const [removed] = sourceClone.splice(droppableSource.index, 1);
-
-  destClone.splice(droppableDestination.index, 0, removed);
-
-  const result = {};
-  result[droppableSource.droppableId] = sourceClone;
-  result[droppableDestination.droppableId] = destClone;
-
-  return result;
-};
-
-const getItemStyle = (isDragging, draggableStyle) => ({
-  // some basic styles to make the items look a bit nicer
-  userSelect: "none",
-  margin: "5px",
-
-  // change background colour if dragging
-  // background: isDragging ? 'lightgreen' : 'grey',
-
-  // styles we need to apply on draggables
-  ...draggableStyle,
-});
-
-const getListStyle = (isDraggingOver) => ({
-  padding: "0px 5px",
-  width: "100%",
-  height: "205px",
-  border: "1px solid #FFFFFF",
-  borderRadius: "10px",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: " center",
-  margin: "10px",
-  overflow: "hidden",
-});
-
-//---------------------------------------------------------------------
 const Zone = () => {
-  //state 1=blue
+  const [playerBlue, setplayerBlue] = useState(true);
+  const [playerRed, setplayerRed] = useState(false);
+  const [blueData, setBlueData] = useState(getBlueDecks.cards.slice(7));
+  const [redData, setRedData] = useState(getRedDecks.cards.slice(7));
+  const [blueCoin, setblueCoin] = useState(30);
+  const [redCoin, setredCoin] = useState(30);
+  const [isBlueTurn, setBlueTurn] = useState({ items: [] });
+  const [leftBlock, setBlueLeft] = useState(null);
+  const [isRedTurn, setRedTurn] = useState({ selected: [] });
+  const [leftBlockRed, setLeftBlockRed] = useState(null);
   const [state1, setState1] = useState({
-    items: [],
+    items: getBlueDecks.cards.slice(0, 7),
     selected: [],
   });
 
-  //state 2 = red
   const [state2, setState2] = useState({
-    items: getItems(3),
-    selected: getItems(1, 3),
+    items: [],
+    selected: getRedDecks.cards.slice(0, 7),
   });
 
   const id1List = {
@@ -169,56 +39,95 @@ const Zone = () => {
     droppable2: "selected",
   };
 
+  const handleRightClick = () => {
+    const items = state1.items.filter((item) => item.id !== leftBlock.id);
+    setState1({ ...state1, items: items });
+    isBlueTurn.items.push(leftBlock);
+    setBlueTurn({ ...isBlueTurn });
+    setBlueLeft(null);
+  };
+
+  const handleRightClicks = () => {
+    const selected = state2.selected.filter(
+      (item) => item.id !== leftBlockRed.id
+    );
+    setState2({ ...state2, selected: selected });
+    isRedTurn.selected.push(leftBlockRed);
+    setRedTurn({ ...isRedTurn });
+    setLeftBlockRed(null);
+  };
+
   const getList = (id) => state1[id1List[id]];
-  const handleClick = (e) => {
+
+  const handleBlueClick = (e) => {
     e.preventDefault();
-    var card = getDecks.cards;
-    // var f1 = [1, 2, 3,4];
-    console.log(card);
-    if (card.length == 0) {
-      console.log("Card finish");
-    } else {
-      var f = card.shift();
-      console.log(f, "shifting");
+    if (playerBlue) {
+      var card = blueData;
+      var blueCard = card.shift();
+      state1.items.push(blueCard);
+      setState1({ ...state1 });
+      // setplayerRed(true);
+      // setplayerBlue(false);
+    }
+  };
+
+  const handleRedClick = (e) => {
+    e.preventDefault();
+    if (playerRed) {
+      var card = redData;
+      var redCard = card.shift();
+      state2.selected.push(redCard);
+      setState2({ ...state2 });
+      // setplayerBlue(true);
+      // setplayerRed(false);
     }
   };
 
   const onDragEnd = (result) => {
-    const { source, destination } = result;
+    if (playerBlue) {
+      const { source, destination } = result;
 
-    // dropped outside the list
-    if (!destination) {
-      return;
-    }
-
-    if (source.droppableId === destination.droppableId) {
-      console.log(destination.droppableId, "hkj");
-      console.log(source.droppableId, "hkjj");
-      const items = reorder(
-        getList(source.droppableId),
-        source.index,
-        destination.index
-      );
-      let state = { items };
-
-      if (source.droppableId === "droppable2") {
-        state = { selected: items };
+      if (!destination) {
+        return;
       }
+      if (source.droppableId === destination.droppableId) {
+        const items = reorder(
+          getList(source.droppableId),
+          source.index,
+          destination.index
+        );
+        let stateBlue = { items };
+        if (source.droppableId === "droppable2") {
+          stateBlue = { selected: items };
+        }
+        let swipe = {
+          items: stateBlue.items ? stateBlue.items : state1.items,
+          selected: stateBlue.selected ? stateBlue.selected : state1.selected,
+        };
+        setState1(swipe);
+      } else {
+        const result = move(
+          getList(source.droppableId),
+          getList(destination.droppableId),
+          source,
+          destination
+        );
+        setState1({
+          items: result.droppable,
+          selected: result.droppable2,
+        });
 
-      setState1(state);
-    } else {
-      const result = move(
-        getList(source.droppableId),
-        getList(destination.droppableId),
-        source,
-        destination
-      );
-
-      setState1({
-        items: result.droppable,
-        selected: result.droppable2,
-      });
+        // if (blueCoin == 0) {
+        //  setblueCoin(0);
+        // setplayerBlue(!playerBlue);
+        // setplayerRed(!playerRed);
+        // } else {
+        setblueCoin(blueCoin - 1);
+        // }
+      }
     }
+    // setplayerRed(true);
+    // setplayerBlue(false);
   };
 
   const id2List = {
@@ -226,380 +135,363 @@ const Zone = () => {
     droppable4: "selected",
   };
 
-  const getList2 = (id) => state1[id2List[id]];
+  const getList2 = (id) => state2[id2List[id]];
 
   const onDragEnd1 = (result) => {
-    const { source, destination } = result;
+    if (playerRed) {
+      const { source, destination } = result;
 
-    // dropped outside the list
-    if (!destination) {
-      return;
-    }
-
-    if (source.droppableId === destination.droppableId) {
-      const items = reorder(
-        getList2(source.droppableId),
-        source.index,
-        destination.index
-      );
-      console.log(items, "items");
-      let state = { items };
-
-      if (source.droppableId === "droppable4") {
-        state = { selected: items };
+      if (!destination) {
+        return;
       }
 
-      setState2(state);
-    } else {
-      const result = move(
-        getList2(source.droppableId),
-        getList2(destination.droppableId),
-        source,
-        destination
-      );
+      if (source.droppableId === destination.droppableId) {
+        const items = reorder(
+          getList2(source.droppableId),
+          source.index,
+          destination.index
+        );
 
-      setState2({
-        items: result.droppable,
-        selected: result.droppable2,
-      });
+        let stateRed = { items };
+
+        if (source.droppableId === "droppable4") {
+          stateRed = { selected: items };
+        }
+        let swipe = {
+          items: stateRed.items ? stateRed.items : state2.items,
+          selected: stateRed.selected ? stateRed.selected : state2.selected,
+        };
+        setState2(swipe);
+      } else {
+        const result = move(
+          getList2(source.droppableId),
+          getList2(destination.droppableId),
+          source,
+          destination
+        );
+
+        setState2({
+          items: result.droppable3,
+          selected: result.droppable4,
+        });
+      }
+      // if (redCoin == 0) {
+      //  setblueCoin(0);
+      //   setplayerBlue(!playerBlue);
+      //   setplayerRed(!playerRed);
+      // } else {
+      setredCoin(redCoin - 1);
+      // }
+      // setplayerBlue(true);
+      // setplayerRed(false);
     }
   };
-
   return (
     <div className="zone_main">
       <div className="zone_left_bar">
-        <div className="blue_team">
-          <div className="blue_team_icon">
-            <svg
-              width="356"
-              height="62"
-              viewBox="0 0 356 62"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M0 0.00012207L310.144 6.60975e-05L356 33.0001L5.58998e-06 33.0002L0 0.00012207Z"
-                fill="#062AAA"
-              />
-              <path
-                d="M-4 61.0551L296.325 61.0551L320.67 42L-4 42.0001L-4 61.0551Z"
-                fill="#062AAA"
-              />
-              <path
-                d="M328.634 43.1747L306.624 60.141L314.876 60.141L337.436 43.1747L328.634 43.1747Z"
-                fill="#062AAA"
-              />
-              <path
-                d="M347.131 43.1935L325.319 60.1411L334.671 60.1411L355.933 43.1935L347.131 43.1935Z"
-                fill="#062AAA"
-              />
-            </svg>
-            <div className="blue_coins_count">
-              <div className="coins_count">
-                <svg
-                  width="21"
-                  height="34"
-                  viewBox="0 0 21 34"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M10 21V13L0 17.2786L10 21Z" fill="white" />
-                  <path d="M10 11.8288V0L0 16L10 11.8288Z" fill="white" />
-                  <path d="M11 0V11.7866L21 16L11 0Z" fill="white" />
-                  <path d="M11 13V21L21 17.2813L11 13Z" fill="white" />
-                  <path d="M11 22.1712L11 34L21 18L11 22.1712Z" fill="white" />
-                  <path
-                    d="M10 34L10 22.2134L-1.39876e-06 18L10 34Z"
-                    fill="white"
-                  />
-                </svg>
-                <p className="coins_count_text">COIN</p>
-                <p className="team_name">BLUE TEAM</p>
+        <BlueTeam blueCoins={blueCoin} />
+        <RedTeam redCoins={redCoin} />
+        <div className="card_box ">
+          {isBlueTurn.items.length != 0 ? (
+            <div className="play_card blue_play_card">
+              <div className="card_name">
+                <p>{getBlueDecks.name}</p>
+              </div>
+              <div className="card_space"></div>
+              <div className="hire">
+                <p>{isBlueTurn.items[0].type}</p>
+              </div>
+              <div className="card_detail">
+                <p>{isBlueTurn.items[0].abilities[0]}</p>
+                <p>{isBlueTurn.items[0].abilities[1]}</p>
               </div>
             </div>
-          </div>
+          ) : (
+            ""
+          )}
         </div>
-        <div className="blue_team red_team">
-          <div className="blue_team_icon">
-            <svg
-              width="356"
-              height="64"
-              viewBox="0 0 356 64"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M-1.5 0.00012207L310.144 8.14737e-05L356 33.0001L-1.49999 33.0002L-1.5 0.00012207Z"
-                fill="#AA0606"
-              />
-              <path
-                d="M-4 63.0551L296.325 63.055L320.67 44L-4 44L-4 63.0551Z"
-                fill="#AA0606"
-              />
-              <path
-                d="M328.634 45.1747L306.624 62.141L314.876 62.141L337.436 45.1747L328.634 45.1747Z"
-                fill="#AA0606"
-              />
-              <path
-                d="M347.131 45.1935L325.319 62.1411L334.671 62.1411L355.933 45.1935L347.131 45.1935Z"
-                fill="#AA0606"
-              />
-            </svg>
-            <div className="blue_coins_count">
-              <div className="coins_count">
-                <svg
-                  width="21"
-                  height="34"
-                  viewBox="0 0 21 34"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M10 21V13L0 17.2786L10 21Z" fill="white" />
-                  <path d="M10 11.8288V0L0 16L10 11.8288Z" fill="white" />
-                  <path d="M11 0V11.7866L21 16L11 0Z" fill="white" />
-                  <path d="M11 13V21L21 17.2813L11 13Z" fill="white" />
-                  <path d="M11 22.1712L11 34L21 18L11 22.1712Z" fill="white" />
-                  <path
-                    d="M10 34L10 22.2134L-1.39876e-06 18L10 34Z"
-                    fill="white"
-                  />
-                </svg>
-                <p className="coins_count_text">COIN</p>
-                <p className="team_name">RED TEAM</p>
+        <div className="card_box ">
+          {isRedTurn.selected.length != 0 ? (
+            <div className="play_card">
+              <div>
+                <div className="card_name">
+                  <p>{getRedDecks.name}</p>
+                </div>
+                <div className="card_space"></div>
+                <div className="hire">
+                  <p>{isRedTurn.selected[0].type}</p>
+                </div>
+                <div className="card_detail">
+                  <p>{isRedTurn.selected[0].abilities[0]}</p>
+                  <p>{isRedTurn.selected[0].abilities[1]}</p>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div className="card_box">
-          <div className="card_text"></div>
-        </div>
-        <div className="card_box">
-          <div className="card_text"></div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
       <div className="zone_centre_bar">
         {/* -----------blue----------- */}
-        <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable droppableId="droppable">
-            {(provided, snapshot) => (
-              <div
-                ref={provided.innerRef}
-                style={getListStyle(snapshot.isDraggingOver)}
-              >
-                {state1.items.map((item, index) => (
-                  <Draggable key={item.id} draggableId={item.id} index={index}>
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        style={getItemStyle(
-                          snapshot.isDragging,
-                          provided.draggableProps.style
-                        )}
-                      >
-                        {/* {item.content} */}
-                        <div className="play_card blue_play_card">
-                          <div className="card_name">
-                            <p>CARD NAME</p>
-                          </div>
-                          <div className="card_space"></div>
-                          <div className="hire">
-                            <p>hire</p>
-                          </div>
-                          <div className="card_detail">
-                            <p>Discard 1.</p>
-                            <p>Draw 3.</p>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-          <Droppable droppableId="droppable2">
-            {(provided, snapshot) => (
-              <div
-                ref={provided.innerRef}
-                style={getListStyle(snapshot.isDraggingOver)}
-              >
-                {state1.selected.map((item, index) => (
-                  <Draggable key={item.id} draggableId={item.id} index={index}>
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        style={getItemStyle(
-                          snapshot.isDragging,
-                          provided.draggableProps.style
-                        )}
-                      >
-                        {/* {item.content} */}
-                        <div className="play_card blue_play_card">
-                          <div className="card_name">
-                            <p>CARD NAME</p>
-                          </div>
-                          <div className="card_space"></div>
-                          <div className="hire">
-                            <p>hire</p>
-                          </div>
-                          <div className="card_detail">
-                            <p>Discard 1.</p>
-                            <p>Draw 3.</p>
+        <div className={playerRed ? "disable" : ""}>
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Droppable droppableId="droppable" direction="horizontal">
+              {(provided, snapshot) => (
+                <div
+                  ref={provided.innerRef}
+                  style={getListStyle(snapshot.isDraggingOver)}
+                >
+                  {state1.items.map((item, index) => (
+                    <Draggable
+                      key={item.id}
+                      draggableId={item.id.toString()}
+                      index={index}
+                    >
+                      {(provided, snapshot) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          style={getItemStyle(
+                            snapshot.isDragging,
+                            provided.draggableProps.style
+                          )}
+                          onClick={() => setBlueLeft(item)}
+                        >
+                          <div className="play_card blue_play_card">
+                            <div className="card_name">
+                              <p>Card Name</p>
+                            </div>
+                            <div className="card_space"></div>
+                            <div className="hire">
+                              <p>{item.type}</p>
+                            </div>
+                            <div className="card_detail">
+                              <p>{item.abilities[0]}</p>
+                              <p>{item.abilities[1]}</p>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
-        {/* ---------blue------------- */}
-        {/* <div className="status_message_area">
-          <p>Status Message Area</p>
-        </div> */}
-        {/* ------red---------- */}
-        <DragDropContext onDragEnd={onDragEnd1}>
-          <Droppable droppableId="droppable3">
-            {(provided, snapshot) => (
-              <div
-                ref={provided.innerRef}
-                style={getListStyle(snapshot.isDraggingOver)}
-              >
-                {state2.items.map((item, index) => (
-                  <Draggable key={item.id} draggableId={item.id} index={index}>
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        style={getItemStyle(
-                          snapshot.isDragging,
-                          provided.draggableProps.style
-                        )}
-                      >
-                        {/* {item.content} */}
-                        <div className="play_card">
-                          <div className="card_name">
-                            <p>CARD NAME</p>
-                          </div>
-                          <div className="card_space"></div>
-                          <div className="hire">
-                            <p>hire</p>
-                          </div>
-                          <div className="card_detail">
-                            <p>Discard 1.</p>
-                            <p>Draw 3.</p>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+            <Droppable droppableId="droppable2" direction="horizontal">
+              {(provided, snapshot) => (
+                <div
+                  ref={provided.innerRef}
+                  style={getListStyle(snapshot.isDraggingOver)}
+                >
+                  {state1.selected.map((item, index) => (
+                    <Draggable
+                      key={item.id}
+                      draggableId={item.id.toString()}
+                      index={index}
+                    >
+                      {(provided, snapshot) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          style={getItemStyle(
+                            snapshot.isDragging,
+                            provided.draggableProps.style
+                          )}
+                        >
+                          <div className="play_card blue_play_card">
+                            <div className="card_name">
+                              <p>Card Name</p>
+                            </div>
+                            <div className="card_space"></div>
+                            <div className="hire">
+                              <p>{item.type}</p>
+                            </div>
+                            <div className="card_detail">
+                              <p>{item.abilities[0]}</p>
+                              <p>{item.abilities[1]}</p>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-          <Droppable droppableId="droppable4">
-            {(provided, snapshot) => (
-              <div
-                ref={provided.innerRef}
-                style={getListStyle(snapshot.isDraggingOver)}
-              >
-                {state2.selected.map((item, index) => (
-                  <Draggable key={item.id} draggableId={item.id} index={index}>
-                    {(provided, snapshot) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        style={getItemStyle(
-                          snapshot.isDragging,
-                          provided.draggableProps.style
-                        )}
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
+        </div>
+
+        <div className="status_message_area">
+          <button
+            className="btn"
+            onClick={() => {
+              {
+                playerBlue ? handleRightClick() : handleRightClicks();
+              }
+            }}
+          >
+            It's <strong>your</strong> turn , draw <strong>one</strong> card
+          </button>
+        </div>
+
+        <div className={playerBlue ? "disable classname1" : "classname1"}>
+          <DragDropContext onDragEnd={onDragEnd1}>
+            <Droppable droppableId="droppable3" direction="horizontal">
+              {(provided, snapshot) => (
+                <div
+                  ref={provided.innerRef}
+                  style={getListStyle(snapshot.isDraggingOver)}
+                >
+                  {state2.items.map((item, index) => {
+                    return (
+                      <Draggable
+                        key={item.id}
+                        draggableId={item.id.toString()}
+                        index={index}
                       >
-                        {/* {item.content} */}
-                        <div className="play_card">
-                          <div className="card_name">
-                            <p>CARD NAME</p>
+                        {(provided, snapshot) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            style={getItemStyle(
+                              snapshot.isDragging,
+                              provided.draggableProps.style
+                            )}
+                          >
+                            <div className="play_card">
+                              <div className="card_name">
+                                <p>Card Name</p>
+                              </div>
+                              <div className="card_space"></div>
+                              <div className="hire">
+                                <p>{item.type}</p>
+                              </div>
+                              <div className="card_detail">
+                                <p>{item.abilities[0]}</p>
+                                <p>{item.abilities[1]}</p>
+                              </div>
+                            </div>
                           </div>
-                          <div className="card_space"></div>
-                          <div className="hire">
-                            <p>hire</p>
-                          </div>
-                          <div className="card_detail">
-                            <p>Discard 1.</p>
-                            <p>Draw 3.</p>
+                        )}
+                      </Draggable>
+                    );
+                  })}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+            <Droppable droppableId="droppable4" direction="horizontal">
+              {(provided, snapshot) => (
+                <div
+                  ref={provided.innerRef}
+                  style={getListStyle(snapshot.isDraggingOver)}
+                >
+                  {state2.selected.map((item, index) => (
+                    <Draggable
+                      key={item.id}
+                      draggableId={item.id.toString()}
+                      index={index}
+                    >
+                      {(provided, snapshot) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          style={getItemStyle(
+                            snapshot.isDragging,
+                            provided.draggableProps.style
+                          )}
+                          onClick={() => setLeftBlockRed(item)}
+                        >
+                          <div className="play_card">
+                            <div className="card_name">
+                              <p>Card Name</p>
+                            </div>
+                            <div className="card_space"></div>
+                            <div className="hire">
+                              <p>{item.type}</p>
+                            </div>
+                            <div className="card_detail">
+                              <p>{item.abilities[0]}</p>
+                              <p>{item.abilities[1]}</p>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
-        {/* ------red---------- */}
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
+        </div>
       </div>
       <div className="zone_right_bar">
-        <div className="menu_set">
-          <svg
-            width="30"
-            height="23"
-            viewBox="0 0 30 23"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path d="M0 2H30" stroke="white" strokeWidth="3" />
-            <path d="M0 11.5H30" stroke="white" strokeWidth="3" />
-            <path d="M0 21.5H30" stroke="white" strokeWidth="3" />
-          </svg>
-        </div>
-        <div className="card_box">
-          {getDecks.cards.length > 0 ? (
-            <div className="play_card blue_play_card" onClick={handleClick}>
-              <div className="card_name">
-                <p>CARD NAME</p>
+        <LeftBar />
+        <div className="remainCard">
+          <div className="card_remain"> {blueData.length} CARDS REMAINING</div>
+          <div className="card_box ">
+            {blueData.length != 0 ? (
+              <div
+                className="play_card blue_play_card"
+                onClick={handleBlueClick}
+              >
+                <div className="card_name">
+                  <p>{getBlueDecks.name}</p>
+                </div>
+                <div className="card_space"></div>
+                <div className="hire">
+                  <p>hire</p>
+                </div>
+                <div className="card_detail">
+                  <p>{blueData[0].abilities[0]}</p>
+                  <p>{blueData[0].abilities[1]}</p>
+                </div>
               </div>
-              <div className="card_space"></div>
-              <div className="hire">
-                <p>hire</p>
-              </div>
-              <div className="card_detail">
-                <p>Discard 1.</p>
-                <p>Draw 33.</p>
-              </div>
-            </div>
-          ) : (
-            <h3>hello </h3>
-          )}
-        </div>
-        {/* <div className="action_button">
-          <button>ACTION BUTTON</button>
-        </div> */}
-        <div className="card_box" onClick={handleClick}>
-          <div className="play_card">
-            <div className="card_name">
-              <p>CARD NAME</p>
-            </div>
-            <div className="card_space"></div>
-            <div className="hire">
-              <p>hire</p>
-            </div>
-            <div className="card_detail">
-              <p>Discard 1.</p>
-              <p>Draw 31.</p>
-            </div>
+            ) : (
+              ""
+            )}
           </div>
+        </div>
+        <div
+          className="action_button"
+          onClick={() => {
+            setplayerBlue(!playerBlue);
+            setplayerRed(!playerRed);
+          }}
+        >
+          <button className="btn">END TURN</button>
+        </div>
+        <div>
+          <div className="card_box ">
+            {redData.length != 0 ? (
+              <div className="play_card" onClick={handleRedClick}>
+                <div>
+                  <div className="card_name">
+                    <p>{getRedDecks.name}</p>
+                  </div>
+                  <div className="card_space"></div>
+                  <div className="hire">
+                    <p>hire</p>
+                  </div>
+                  <div className="card_detail">
+                    <p>{redData[0].abilities[0]}</p>
+                    <p>{redData[0].abilities[1]}</p>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
+          <div className="card_remain"> {redData.length} CARDS REMAINING</div>
         </div>
       </div>
     </div>
