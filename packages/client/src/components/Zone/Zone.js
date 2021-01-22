@@ -12,6 +12,7 @@ import {
   getRedDecks,
 } from "./functions";
 import "./Zone.css";
+import { shuffle } from "lodash";
 
 const Zone = () => {
   const [playerBlue, setplayerBlue] = useState(true);
@@ -20,6 +21,7 @@ const Zone = () => {
   const [redData, setRedData] = useState(getRedDecks.cards.slice(7));
   const [blueCoin, setblueCoin] = useState(30);
   const [redCoin, setredCoin] = useState(30);
+  const [button, setButton] = useState(false);
   const [isBlueTurn, setBlueTurn] = useState({ items: [] });
   const [leftBlock, setBlueLeft] = useState(null);
   const [isRedTurn, setRedTurn] = useState({ selected: [] });
@@ -63,6 +65,7 @@ const Zone = () => {
     e.preventDefault();
     if (playerBlue) {
       var card = blueData;
+
       var blueCard = card.shift();
       state1.items.push(blueCard);
       setState1({ ...state1 });
@@ -70,7 +73,9 @@ const Zone = () => {
       // setplayerBlue(false);
     }
   };
-
+  const handlClick1 = () => {
+    setButton(true);
+  };
   const handleRedClick = (e) => {
     e.preventDefault();
     if (playerRed) {
@@ -123,6 +128,7 @@ const Zone = () => {
         // setplayerRed(!playerRed);
         // } else {
         setblueCoin(blueCoin - 1);
+        setredCoin(redCoin + 1);
         // }
       }
     }
@@ -181,6 +187,7 @@ const Zone = () => {
       //   setplayerRed(!playerRed);
       // } else {
       setredCoin(redCoin - 1);
+      setblueCoin(blueCoin + 1);
       // }
       // setplayerBlue(true);
       // setplayerRed(false);
@@ -460,6 +467,7 @@ const Zone = () => {
             )}
           </div>
         </div>
+
         <div
           className="action_button"
           onClick={() => {
@@ -472,7 +480,13 @@ const Zone = () => {
         <div>
           <div className="card_box ">
             {redData.length != 0 ? (
-              <div className="play_card" onClick={handleRedClick}>
+              <div
+                className="play_card"
+                onClick={() => {
+                  handleRedClick;
+                  handlClick1;
+                }}
+              >
                 <div>
                   <div className="card_name">
                     <p>{getRedDecks.name}</p>
