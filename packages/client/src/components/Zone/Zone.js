@@ -66,6 +66,7 @@ const Zone = () => {
     if (playerBlue) {
       var card = blueData;
 
+      console.log("shuffle", shuffle(blueData));
       var blueCard = card.shift();
       state1.items.push(blueCard);
       setState1({ ...state1 });
@@ -73,9 +74,7 @@ const Zone = () => {
       // setplayerBlue(false);
     }
   };
-  const handlClick1 = () => {
-    setButton(true);
-  };
+
   const handleRedClick = (e) => {
     e.preventDefault();
     if (playerRed) {
@@ -128,7 +127,7 @@ const Zone = () => {
         // setplayerRed(!playerRed);
         // } else {
         setblueCoin(blueCoin - 1);
-        setredCoin(redCoin + 1);
+        setredCoin(redCoin - 1);
         // }
       }
     }
@@ -187,7 +186,7 @@ const Zone = () => {
       //   setplayerRed(!playerRed);
       // } else {
       setredCoin(redCoin - 1);
-      setblueCoin(blueCoin + 1);
+      setblueCoin(blueCoin - 1);
       // }
       // setplayerBlue(true);
       // setplayerRed(false);
@@ -480,13 +479,7 @@ const Zone = () => {
         <div>
           <div className="card_box ">
             {redData.length != 0 ? (
-              <div
-                className="play_card"
-                onClick={() => {
-                  handleRedClick;
-                  handlClick1;
-                }}
-              >
+              <div className="play_card" onClick={handleRedClick}>
                 <div>
                   <div className="card_name">
                     <p>{getRedDecks.name}</p>
