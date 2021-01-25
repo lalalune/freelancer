@@ -34,7 +34,7 @@ export const getItemStyle = (isDragging, draggableStyle) => ({
 export const getListStyle = (isDraggingOver) => ({
   padding: "0px 5px",
   width: "100%",
-  height: "205px",
+  height: "161px",
   border: "1px solid #FFFFFF",
   borderRadius: "10px",
   display: "flex",
@@ -43,6 +43,7 @@ export const getListStyle = (isDraggingOver) => ({
   margin: "10px",
   overflowX: "scroll",
 });
+
 export const getBlueDecks = {
   name: "Test Deck",
   cards: getBlueDeck.cards.map((item, index) => {
@@ -50,6 +51,7 @@ export const getBlueDecks = {
     return item;
   }),
 };
+
 export const getRedDecks = {
   name: "Test Deck",
   cards: getRedDeck.cards.map((item, index) => {
