@@ -21,14 +21,14 @@ const Zone = () => {
   const [blueCoin, setblueCoin] = useState(30);
   const [redCoin, setredCoin] = useState(30);
   const [isBlueTurn, setBlueTurn] = useState({ items: [] });
-  const [leftBlock, setBlueLeft] = useState(null);
+  //const [leftBlock, setBlueLeft] = useState(null);
   const [isRedTurn, setRedTurn] = useState({ selected: [] });
-  const [leftBlockRed, setLeftBlockRed] = useState(null);
+  // const [leftBlockRed, setLeftBlockRed] = useState(null);
   const [state1, setState1] = useState({
     items: getBlueDecks.cards.slice(0, 7),
     selected: [],
   });
-
+  const [state3, setState3] = useState({ item1: [] });
   const [state2, setState2] = useState({
     items: [],
     selected: getRedDecks.cards.slice(0, 7),
@@ -40,21 +40,23 @@ const Zone = () => {
   };
 
   const handleRightClick = () => {
-    const items = state1.items.filter((item) => item.id !== leftBlock.id);
-    setState1({ ...state1, items: items });
-    isBlueTurn.items.push(leftBlock);
+    const items = state1.items;
+    console.log(items);
+    const card = items.shift();
+    //setState1({ ...state1, items: items });
+    isBlueTurn.items.push(card);
     setBlueTurn({ ...isBlueTurn });
     setBlueLeft(null);
+    setblueCoin(blueCoin - 1);
   };
 
   const handleRightClicks = () => {
-    const selected = state2.selected.filter(
-      (item) => item.id !== leftBlockRed.id
-    );
-    setState2({ ...state2, selected: selected });
-    isRedTurn.selected.push(leftBlockRed);
+    const selected = state2.selected;
+    const card = selected.shift();
+    //setState2({ ...state2, selected: selected });
+    isRedTurn.selected.push(card);
     setRedTurn({ ...isRedTurn });
-    setLeftBlockRed(null);
+    //setLeftBlockRed(null);
   };
 
   const getList = (id) => state1[id1List[id]];
@@ -63,9 +65,14 @@ const Zone = () => {
     e.preventDefault();
     if (playerBlue) {
       var card = blueData;
-      var blueCard = card.shift();
-      state1.items.push(blueCard);
-      setState1({ ...state1 });
+      card.sort(() => Math.random() - 0.5);
+      if (card[0].abilities[0] == "DRAW_1") {
+        var blueCard = card.shift();
+        state1.items.push(blueCard);
+        setState1({ ...state1 });
+      } else {
+        console.log("you can not pushed element");
+      }
       // setplayerRed(true);
       // setplayerBlue(false);
     }
@@ -75,9 +82,15 @@ const Zone = () => {
     e.preventDefault();
     if (playerRed) {
       var card = redData;
-      var redCard = card.shift();
-      state2.selected.push(redCard);
-      setState2({ ...state2 });
+      card.sort(() => Math.random() - 0.5);
+      if (card[0].abilities[0] == "DRAW_1") {
+        var redCard = card.shift();
+        console.log("redCard", redCard);
+        state2.selected.push(redCard);
+        setState2({ ...state2 });
+      } else {
+        console.log("you can not pushed element");
+      }
       // setplayerBlue(true);
       // setplayerRed(false);
     }
@@ -112,6 +125,7 @@ const Zone = () => {
           source,
           destination
         );
+        console.log(source.droppableId, destination.droppableId, "result");
         setState1({
           items: result.droppable,
           selected: result.droppable2,
@@ -122,7 +136,8 @@ const Zone = () => {
         // setplayerBlue(!playerBlue);
         // setplayerRed(!playerRed);
         // } else {
-        setblueCoin(blueCoin - 1);
+        // setblueCoin(blueCoin - 1);
+        setredCoin(redCoin - 1);
         // }
       }
     }
@@ -180,7 +195,8 @@ const Zone = () => {
       //   setplayerBlue(!playerBlue);
       //   setplayerRed(!playerRed);
       // } else {
-      setredCoin(redCoin - 1);
+      //  setredCoin(redCoin - 1);
+      setblueCoin(blueCoin - 1);
       // }
       // setplayerBlue(true);
       // setplayerRed(false);
@@ -202,6 +218,7 @@ const Zone = () => {
                 <p>{isBlueTurn.items[0].type}</p>
               </div>
               <div className="card_detail">
+                <p>{isBlueTurn.items.length}</p>
                 <p>{isBlueTurn.items[0].abilities[0]}</p>
                 <p>{isBlueTurn.items[0].abilities[1]}</p>
               </div>
@@ -257,7 +274,7 @@ const Zone = () => {
                             snapshot.isDragging,
                             provided.draggableProps.style
                           )}
-                          onClick={() => setBlueLeft(item)}
+                          onClick={handleRightClick}
                         >
                           <div className="play_card blue_play_card">
                             <div className="card_name">
@@ -268,6 +285,7 @@ const Zone = () => {
                               <p>{item.type}</p>
                             </div>
                             <div className="card_detail">
+                              <p>{item.id}</p>
                               <p>{item.abilities[0]}</p>
                               <p>{item.abilities[1]}</p>
                             </div>
@@ -329,11 +347,11 @@ const Zone = () => {
         <div className="status_message_area">
           <button
             className="btn"
-            onClick={() => {
-              {
-                playerBlue ? handleRightClick() : handleRightClicks();
-              }
-            }}
+            // onClick={() => {
+            //   {
+            //     playerBlue ? handleRightClick() : handleRightClicks();
+            //   }
+            // }}
           >
             It's <strong>your</strong> turn , draw <strong>one</strong> card
           </button>
@@ -386,6 +404,7 @@ const Zone = () => {
                 </div>
               )}
             </Droppable>
+
             <Droppable droppableId="droppable4" direction="horizontal">
               {(provided, snapshot) => (
                 <div
@@ -407,7 +426,7 @@ const Zone = () => {
                             snapshot.isDragging,
                             provided.draggableProps.style
                           )}
-                          onClick={() => setLeftBlockRed(item)}
+                          onClick={handleRightClicks}
                         >
                           <div className="play_card">
                             <div className="card_name">
@@ -418,6 +437,7 @@ const Zone = () => {
                               <p>{item.type}</p>
                             </div>
                             <div className="card_detail">
+                              <p>{item.id}</p>
                               <p>{item.abilities[0]}</p>
                               <p>{item.abilities[1]}</p>
                             </div>
@@ -460,6 +480,7 @@ const Zone = () => {
             )}
           </div>
         </div>
+
         <div
           className="action_button"
           onClick={() => {
@@ -469,6 +490,7 @@ const Zone = () => {
         >
           <button className="btn">END TURN</button>
         </div>
+
         <div>
           <div className="card_box ">
             {redData.length != 0 ? (

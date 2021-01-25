@@ -83,5 +83,4 @@ const getBlueDecks = {
   ],
 };
 
-
 export default getBlueDecks;
