@@ -15,7 +15,7 @@ import "./Zone.css";
 import swal from "sweetalert";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+console.log(getBlueDecks)
 const Zone = () => {
   const [playerBlue, setplayerBlue] = useState(true);
   const [playerRed, setplayerRed] = useState(false);
@@ -24,14 +24,12 @@ const Zone = () => {
   const [blueCoin, setblueCoin] = useState(30);
   const [redCoin, setredCoin] = useState(30);
   const [isBlueTurn, setBlueTurn] = useState({ items: [] });
-  const [btn, setBtn] = useState(false);
-  const [btn1, setBtn1] = useState(false);
   const [isRedTurn, setRedTurn] = useState({ selected: [] });
-
   const [state1, setState1] = useState({
     items: getBlueDecks.cards.slice(0, 7),
     selected: [],
   });
+
   const [state2, setState2] = useState({
     items: [],
     selected: getBlueDecks.cards.slice(0, 7),
@@ -47,14 +45,13 @@ const Zone = () => {
       const items = state1.items.filter((item) => item.id !== selected.id);
       setState1({ ...state1, items: items });
       isBlueTurn.items.push(selected);
+      setblueCoin(blueCoin - 1);
       // setBlueTurn({ ...isBlueTurn });
       // setBlueLeft(null);
-      setblueCoin(blueCoin - 1);
       // setplayerBlue(false);
       // setplayerRed(true);
     } else {
-      // swal("It's Charge Card");
-      toast("Wow so easy !");
+      toast("It's Charge Card !");
     }
   };
 
@@ -68,8 +65,7 @@ const Zone = () => {
       //setLeftBlockRed(null);
       setredCoin(redCoin - 1);
     } else {
-      // swal("It's Charge Card");
-      toast("Wow so easy !");
+      toast("It's Charge Card!");
     }
     // setplayerBlue(true);
     // setplayerRed(false);
@@ -86,10 +82,12 @@ const Zone = () => {
         var blueCard = card.shift();
         state1.items.push(blueCard);
         setState1({ ...state1 });
-        setBtn(true);
+        if (state1.items.length > 8) {
+          toast("You Need To discard you card");
+        }
       } else {
-         swal("Can Not move this card");
-       // toast("Wow so easy !");
+        toast("Can Not move this card");
+        // toast("Wow so easy !");
       }
       // setplayerRed(true);
       // setplayerBlue(false);
@@ -105,9 +103,11 @@ const Zone = () => {
         var redCard = card.shift();
         state2.selected.push(redCard);
         setState2({ ...state2 });
-        setBtn(true);
+        if (state2.selected.length > 8) {
+          toast("You Need To discard you card");
+        }
       } else {
-        swal("Can Not move this card");
+        toast("Can Not move this card");
       }
       // setplayerBlue(true);
       // setplayerRed(false);
@@ -121,16 +121,20 @@ const Zone = () => {
       if (!destination) {
         return;
       }
+
       if (source.droppableId === destination.droppableId) {
         const items = reorder(
           getList(source.droppableId),
           source.index,
           destination.index
         );
+
         let stateBlue = { items };
+
         if (source.droppableId === "droppable2") {
           stateBlue = { selected: items };
         }
+
         let swipe = {
           items: stateBlue.items ? stateBlue.items : state1.items,
           selected: stateBlue.selected ? stateBlue.selected : state1.selected,
@@ -212,8 +216,8 @@ const Zone = () => {
       if (blueCoin == 0) {
         setblueCoin(0);
         swal("Red Team,You Have won This Match");
-        setplayerBlue(!playerBlue);
-        setplayerRed(playerRed);
+        setplayerBlue(false);
+        setplayerRed(false);
       } else {
         //  setredCoin(redCoin - 1);
         setblueCoin(blueCoin - 1);
@@ -224,7 +228,16 @@ const Zone = () => {
   };
   return (
     <div className="zone_main">
-      {/* <ToastContainer /> */}
+      {playerBlue ? (
+        <div className="blueTeam">
+          <ToastContainer position="top-right" autoClose={2000} />
+        </div>
+      ) : (
+        <div className="redTeam">
+          <ToastContainer position="bottom-right" autoClose={2000} />
+        </div>
+      )}
+
       <div className="zone_left_bar">
         <BlueTeam blueCoins={blueCoin} />
         <RedTeam redCoins={redCoin} />
@@ -239,6 +252,7 @@ const Zone = () => {
                 <p>{isBlueTurn.items[0].type}</p>
               </div>
               <div className="card_detail">
+                <p>{isBlueTurn.items.length}</p>
                 <p>{isBlueTurn.items[0].abilities[0]}</p>
                 <p>{isBlueTurn.items[0].abilities[1]}</p>
               </div>
@@ -495,29 +509,17 @@ const Zone = () => {
             )}
           </div>
         </div>
-        {btn == false ? (
-          <div
-            className="action_button disable"
-            onClick={() => {
-              setplayerBlue(!playerBlue);
-              setplayerRed(!playerRed);
-            }}
-          >
-            <button className="btn">END TURN</button>
-          </div>
-        ) : (
-          <div
-            className="action_button"
-            // disabled
-            onClick={() => {
-              setplayerBlue(!playerBlue);
-              setplayerRed(!playerRed);
-            }}
-          >
-            <button className="btn">END TURN</button>
-          </div>
-        )}
 
+        <div
+          className="action_button"
+          // disabled
+          onClick={() => {
+            setplayerBlue(!playerBlue);
+            setplayerRed(!playerRed);
+          }}
+        >
+          <button className="btn">END TURN</button>
+        </div>
         <div>
           <div className="card_box ">
             {redData.length != 0 ? (
