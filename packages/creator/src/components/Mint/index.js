@@ -6,6 +6,7 @@ import { FileDrop } from 'react-file-drop';
 import { useAppContext } from "../../libs/contextLib";
 import { mintNft } from '../../functions/AssetFunctions.js';
 import "../../assets/css/mint.css";
+import { storageHost } from "../webaverse/constants";
 
 
 export default () => {
@@ -17,26 +18,54 @@ export default () => {
   const [quantity, setQuantity] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [mintedState, setMintedState] = useState(null);
+  const [extName, setExtName] = useState(null);
 
   const handleNameChange = (e) => setName(e.target.value);
   const handleDescriptionChange = (e) => setDescription(e.target.value);
   const handleQuantityChange = (e) => setQuantity(e.target.value);
 
   const handleMintNftButton = (e) => {
-    e.preDefault();
-    mintNft(file,
-       name,
-       description,
-       quantity,
-       (err) => {
-         console.error("Minting failed", err);
-         setMintedState('error')},
-       () => {
-         console.log("Success callback!"); 
-         setMintedState('success')
-       },
-       globalState
-     );
+    setLoading(true);
+    e.preventDefault();
+    setMintedState('loading');
+
+
+    const extName = getExt(file.name);
+    const fileName = extName ? file.name.slice(0, -(extName.length + 1)) : file.name;
+    setExtName(extName);
+    setName(fileName);
+
+    console.log("FETCHING")
+    fetch(storageHost, {
+      method: 'POST',
+      body: file
+    })
+    .then(response => response.json())
+    .then(data => {
+      setHash(data.hash);
+      console.log("HASH IS", data.hash)
+    mintNft(data.hash,
+      name,
+      extName,
+      description,
+      quantity,
+      (tokenId) => {
+        setMintedState('success')
+        setMintedMessage(tokenId)
+        router.push('/assets/' + tokenId);
+      },
+      (err) => {
+        console.log("Minting failed", err);
+        setMintedState('error')
+        setMintedMessage(err.toString())
+      },
+      globalState
+    );
+
+  })
+  .catch(error => {
+    console.error(error)
+  })
   }
 
   const handleFileUpload = file => {

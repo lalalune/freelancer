@@ -8,7 +8,8 @@ import Loader from '../../components/Loader';
 import AssetCard from '../../components/Card';
 import CardGrid from "../../components/CardGrid";
 import { getBooths } from "../../functions/UIStateFunctions.js";
-
+import { storageHost } from "../../webaverse/constants";
+import { getExt } from '../../webaverse/util.js';
 import "./style.css";
 
 import cardMainImg from '../../assets/images/card-girl.png';
@@ -58,14 +59,25 @@ export default () => {
     e.preventDefault();
     setMintedState('loading');
 
-    const ext = file.name.slice((file.name.lastIndexOf(".") - 1 >>> 0) + 2);;
-    mintNft(file,
+
+    const extName = getExt(file.name);
+    const fileName = extName ? file.name.slice(0, -(extName.length + 1)) : file.name;
+    setName(fileName);
+
+    console.log("FETCHING")
+    fetch(storageHost, {
+      method: 'POST',
+      body: file
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log("HASH IS", data.hash)
+    mintNft(data.hash,
       name,
-      ext,
+      extName,
       description,
       quantity,
       (tokenId) => {
-        console.log("Success callback!", "/browse/" + tokenId);
         setMintedState('success')
         setMintedMessage(tokenId)
       },
@@ -76,6 +88,11 @@ export default () => {
       },
       globalState
     );
+
+  })
+  .catch(error => {
+    console.error(error)
+  })
   }
 
   const handleFileUpload = file => {
