@@ -82,7 +82,7 @@ body {
 .card_box {
   border: 1px solid #fff;
   width: 205px;
-  height: 273px;
+  height: 240px;
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -167,7 +167,7 @@ body {
 }
 
 .play_card {
-  width:114px;
+  width: 100px;
   overflow: hidden;
   display: inline-block;
   cursor: pointer;
@@ -194,7 +194,7 @@ body {
 
 .play_card .card_space {
   background: #fff;
-  height: 90px;
+  height: 60px;
 }
 
 .play_card .hire {
@@ -307,4 +307,17 @@ body {
 }
 .remainCard {
   margin-top: 40px;
+}
+
+.swal-button {
+  background-color: #031966;
+}
+.swal-button:not([disabled]):hover {
+  background-color: #031966;
+}
+.swal-button:focus {
+  box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgb(3 25 102 / 25%);
+}
+.swal-text {
+    color: black;
 }
