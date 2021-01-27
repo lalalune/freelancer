@@ -12,6 +12,9 @@ import {
   getRedDecks,
 } from "./functions";
 import "./Zone.css";
+import swal from "sweetalert";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Zone = () => {
   const [playerBlue, setplayerBlue] = useState(true);
@@ -21,17 +24,17 @@ const Zone = () => {
   const [blueCoin, setblueCoin] = useState(30);
   const [redCoin, setredCoin] = useState(30);
   const [isBlueTurn, setBlueTurn] = useState({ items: [] });
-  const [leftBlock, setBlueLeft] = useState(null);
+  const [btn, setBtn] = useState(false);
+  const [btn1, setBtn1] = useState(false);
   const [isRedTurn, setRedTurn] = useState({ selected: [] });
-  const [leftBlockRed, setLeftBlockRed] = useState(null);
+
   const [state1, setState1] = useState({
     items: getBlueDecks.cards.slice(0, 7),
     selected: [],
   });
-
   const [state2, setState2] = useState({
     items: [],
-    selected: getRedDecks.cards.slice(0, 7),
+    selected: getBlueDecks.cards.slice(0, 7),
   });
 
   const id1List = {
@@ -39,22 +42,37 @@ const Zone = () => {
     droppable2: "selected",
   };
 
-  const handleRightClick = () => {
-    const items = state1.items.filter((item) => item.id !== leftBlock.id);
-    setState1({ ...state1, items: items });
-    isBlueTurn.items.push(leftBlock);
-    setBlueTurn({ ...isBlueTurn });
-    setBlueLeft(null);
+  const handleRightClick = (selected) => {
+    if (selected.abilities[0] == "DRAW_1") {
+      const items = state1.items.filter((item) => item.id !== selected.id);
+      setState1({ ...state1, items: items });
+      isBlueTurn.items.push(selected);
+      // setBlueTurn({ ...isBlueTurn });
+      // setBlueLeft(null);
+      setblueCoin(blueCoin - 1);
+      // setplayerBlue(false);
+      // setplayerRed(true);
+    } else {
+      // swal("It's Charge Card");
+      toast("Wow so easy !");
+    }
   };
 
-  const handleRightClicks = () => {
-    const selected = state2.selected.filter(
-      (item) => item.id !== leftBlockRed.id
-    );
-    setState2({ ...state2, selected: selected });
-    isRedTurn.selected.push(leftBlockRed);
-    setRedTurn({ ...isRedTurn });
-    setLeftBlockRed(null);
+  const handleRightClicks = (selected1) => {
+    if (selected1.abilities[0] == "DRAW_1") {
+      const item1 = state2.selected.filter((item) => item.id !== selected1.id);
+      setState2({ ...state2, selected: item1 });
+      isRedTurn.selected.push(selected1);
+      //setRedTurn({ ...isRedTurn });
+      //setState2({ ...state2, selected: selected });
+      //setLeftBlockRed(null);
+      setredCoin(redCoin - 1);
+    } else {
+      // swal("It's Charge Card");
+      toast("Wow so easy !");
+    }
+    // setplayerBlue(true);
+    // setplayerRed(false);
   };
 
   const getList = (id) => state1[id1List[id]];
@@ -63,9 +81,16 @@ const Zone = () => {
     e.preventDefault();
     if (playerBlue) {
       var card = blueData;
-      var blueCard = card.shift();
-      state1.items.push(blueCard);
-      setState1({ ...state1 });
+      card.sort(() => Math.random() - 0.5);
+      if (card[0].abilities[0] == "DRAW_1") {
+        var blueCard = card.shift();
+        state1.items.push(blueCard);
+        setState1({ ...state1 });
+        setBtn(true);
+      } else {
+         swal("Can Not move this card");
+       // toast("Wow so easy !");
+      }
       // setplayerRed(true);
       // setplayerBlue(false);
     }
@@ -75,9 +100,15 @@ const Zone = () => {
     e.preventDefault();
     if (playerRed) {
       var card = redData;
-      var redCard = card.shift();
-      state2.selected.push(redCard);
-      setState2({ ...state2 });
+      card.sort(() => Math.random() - 0.5);
+      if (card[0].abilities[0] == "DRAW_1") {
+        var redCard = card.shift();
+        state2.selected.push(redCard);
+        setState2({ ...state2 });
+        setBtn(true);
+      } else {
+        swal("Can Not move this card");
+      }
       // setplayerBlue(true);
       // setplayerRed(false);
     }
@@ -112,18 +143,21 @@ const Zone = () => {
           source,
           destination
         );
+
         setState1({
           items: result.droppable,
           selected: result.droppable2,
         });
 
-        // if (blueCoin == 0) {
-        //  setblueCoin(0);
-        // setplayerBlue(!playerBlue);
-        // setplayerRed(!playerRed);
-        // } else {
-        setblueCoin(blueCoin - 1);
-        // }
+        if (redCoin == 0) {
+          setredCoin(0);
+          swal("Blue Team,You Have won This Match");
+          setplayerBlue(!playerBlue);
+          setplayerRed(!playerRed);
+        } else {
+          // setblueCoin(blueCoin - 1);
+          setredCoin(redCoin - 1);
+        }
       }
     }
     // setplayerRed(true);
@@ -175,19 +209,22 @@ const Zone = () => {
           selected: result.droppable4,
         });
       }
-      // if (redCoin == 0) {
-      //  setblueCoin(0);
-      //   setplayerBlue(!playerBlue);
-      //   setplayerRed(!playerRed);
-      // } else {
-      setredCoin(redCoin - 1);
-      // }
+      if (blueCoin == 0) {
+        setblueCoin(0);
+        swal("Red Team,You Have won This Match");
+        setplayerBlue(!playerBlue);
+        setplayerRed(playerRed);
+      } else {
+        //  setredCoin(redCoin - 1);
+        setblueCoin(blueCoin - 1);
+      }
       // setplayerBlue(true);
       // setplayerRed(false);
     }
   };
   return (
     <div className="zone_main">
+      {/* <ToastContainer /> */}
       <div className="zone_left_bar">
         <BlueTeam blueCoins={blueCoin} />
         <RedTeam redCoins={redCoin} />
@@ -257,7 +294,9 @@ const Zone = () => {
                             snapshot.isDragging,
                             provided.draggableProps.style
                           )}
-                          onClick={() => setBlueLeft(item)}
+                          onClick={() => {
+                            handleRightClick(item);
+                          }}
                         >
                           <div className="play_card blue_play_card">
                             <div className="card_name">
@@ -327,14 +366,7 @@ const Zone = () => {
         </div>
 
         <div className="status_message_area">
-          <button
-            className="btn"
-            onClick={() => {
-              {
-                playerBlue ? handleRightClick() : handleRightClicks();
-              }
-            }}
-          >
+          <button className="btn">
             It's <strong>your</strong> turn , draw <strong>one</strong> card
           </button>
         </div>
@@ -386,6 +418,7 @@ const Zone = () => {
                 </div>
               )}
             </Droppable>
+
             <Droppable droppableId="droppable4" direction="horizontal">
               {(provided, snapshot) => (
                 <div
@@ -407,7 +440,9 @@ const Zone = () => {
                             snapshot.isDragging,
                             provided.draggableProps.style
                           )}
-                          onClick={() => setLeftBlockRed(item)}
+                          onClick={() => {
+                            handleRightClicks(item);
+                          }}
                         >
                           <div className="play_card">
                             <div className="card_name">
@@ -460,15 +495,29 @@ const Zone = () => {
             )}
           </div>
         </div>
-        <div
-          className="action_button"
-          onClick={() => {
-            setplayerBlue(!playerBlue);
-            setplayerRed(!playerRed);
-          }}
-        >
-          <button className="btn">END TURN</button>
-        </div>
+        {btn == false ? (
+          <div
+            className="action_button disable"
+            onClick={() => {
+              setplayerBlue(!playerBlue);
+              setplayerRed(!playerRed);
+            }}
+          >
+            <button className="btn">END TURN</button>
+          </div>
+        ) : (
+          <div
+            className="action_button"
+            // disabled
+            onClick={() => {
+              setplayerBlue(!playerBlue);
+              setplayerRed(!playerRed);
+            }}
+          >
+            <button className="btn">END TURN</button>
+          </div>
+        )}
+
         <div>
           <div className="card_box ">
             {redData.length != 0 ? (
