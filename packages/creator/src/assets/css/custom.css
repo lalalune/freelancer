@@ -198,6 +198,10 @@ input{
 .alert-message p {
   margin: 5px 0;
 }
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 @media (max-width: 2000px){
   .container{
     max-width: 100%;

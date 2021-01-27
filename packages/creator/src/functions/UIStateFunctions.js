@@ -1,14 +1,27 @@
 import bip39 from '../libs/bip39.js';
 import hdkeySpec from '../libs/hdkey.js';
-import { web3, contracts, getAddressFromMnemonic } from '../webaverse/blockchain.js';
-import storage from '../webaverse/storage.js';
+import { getBlockchain, getAddressFromMnemonic } from '../webaverse/blockchain.js';
+import storage from './Storage.js';
 
 const hdkey = hdkeySpec.default;
 
+export const getNetworkNameFromHostName = (hostname) => {
+  let networkName = null;
+  if (hostname) {
+    if (/^main\./.test(hostname)) {
+      networkName = 'main';
+    } else {
+      networkName = 'side';
+    }
+  }
+  return networkName;
+}
+
 export const getBalance = async (address) => {
+  const { web3, contracts } = await getBlockchain();
   try {
     console.log("address", address);
-    const result = await contracts["sidechain"]["FT"].methods.balanceOf(address).call();
+    const result = await contracts['back']['FT'].methods.balanceOf(address).call();
     return result;
   } catch (error) {
     console.warn(error);
@@ -25,32 +38,101 @@ export const getAddress = (state) => {
 };
 
 export const getLandMain = async (id) => {
-  const res = await fetch(`https://land-main.webaverse.com/${id}`);
+  const { getNetworkName } = await getBlockchain();
+  const networkName = getNetworkName();
+
+  const res = await fetch(`${networkName !== "main" ? `https://rinkeby-land.webaverse.com/${id}` : `https://mainnet-land.webaverse.com/${id}`}`);
   const tokens = await res.json();
 
   return tokens;
 };
 
-export const getLands = async (start, end) => {
-  const res = await fetch(`https://land.webaverse.com/${start}-${end}`);
+export const getLands = async (start, end, hostname) => {
+  let networkName;
+  if (hostname) {
+    networkName = getNetworkNameFromHostName(hostname);
+  } else {
+    const { getNetworkName } = await getBlockchain();
+    networkName = getNetworkName();
+  }
+
+  const res = await fetch(`${networkName !== "main" ? `https://rinkebysidechain-land.webaverse.com/${start}-${end}` : `https://mainnetsidechain-land.webaverse.com/${start}-${end}`}`);
+
   const tokens = await res.json();
 
   return tokens;
 };
 
-export const getTokens = async (start, end) => {
-  const res = await fetch(`https://tokens.webaverse.com/${start}-${end}`);
+export const getLand = async (id, hostname) => {
+  let networkName;
+  if (hostname) {
+    networkName = getNetworkNameFromHostName(hostname);
+  } else {
+    const { getNetworkName } = await getBlockchain();
+    networkName = getNetworkName();
+  }
+
+  const res = await fetch(`${networkName !== "main" ? `https://rinkebysidechain-land.webaverse.com/${id}` : `https://mainnetsidechain-land.webaverse.com/${id}`}`);
+
+  const land = await res.json();
+
+  return land;
+};
+
+export const getTokens = async (start, end, hostname) => {
+  let networkName;
+  if (hostname) {
+    networkName = getNetworkNameFromHostName(hostname);
+  } else {
+    const { getNetworkName } = await getBlockchain();
+    networkName = getNetworkName();
+  }
+
+  const res = await fetch(`${networkName !== "main" ? `https://rinkebysidechain-tokens.webaverse.com/${start}-${end}` : `https://mainnetsidechain-tokens.webaverse.com/${start}-${end}`}`);
   const tokens = await res.json();
 
   return tokens;
 };
 
-export const getToken = async (id) => {
-  const res = await fetch(`https://tokens.webaverse.com/${id}`);
+export const getToken = async (id, hostname) => {
+  let networkName;
+  if (hostname) {
+    networkName = getNetworkNameFromHostName(hostname);
+  } else {
+    const { getNetworkName } = await getBlockchain();
+    networkName = getNetworkName();
+  }
+
+  const res = await fetch(`${networkName !== "main" ? `https://rinkebysidechain-tokens.webaverse.com/${id}` : `https://mainnetsidechain-tokens.webaverse.com/${id}`}`);
+
+
   const token = await res.json();
 
   return token;
 };
+
+export const getTokenMain = async (id) => {
+  const { getNetworkName } = await getBlockchain();
+  const networkName = getNetworkName();
+
+  const res = await fetch(`${networkName !== "main" ? `https://rinkeby-tokens.webaverse.com/${id}` : `https://mainnet-tokens.webaverse.com/${id}`}`);
+
+  const token = await res.json();
+  return token;
+};
+
+export const isTokenOnMain = async (id) => {
+  const { contracts, getNetworkName } = await getBlockchain();
+  const networkName = getNetworkName();
+
+  const res = await fetch(`${networkName !== "main" ? `https://rinkeby-tokens.webaverse.com/${id}` : `https://mainnet-tokens.webaverse.com/${id}`}`);
+
+  const token = await res.json();
+  const owner = token.owner.address;
+  const tokenOnMain = owner === contracts.front.NFTProxy._address || owner === ("0x0000000000000000000000000000000000000000") ? false : true;
+  return tokenOnMain;
+};
+
 
 export const clearInventroryForCreator = async (creatorAddress, state) => {
   let newState = { ...state }
@@ -60,69 +142,72 @@ export const clearInventroryForCreator = async (creatorAddress, state) => {
   return newState;
 };
 
-export const getInventoryForCreator = async (creatorAddress, page, forceUpdate, state) => {
-  // Use cached page
-  if (forceUpdate !== true && state.creatorInventories[creatorAddress] !== undefined) {
-    return state;
+export const getInventoryForCreator = async (creatorAddress, hostname) => {
+  let networkName;
+  if (hostname) {
+    networkName = getNetworkNameFromHostName(hostname);
+  } else {
+    const { getNetworkName } = await getBlockchain();
+    networkName = getNetworkName();
   }
 
-  const res = await fetch(`https://tokens.webaverse.com/${creatorAddress}?page=`);
+  const res = await fetch(`${networkName !== "main" ? `https://rinkebysidechain-tokens.webaverse.com/${creatorAddress}` : `https://mainnetsidechain-tokens.webaverse.com/${creatorAddress}`}`);
+
   const creatorInventory = await res.json();
-  const newState = { ...state };
-  if (newState.creatorInventories[creatorAddress] === undefined) {
-    newState.creatorInventories[creatorAddress] = {};
-  }
-  if (newState.creatorInventories[creatorAddress][page] === undefined) {
-    newState.creatorInventories[creatorAddress][page] = creatorInventory;
+
+  if (creatorInventory && creatorInventory.length === 1 && creatorInventory[0] === "0") {
+    return [];
   }
 
-  return newState;
+  return creatorInventory;
 };
 
-export const getBoothForCreator = async (creatorAddress, page, forceUpdate, state) => {
-  // Use cached page
-  if (forceUpdate !== true && state.creatorBooths[creatorAddress] !== undefined) {
-    return state;
-  }
-
+export const getStoreForCreator = async (creatorAddress, hostname) => {
   creatorAddress = creatorAddress.toLowerCase();
-  const address = `https://store.webaverse.com/${creatorAddress}?page=`;
-  const res = await fetch(address);
-  const creatorBooth = await res.json();
-  const entries = (creatorBooth[0] === undefined) ? [] : creatorBooth[0].entries;
 
-  const newState = { ...state };
-  if (newState.creatorBooths[creatorAddress] === undefined) {
-    newState.creatorBooths[creatorAddress] = {};
+  let networkName;
+  if (hostname) {
+    networkName = getNetworkNameFromHostName(hostname);
+  } else {
+    const { getNetworkName } = await getBlockchain();
+    networkName = getNetworkName();
   }
-  newState.creatorBooths[creatorAddress][page] = entries;
 
-  return newState;
+  const res = await fetch(`${networkName !== "main" ? `https://rinkebysidechain-store.webaverse.com/${creatorAddress}` : `https://mainnetsidechain-store.webaverse.com/${creatorAddress}`}`);
+
+  const creatorBooth = await res.json();
+
+  let data;
+  if (creatorBooth[0] && creatorBooth[0]["entries"]) {
+    data = creatorBooth[0]["entries"];
+  } else {
+    data = [];
+  }
+
+  return data;
 };
 
-export const getProfileForCreator = async (creatorAddress, state) => {
-  console.log("Getting profile for creator")
-  // Use cached page
-  if (state.creatorProfiles[creatorAddress] !== undefined &&
-    state.creatorInventories[creatorAddress] !== undefined &&
-    state.creatorBooths[creatorAddress] !== undefined)
-    return state;
+export const getProfileForCreator = async (creatorAddress) => {
+  const { getNetworkName } = await getBlockchain();
+  const networkName = getNetworkName();
 
-  const res = await fetch(`https://accounts.webaverse.com/${creatorAddress}`);
+  const res = await fetch(`${networkName !== "main" ? `https://rinkebysidechain-accounts.webaverse.com/${creatorAddress}` : `https://mainnetsidechain-accounts.webaverse.com/${creatorAddress}`}`);
   const creatorProfile = await res.json();
-  let newState = { ...state };
-  newState.creatorProfiles[creatorAddress] = creatorProfile;
-  const nextState = await getBoothForCreator(creatorAddress, 1, false, newState);
-  const lastState = await getInventoryForCreator(creatorAddress, 1, false, nextState);
-  return lastState;
+
+  return creatorProfile;
 };
 
-export const getBooths = async (page, state) => {
+export const getBooths = async (page) => {
   // Use cached page
+/*
   if (state.booths && state.booths[page] !== undefined)
     return state;
+*/
+  const { getNetworkName } = await getBlockchain();
+  const networkName = getNetworkName();
 
-  const res = await fetch(`https://store.webaverse.com`);
+  const res = await fetch(`${networkName !== "main" ? `https://rinkebysidechain-store.webaverse.com/` : `https://mainnetsidechain-store.webaverse.com/`}`);
+
   const booths = await res.json();
 
   const boothsMap = [];
@@ -143,11 +228,12 @@ export const getBooths = async (page, state) => {
 };
 
 export const getStores = async () => {
-  const numStores = await contracts["sidechain"]["Trade"].methods.numStores().call();
+  const { web3, contracts } = await getBlockchain();
+  const numStores = await contracts['back']['Trade'].methods.numStores().call();
   const booths = [];
   const sales = {};
   for (let i = 0; i < numStores; i++) {
-    const store = await contracts["sidechain"]["Trade"].methods.getStoreByIndex(i + 1).call();
+    const store = await contracts['back']['Trade'].methods.getStoreByIndex(i + 1).call();
     if (store.live) {
       const id = parseInt(store.id, 10);
       const seller = store.seller.toLowerCase();
@@ -177,22 +263,23 @@ export const getStores = async () => {
   return sales;
 };
 
-export const getCreators = async (page, state) => {
-  // Use cached page
-  if (state.creators[page] !== undefined)
-    return state;
+export const getCreators = async () => {
+  const { getNetworkName } = await getBlockchain();
+  const networkName = getNetworkName();
 
-  const res = await fetch(`https://accounts.webaverse.com/`);
+  const res = await fetch(`${networkName !== "main" ? `https://rinkebysidechain-accounts.webaverse.com/` : `https://mainnetsidechain-accounts.webaverse.com/`}`);
+
   const creators = await res.json();
-  let newState = { ...state };
-  newState.creators[page] = creators;
-  return newState;
+
+  return creators;
 };
 
 export const pullUser = async (state) => {
-
   const address = state.address;
-  const res = await fetch(`https://accounts.webaverse.com/${address}`);
+  const { getNetworkName } = await getBlockchain();
+  const networkName = getNetworkName();
+
+  const res = await fetch(`${networkName !== "main" ? `https://rinkebysidechain-accounts.webaverse.com/${address}` : `https://mainnetsidechain-accounts.webaverse.com/${address}`}`);
   const result = await res.json();
   const newState = {
     ...state,
@@ -204,11 +291,16 @@ export const pullUser = async (state) => {
 
 export const pullUserObject = async (state) => {
   const address = getAddressFromMnemonic(state.loginToken.mnemonic);
-  const res = await fetch(`https://accounts.webaverse.com/${address}`);
+  const { getNetworkName } = await getBlockchain();
+  const networkName = getNetworkName();
+
+   const balance = await getBalance(address);
+  const res = await fetch(`${networkName !== "main" ? `https://rinkebysidechain-accounts.webaverse.com/${address}` : `https://mainnetsidechain-accounts.webaverse.com/${address}`}`);
   const result = await res.json();
   const newState = {
     ...state,
     address,
+    balance,
     ...result
   };
   return newState;
@@ -284,5 +376,3 @@ export const initializeStart = async (state) => {
   if (newState.loginToken.unregistered) console.warn("Login token is unregistered");
   return await getAddress(newState);
 };
-
-

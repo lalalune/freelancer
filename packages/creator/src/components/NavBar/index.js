@@ -44,7 +44,7 @@ export default () => {
               {/* https://discord.gg/R5wqYhvv53">Anonymous</a> */}
             </div>
             <div className="user-logo">
-              {/* { tempLogin?// globalState.address ?
+              {/* { globalState.address ?
                 <a href={"/profiles/" + globalState.address}>
                   <img className={`accountPicture loggedIn`} src={globalState.avatarPreview ? globalState.avatarPreview.replace(/\.[^.]*$/, '.png') : preview} />
                 </a>

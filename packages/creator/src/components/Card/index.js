@@ -14,6 +14,7 @@ export default ({
   id,
   assetName,
   description,
+  additionalDescription,
   image,
   hash,
   external_url,
@@ -116,7 +117,12 @@ export default ({
           <div className={`lowerCardInfoMiddle ${cardSize}`}>
             <p className={`assetDescription ${cardSize}`}>
               {description}
+              <br/>
+              {additionalDescription}
             </p>
+            {/* <p className={`assetDescription ${cardSize}`}>
+              {additionalDescription}
+            </p> */}
             <div className={`${rarity} lowerCardInfoMiddle legendary ${cardSize}`}>
               <div className="triangle-down"></div>
               <div className="parallelogram"></div>

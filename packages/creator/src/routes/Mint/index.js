@@ -17,11 +17,11 @@ import iconLowerLogo from '../../assets/images/lowerCardInfoIcon.png';
 
 export default () => {
   const { globalState, setGlobalState } = useAppContext();
-  // const [file, setFile] = useState(null);
-  // const [quantity, setQuantity] = useState(1);
-  // const [imagePreview, setImagePreview] = useState(null);
-  // const [mintedState, setMintedState] = useState(null);
-  // const [mintedMessage, setMintedMessage] = useState(null);
+  const [file, setFile] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [mintedState, setMintedState] = useState(null);
+  const [mintedMessage, setMintedMessage] = useState(null);
   const [sequence, setSequence]=useState(0);
   const [name, setName]=useState("New Player");
   const [description, setDescription] = useState("Description Detail");
@@ -39,13 +39,13 @@ export default () => {
   const handleAbilityInputTxtChange = (e) => {
     setAbilityInputTxt(e.target.value);
   };
-  useEffect(() => {
-    (async () => {
-      const booths = await getBooths(0, globalState);
-      setBooths(booths);
-    })();
-  }, []);
-  // const handleQuantityChange = (e) => setQuantity(e.target.value);
+  // useEffect(() => {
+  //   (async () => {
+  //     const booths = await getBooths(0, globalState);
+  //     setBooths(booths);
+  //   })();
+  // }, []);
+  const handleQuantityChange = (e) => setQuantity(e.target.value);
 
   // const handleSuccess = (e) => {
   //   setMintedMessage(e.toString());
@@ -54,29 +54,29 @@ export default () => {
   //   setMintedMessage(e.toString());
   // }
 
-  // const handleMintNftButton = (e) => {
-  //   e.preventDefault();
-  //   setMintedState('loading');
+  const handleMintNftButton = (e) => {
+    e.preventDefault();
+    setMintedState('loading');
 
-  //   const ext = file.name.slice((file.name.lastIndexOf(".") - 1 >>> 0) + 2);;
-  //   mintNft(file,
-  //     name,
-  //     ext,
-  //     description,
-  //     quantity,
-  //     (tokenId) => {
-  //       console.log("Success callback!", "/browse/" + tokenId);
-  //       setMintedState('success')
-  //       setMintedMessage(tokenId)
-  //     },
-  //     (err) => {
-  //       console.log("Minting failed", err);
-  //       setMintedState('error')
-  //       setMintedMessage(err.toString())
-  //     },
-  //     globalState
-  //   );
-  // }
+    const ext = file.name.slice((file.name.lastIndexOf(".") - 1 >>> 0) + 2);;
+    mintNft(file,
+      name,
+      ext,
+      description,
+      quantity,
+      (tokenId) => {
+        console.log("Success callback!", "/browse/" + tokenId);
+        setMintedState('success')
+        setMintedMessage(tokenId)
+      },
+      (err) => {
+        console.log("Minting failed", err);
+        setMintedState('error')
+        setMintedMessage(err.toString())
+      },
+      globalState
+    );
+  }
 
   const handleFileUpload = file => {
     console.log(file);
@@ -84,35 +84,40 @@ export default () => {
       let reader = new FileReader();
       reader.onloadend = () => {
         setFile(file);
+        setSequence(1);
         setImagePreview(reader.result);
       }
       reader.readAsDataURL(file);
-    }
-    else console.warn("Didnt upload file");
+    }else console.warn("Didnt upload file");
   };
 
-  // const MintSteps = () => {
-  //   if (mintedState === "loading") {
-  //     return (
-  //       <Loader loading={true} />
-  //     )
-  //   } else if (mintedState === "success") {
-  //     return (
-  //       <div>
-  //         <h1>Success</h1>
-  //         Your token is now minted as #{mintedMessage}.
-  //       </div>
-  //     )
-  //   } else if (mintedState === "error") {
-  //     return (
-  //       <div>
-  //         <h1>Error</h1>
-  //         Minting failed: {mintedMessage}.
-  //       </div>
-  //     )
-  //   }
-  // }
-  const nextSequence=()=>setSequence(sequence+1);
+  const MintSteps = () => {
+    if (mintedState === "loading") {
+      return (
+        <Loader loading={true} />
+      )
+    } else if (mintedState === "success") {
+      return (
+        <div>
+          <h1>Success</h1>
+          Your token is now minted as #{mintedMessage}.
+        </div>
+      )
+    } else if (mintedState === "error") {
+      return (
+        <div>
+          <h1>Error</h1>
+          Minting failed: {mintedMessage}.
+        </div>
+      )
+    }
+  }
+
+  const uploadAgain = () =>{
+    setSequence(0);
+    setImagePreview(null);
+    setFile(null);
+  }
 
   var sequenceArray=["Select Asset", "Prepare Asset", "Mint token"];
   let rarity = "epic";
@@ -131,7 +136,6 @@ export default () => {
                       <p className="sequence-txt">{data}</p>
                     </div>;
             })}
-            <button className="button next-button" onClick={nextSequence} style={{"font-size":"16px"}}>Next</button>
           </div>
         </div>
       </div>
@@ -143,26 +147,26 @@ export default () => {
             <p className={leftMenu==="upload_card"?"activated":""} onClick={()=>setLeftMenu("upload_card")}>Upload Card</p>
             <p className={leftMenu==="import_card"?"activated":""} onClick={()=>setLeftMenu("import_card")}>Import Card</p>
           </div>
-          {leftMenu==="create_deck" &&
-          <div className="col-10">
-              <p className="right-bottom-title mt-5 pt-3">Upload an image for your deck.</p>
-              <p className="right-bottom-txt">This will be used as the card back for your cards.</p>
-                
-                <FileDrop onDrop={(files, e) => handleFileUpload(files[0])}>
-                  <p className="right-bottom-sm-txt mt-5 mb-3 pt-3">Files can be of the following types:</p>
-                  <p className="right-bottom-xsm-txt font-bold">PNG, JPG, OBJ, FBX, VRM, GLTF, GLB, VOX, MP4, M4V, MP3, M4A, WAV</p>
+          {leftMenu==="create_deck" && 
+            <div className="col-10">
+                <p className="right-bottom-title mt-5 pt-3">Upload an image for your deck.</p>
+                <p className="right-bottom-txt">This will be used as the card back for your cards.</p>
                   
-                  <div className="row mt-5">
-                    <div className="col-3"></div>
-                    <div className="col-3"><p className="selected-file-label">No File Chosen</p></div>
-                    <div className="col-2">
-                      <label htmlFor="input-file" className="button">Choose file</label>
-                      <input type="file" id="input-file" onChange={(e) => handleFileUpload(e.target.files[0])} multiple={false} style={{display: 'none'}} />
+                  <FileDrop onDrop={(files, e) => handleFileUploadCreate(files[0])}>
+                    <p className="right-bottom-sm-txt mt-5 mb-3 pt-3">Files can be of the following types:</p>
+                    <p className="right-bottom-xsm-txt font-bold">PNG, JPG, OBJ, FBX, VRM, GLTF, GLB, VOX, MP4, M4V, MP3, M4A, WAV</p>
+                    
+                    <div className="row mt-5">
+                      <div className="col-3"></div>
+                      <div className="col-3"><p className="selected-file-label">No File Chosen</p></div>
+                      <div className="col-2">
+                        <label htmlFor="input-file" className="button">Choose file</label>
+                        <input type="file" id="input-file" onChange={(e) => handleFileUploadCreate(e.target.files[0])} multiple={false} style={{display: 'none'}} />
+                      </div>
+                    
                     </div>
-                  
-                  </div>
-                </FileDrop>
-          </div>
+                  </FileDrop>
+            </div>
           }
           {leftMenu==="upload_card" &&
           <div className="col-10">
@@ -196,7 +200,8 @@ export default () => {
               <AssetCard
                   assetName={name}
                   description={description}
-                  image={cardMainImg}
+                  additionalDescription = {addDescription}
+                  image={imagePreview ? imagePreview : null}
                   ext=".png"
                   totalSupply={3}
                   cardSize="large"
@@ -219,8 +224,8 @@ export default () => {
                 <input type="text" value={addDescription} onChange={handleAddDescriptionChange} className="mint-input font-size-17 mt-3"/>
 
                 <div className="inline-div full-width text-center mt-5">
-                  <button className="button button-secondary">Upload Again</button>
-                  <button className="button button-secondary">Continue</button>
+                  <button className="button button-secondary" onClick={uploadAgain}>Upload Again</button>
+                  <button className="button button-secondary" onClick={()=>setSequence(2)}>Continue</button>
                 </div>
               </div>
             </div>
@@ -340,13 +345,15 @@ export default () => {
           </div>
       }
       {sequence===2 &&
+      ( mintedState === null ?
           <div className="container row mint-row mt-5 sequence-3">
             <div className="col-2"></div>
             <div className="col-4">
               <AssetCard
                   assetName={name}
                   description={description}
-                  image={cardMainImg}
+                  additionalDescription = {addDescription}
+                  image={imagePreview ? imagePreview : null}
                   ext=".png"
                   totalSupply={3}
                   cardSize="large"
@@ -365,7 +372,7 @@ export default () => {
                 <div className="sequence-3-right-description">
                   <div className="row mt-5 pt-5">
                     <p className="col-8 text-left">Quantity:</p>
-                    <p className="col-4 text-right sequence-3-right-description-bordered ">10</p>
+                    <input type="number" className="col-4 text-right sequence-3-right-description-bordered" value={quantity} onChange={handleQuantityChange} />
                   </div>
                   <div className="row mt-3">
                     <p className="col-6 text-left">Minting Fee:</p>
@@ -377,13 +384,18 @@ export default () => {
                   </div>
                 </div>
                 <div className="inline-div full-width text-center mt-5">
-                  <button className="button button-secondary">EDIT ASSET</button>
-                  <button className="button button-orange">MINT</button>
+                  <button className="button button-secondary" onClick={()=>setSequence(1)}>EDIT ASSET</button>
+                  <button className="button button-orange" onClick={handleMintNftButton}>MINT</button>
                 </div>
               </div>
             </div>
             <div className="col-2"></div>
           </div>
+          :
+          <div className="text-center">
+            <MintSteps />
+          </div>
+      )
       }
 
       {/* {[

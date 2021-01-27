@@ -1,4 +1,4 @@
-import { contracts, runSidechainTransaction, web3 } from '../webaverse/blockchain.js';
+import { runSidechainTransaction, getBlockchain } from '../webaverse/blockchain.js';
 import { previewExt, previewHost, storageHost } from '../webaverse/constants.js';
 import { getExt } from '../webaverse/util.js';
 
@@ -68,13 +68,14 @@ export const setFtu = async (name, avatarUrl, state) => {
 };
 
 export const connectMetamask = async (state) => {
+  const { web3, contracts } = await getBlockchain();
   if (!window.ethereum) {
     console.log("Window.ethereum is null");
     return state;
   }
   await window.ethereum.enable();
-  const address = web3["main"].currentProvider.selectedAddress;
-  const ftBalance = await contracts["main"].FT.methods
+  const address = web3['front'].currentProvider.selectedAddress;
+  const ftBalance = await contracts['front'].FT.methods
     .balanceOf(address)
     .call();
   const res = await fetch(`https://tokens-main.webaverse.com/${address}`);
@@ -100,6 +101,7 @@ export const disconnectMetamask = async (state) => {
 };
 
 export const checkMainFtApproved = async (amt) => {
+  const { web3, contracts } = await getBlockchain();
   const receipt0 = await contracts.main.FT.methods
     .allowance(mainnetAddress, contracts.main.FTProxy._address)
     .call();
@@ -111,9 +113,9 @@ export const checkMainFtApproved = async (amt) => {
 
   const fullAmount = {
     t: "uint256",
-    v: new web3["main"].utils.BN(1e9)
-      .mul(new web3["main"].utils.BN(1e9))
-      .mul(new web3["main"].utils.BN(1e9)),
+    v: new web3['front'].utils.BN(1e9)
+      .mul(new web3['front'].utils.BN(1e9))
+      .mul(new web3['front'].utils.BN(1e9)),
   };
   const receipt1 = await contracts.main.FT.methods
     .approve(contracts.main.FTProxy._address, fullAmount.v)
@@ -124,6 +126,7 @@ export const checkMainFtApproved = async (amt) => {
 };
 
 export const checkMainNftApproved = async () => {
+  const { web3, contracts } = await getBlockchain();
   const approved = await contracts.main.NFT.methods
     .isApprovedForAll(mainnetAddress, contracts.main.NFTProxy._address)
     .call();
