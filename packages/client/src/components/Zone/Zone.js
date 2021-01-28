@@ -15,7 +15,7 @@ import "./Zone.css";
 import swal from "sweetalert";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-console.log(getBlueDecks)
+
 const Zone = () => {
   const [playerBlue, setplayerBlue] = useState(true);
   const [playerRed, setplayerRed] = useState(false);

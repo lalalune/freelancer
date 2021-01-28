@@ -1,6 +1,7 @@
 export const EffectTypes = {
-    OnPlay: "onPlay",
-    onStartOfTurn: "onStartOfTurn",
-    onEndOfTurn: "onEndOfTurn",
-    OnActivate: "onActivate"
+    WhenPlayed: "WhenPlayed",
+    WhenDestroyed: "WhenDestroyed",
+    OnPlayerTurn: "OnPlayerTurn",
+    OnOpponentTurn: "OnOpponentTurn",
+    OnActivate: "OnActivate"
 }
