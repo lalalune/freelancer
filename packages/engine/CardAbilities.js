@@ -1,7 +1,7 @@
 import { EffectTypes } from "./EffectTypes"
 import { CardTypes } from "./CardTypes"
 
-export const CardEffects = {
+export const CardAbilities = {
     "DRAW": {
         allowedCardTypes: [CardTypes.Lead, CardTypes.Hire],
         type: EffectTypes.OnActivate, // On activate is called like "on play" on leads and wares
