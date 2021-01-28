@@ -1,5 +1,4 @@
 import { EffectTypes } from "./EffectTypes"
-import { Recruit, Draw, Discard, Profit, Steal, Spend } from "./CardEffectFunctions"
 import { CardTypes } from "./CardTypes"
 
 export const CardEffects = {
@@ -13,7 +12,9 @@ export const CardEffects = {
         ],
         synergy: 1,
         description: "Draw ${AMT} card(s).",
-        function: Draw
+        function: (amount, player) => {
+            // Draw amount cards for player, no interaction from user required
+        }
     },
     "DISCARD": {
         allowedCardTypes: [CardTypes.Lead, CardTypes.Hire],
@@ -25,7 +26,10 @@ export const CardEffects = {
         ],
         synergy: 1,
         description: "Discard ${AMT} card(s).",
-        function: Discard
+        function: (amount, player) => {
+            // ask player to select amount cards from their hand
+            // call discardFromHand on these cards
+        }
     },
     "PROFIT": {
         allowedCardTypes: [CardTypes.Lead, CardTypes.Hire],
@@ -37,7 +41,9 @@ export const CardEffects = {
         ],
         synergy: 1,
         description: "Gain ${AMT} coin(s).",
-        function: Profit
+        function: (amount, player) => {
+            // Give amount coins to player
+        }
     },
     "SPEND": {
         allowedCardTypes: [CardTypes.Lead, CardTypes.Hire, CardTypes.Wares],
@@ -49,7 +55,9 @@ export const CardEffects = {
         ],
         synergy: 1,
         description: "Gain ${AMT} coin(s).",
-        function: Spend
+        function: (amount, player) => {
+            // Player loses amount coins
+        }
     },
     "STEAL": {
         allowedCardTypes: [CardTypes.Hire, CardTypes.Wares],
@@ -60,7 +68,9 @@ export const CardEffects = {
         ],
         synergy: 1,
         description: "Opponent loses ${AMT} coin(s) and you gain ${AMT} coin(s).",
-        function: Steal
+        function: (amount, player) => {
+            // Take amount coins from opponent and give to this player
+        }
     },
     "RECRUIT": {
         allowedCardTypes: [CardTypes.Hire, CardTypes.Lead, CardTypes.Wares],
@@ -71,6 +81,9 @@ export const CardEffects = {
         ],
         synergy: 1,
         description: "Transfer ownership of up to ${AMT} permanents from your opponent to you.",
-        function: Recruit
+        function: (amount, player) => {
+            // Owning player selects up to amount hires from opponent (they are always going to take as many as are avaiable)
+            // Change over and move cards onto player's side
+        }
     },
 }
