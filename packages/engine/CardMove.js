@@ -20,24 +20,3 @@ export const move = (
   result[droppableDestination.droppableId] = destClone;
   return result;
 };
-
-export const grid = 3;
-
-export const getItemStyle = (draggableStyle) => ({
-  userSelect: "none",
-  padding: grid * 2,
-  margin: `0 ${grid}px 0 0`,
-  ...draggableStyle,
-});
-export const getListStyle = () => ({
-  padding: "0px 5px",
-  width: "100%",
-  height: "161px",
-  border: "1px solid #FFFFFF",
-  borderRadius: "10px",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: " center",
-  margin: "10px",
-  overflowX: "scroll",
-});

@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "scripts": {},
   "dependencies": {
-    "jsdoc": "^3.6.6"
+    "jsdoc": "^3.6.6",
+    "sweetalert": "^2.1.2"
   }
 }
