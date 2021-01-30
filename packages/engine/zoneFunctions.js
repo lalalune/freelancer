@@ -1,45 +1,43 @@
 import React from "react";
 import swal from "sweetalert";
-import {reorder , move} from "./CardMove"
+import { reorder, move } from "./CardMove";
+
 export const OutOfPlayBlueClick = (
-  selected,
+  inPlay,
   setblueCoin,
   setBlueState,
   isBlueTurn,
   BlueState,
   blueCoin
 ) => {
-
-  const blueFiler = BlueState.inHand.filter((item) => item.id !== selected.id);
+  console.log(isBlueTurn,"kk")
+  const blueFiler = BlueState.inHand.filter((item) => item.id !== inPlay.id);
   setBlueState({ ...BlueState, inHand: blueFiler });
-  isBlueTurn.BlueOutOfPlay.push(selected);
+  isBlueTurn.BlueOutOfPlay.push(inPlay);
   setblueCoin(blueCoin - 1);
 };
 export const OutOfPlayRedClick = (
-  selected1,
+  inPlay,
   RedState,
   setRedState,
   isRedTurn,
   redCoin,
   setredCoin
 ) => {
-  const redFilter = RedState.selected.filter(
-    (item) => item.id !== selected1.id
-  );
-  setRedState({ ...RedState, selected: redFilter });
-  isRedTurn.RedOutOfPlay.push(selected1);
+  const redFilter = RedState.inPlay.filter((item) => item.id !== inPlay.id);
+  setRedState({ ...RedState, inPlay: redFilter });
+  isRedTurn.RedOutOfPlay.push(inPlay);
   setredCoin(redCoin - 1);
 };
 
-export const handleBlueClick = (
+export const handleBlueDeckClick = (
   playerBlue,
   blueDeck,
   BlueState,
   setBlueState
 ) => {
   if (playerBlue) {
-    var card = blueDeck;
-    card.sort(() => Math.random() - 0.5);
+    var card = blueDeck.sort(() => 0.5 - Math.random());
     var blueCard = card.shift();
     BlueState.inHand.push(blueCard);
     setBlueState({ ...BlueState });
@@ -49,26 +47,40 @@ export const handleBlueClick = (
   }
 };
 
-export const handleRedClick = (redDeck, playerRed, RedState, setRedState) => {
+export const handleRedDeckClick = (
+  redDeck,
+  playerRed,
+  RedState,
+  setRedState
+) => {
   if (playerRed) {
-    var card = redDeck;
-    card.sort(() => Math.random() - 0.5);
+    var card = redDeck.sort(() => 0.5 - Math.random());
     var redCard = card.shift();
-    RedState.selected.push(redCard);
+    RedState.inPlay.push(redCard);
     setRedState({ ...RedState });
     {
-      RedState.selected.length > 8 && swal("You Need To discard you card");
+      RedState.inPlay.length > 8 && swal("You Need To discard you card");
     }
   }
 };
- export  const id1List = {
-    droppable: "inHand",
-    droppable2: "inPlay",
-  };
-export  const getList = (id,BlueState) => BlueState[id1List[id]];
 
-export const onDragBlue = (result, playerBlue, BlueState, setBlueState) => {
-  
+export const blueIdList = {
+  droppable: "inHand",
+  droppable2: "inPlay",
+};
+
+export const getList = (id, BlueState) => BlueState[blueIdList[id]];
+
+export const onDragBlue = (
+  result,
+  playerBlue,
+  BlueState,
+  setBlueState,
+  redCoin,
+  setredCoin,
+  setplayerBlue,
+  setplayerRed
+) => {
   if (playerBlue) {
     const { source, destination } = result;
     if (!destination) {
@@ -76,26 +88,28 @@ export const onDragBlue = (result, playerBlue, BlueState, setBlueState) => {
     }
 
     if (source.droppableId === destination.droppableId) {
-      const blueOrder = reorder(
-        getList(source.droppableId),
+      const inHand = reorder(
+        getList(source.droppableId, BlueState),
         source.index,
         destination.index
       );
 
-      let stateBlue = { blueOrder };
+      let stateBlue = { inHand };
+
       if (source.droppableId === "droppable2") {
-        stateBlue = { selected: blueOrder };
+        stateBlue = { inPlay: inHand };
       }
 
       let swipe = {
-        inHand: stateBlue.blueOrder ? stateBlue.blueOrder : BlueState.inHand,
-        inPlay: stateBlue.selected ? stateBlue.selected : BlueState.inPlay,
+        inHand: stateBlue.inHand ? stateBlue.inHand : BlueState.inHand,
+        inPlay: stateBlue.inPlay ? stateBlue.inPlay : BlueState.inPlay,
       };
+
       setBlueState(swipe);
     } else {
       const result = move(
-        getList(source.droppableId),
-        getList(destination.droppableId),
+        getList(source.droppableId, BlueState),
+        getList(destination.droppableId, BlueState),
         source,
         destination
       );
@@ -113,6 +127,73 @@ export const onDragBlue = (result, playerBlue, BlueState, setBlueState) => {
       } else {
         setredCoin(redCoin - 1);
       }
+    }
+  }
+};
+
+export const redIdList = {
+  droppable3: "inHand",
+  droppable4: "inPlay",
+};
+
+export const getList2 = (id, RedState) => RedState[redIdList[id]];
+
+export const onDragRed = (
+  result,
+  playerRed,
+  RedState,
+  setRedState,
+  blueCoin,
+  setblueCoin,
+  setplayerBlue,
+  setplayerRed
+) => {
+  if (playerRed) {
+    const { source, destination } = result;
+
+    if (!destination) {
+      return;
+    }
+
+    if (source.droppableId === destination.droppableId) {
+      const inHand = reorder(
+        getList2(source.droppableId, RedState),
+        source.index,
+        destination.index
+      );
+
+      let stateRed = { inHand };
+
+      if (source.droppableId === "droppable4") {
+        stateRed = { inPlay: inHand };
+      }
+
+      let swipe = {
+        inHand: stateRed.inHand ? stateRed.inHand : RedState.inHand,
+        inPlay: stateRed.inPlay ? stateRed.inPlay : RedState.inPlay,
+      };
+
+      setRedState(swipe);
+    } else {
+      const result = move(
+        getList2(source.droppableId, RedState),
+        getList2(destination.droppableId, RedState),
+        source,
+        destination
+      );
+
+      setRedState({
+        inHand: result.droppable3,
+        inPlay: result.droppable4,
+      });
+    }
+    if (blueCoin == 0) {
+      setblueCoin(0);
+      swal("Red Team,You Have won This Match");
+      setplayerBlue(false);
+      setplayerRed(false);
+    } else {
+      setblueCoin(blueCoin - 1);
     }
   }
 };
