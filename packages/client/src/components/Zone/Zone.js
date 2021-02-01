@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd"
 import { BlueTeam, RedTeam } from "../svgs/svgs"
 import "./Zone.css"
-import { ZoneRightBar } from "./ZoneRightBar"
+import { ZoneLeftBar, ZoneRightBar } from "./ZoneRightBar"
 import { DeckA, DeckB } from "../../../../engine/MockDecks"
 import { move, reorder } from "../../../../engine/CardMove"
 import { ToastContainer } from "react-toastify"
@@ -92,7 +92,9 @@ const Zone = () => {
                 </div>
             )}
 
-            <div className="zone_left_bar">
+            <ZoneLeftBar blueCoin={blueCoin} redCoin={redCoin} isBlueTurn={isBlueTurn} isRedTurn={isRedTurn} />
+
+            {/* <div className="zone_left_bar">
                 <BlueTeam blueCoins={blueCoin} />
                 <RedTeam redCoins={redCoin} />
                 <div className="card_box ">
@@ -135,7 +137,7 @@ const Zone = () => {
                         ""
                     )}
                 </div>
-            </div>
+            </div> */}
             <div className="zone_centre_bar">
                 <div className={playerRed ? "disable" : ""}>
                     <DragDropContext
