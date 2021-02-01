@@ -10,7 +10,6 @@ export const OutOfPlayBlueClick = (
   BlueState,
   blueCoin
 ) => {
-  console.log(isBlueTurn,"kk")
   const blueFiler = BlueState.inHand.filter((item) => item.id !== inPlay.id);
   setBlueState({ ...BlueState, inHand: blueFiler });
   isBlueTurn.BlueOutOfPlay.push(inPlay);
