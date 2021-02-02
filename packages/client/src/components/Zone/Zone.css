@@ -167,7 +167,7 @@ body {
 }
 
 .play_card {
-  width: 100px;
+  width: 106px;
   overflow: hidden;
   display: inline-block;
   cursor: pointer;
@@ -319,5 +319,33 @@ body {
   box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgb(3 25 102 / 25%);
 }
 .swal-text {
-    color: black;
+  color: black;
+}
+
+.blueTeam .Toastify__toast--default {
+  background: linear-gradient(90deg, #2300f8 34.8%, #410093 100%);
+  color: #fff;
+  font-weight: bold;
+  font-size: 16px;
+}
+.blueTeam .Toastify__close-button--default {
+  color: #fff;
+  opacity: 1;
+}
+.blueTeam .Toastify__progress-bar--default {
+  background: #fff;
+}
+
+.redTeam .Toastify__toast--default {
+  background: linear-gradient(90deg, #f80000 34.8%, #930000 100%);
+  color: #fff;
+  font-weight: bold;
+  font-size: 16px;
+}
+.redTeam .Toastify__close-button--default {
+  color: #fff;
+  opacity: 1;
+}
+.redTeam .Toastify__progress-bar--default {
+  background: #fff;
 }
