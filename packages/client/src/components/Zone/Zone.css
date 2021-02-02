@@ -349,3 +349,10 @@ body {
     padding: 6px;
     margin: 0 3px 0 0;
 }
+
+.card_name.red {
+    background: linear-gradient(90deg, #f80000 34.8%, #930000 100%);
+}
+.hire.red {
+    background: linear-gradient(270deg, rgba(255, 0, 0, 0.9) 31.42%, rgba(194, 87, 87, 0.9) 100%);
+}
