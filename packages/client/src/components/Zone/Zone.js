@@ -107,9 +107,7 @@ const Zone = () => {
             setRedState={setRedState}
           />
         </div>
-      </div>
-    </div>
-  );
-};
+    )
+}
 
-export default Zone;
+export default Zone

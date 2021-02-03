@@ -7,7 +7,7 @@ import { mintNft, setAvatar, setHomespace } from '../../functions/AssetFunctions
 import Loader from '../../components/Loader';
 import AssetCard from '../../components/Card';
 import CardGrid from "../../components/CardGrid";
-import { getBooths } from "../../functions/UIStateFunctions.js";
+import { getTokens } from "../../functions/UIStateFunctions.js";
 import { storageHost } from "../../webaverse/constants";
 import { getExt } from '../../webaverse/util.js';
 import "./style.css";
@@ -40,6 +40,14 @@ export default () => {
   const handleAbilityInputTxtChange = (e) => {
     setAbilityInputTxt(e.target.value);
   };
+
+  useEffect(() => {
+    (async () => {
+      const data = await getTokens(1, 50);
+      setBooths(data);
+    })();
+  }, []);
+
   // useEffect(() => {
   //   (async () => {
   //     const booths = await getBooths(0, globalState);
@@ -72,22 +80,22 @@ export default () => {
     .then(response => response.json())
     .then(data => {
       console.log("HASH IS", data.hash)
-    mintNft(data.hash,
-      name,
-      extName,
-      description,
-      quantity,
-      (tokenId) => {
-        setMintedState('success')
-        setMintedMessage(tokenId)
-      },
-      (err) => {
-        console.log("Minting failed", err);
-        setMintedState('error')
-        setMintedMessage(err.toString())
-      },
-      globalState
-    );
+      mintNft(data.hash,
+        name,
+        extName,
+        description,
+        quantity,
+        (tokenId) => {
+          setMintedState('success')
+          setMintedMessage(tokenId)
+        },
+        (err) => {
+          console.log("Minting failed", err);
+          setMintedState('error')
+          setMintedMessage(err.toString())
+        },
+        globalState
+      );
 
   })
   .catch(error => {
@@ -205,7 +213,8 @@ export default () => {
           }
           {leftMenu==="import_card" &&
           <div className="col-10">
-            <CardGrid data={booths} globalState={globalState} cardSize="" currentCard={currentCard} setCurrentCard={setCurrentCard} filter={false}/>
+            <CardGrid data={booths} globalState={globalState} cardSize="" filter={true}/>
+            {/* currentCard={currentCard} setCurrentCard={setCurrentCard}  */}
           </div>
           }
         </div>
