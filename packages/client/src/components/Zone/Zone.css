@@ -356,3 +356,14 @@ body {
 .hire.red {
     background: linear-gradient(270deg, rgba(255, 0, 0, 0.9) 31.42%, rgba(194, 87, 87, 0.9) 100%);
 }
+
+.red_play_card_detail .play_card .card_name {
+  background: linear-gradient(90deg, #f80000 34.8%, #930000 100%);
+}
+.red_play_card_detail .play_card .hire {
+  background: linear-gradient(
+    270deg,
+    rgba(255, 0, 0, 0.9) 31.42%,
+    rgba(194, 87, 87, 0.9) 100%
+  );
+}
