@@ -8,15 +8,15 @@ import { useAppContext } from "../../libs/contextLib";
 import '../../assets/css/navbar.css';
 import Modal from 'react-bootstrap/Modal'
 import "./style.css";
+import { discordOauthUrl } from '../../webaverse/constants';
 
 export default () => {
   const { globalState, setGlobalState } = useAppContext();
-
   const [show, setShow] = useState(false);
-  const [tempLogin, setTempLogin] = useState(false);
-
+  const [tempLogin, setTempLogin] = useState(false)
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  console.log("globalState", globalState);
 
   return (
     <div className="navbar">
@@ -59,7 +59,7 @@ export default () => {
       </div>
       <Modal show={show} onHide={handleClose} className="right-top-modal">
         <Modal.Body>
-        { tempLogin?
+        { tempLogin?//globalState.address ?
           <div>
             <div className="button-transparent mb-3">
               View Account on Webaverse
@@ -91,12 +91,11 @@ export default () => {
               Email Login / Signup
               <div className="arrow-down"></div>
             </div>
-            <button className="discord-login mt-3" onClick={()=>setTempLogin(true)}>
-              <img src={discordLogin} />
-            </button>
-            {/* <Link to="/settings">
-                Login with discord  
-            </Link> */}
+            {/* <a className="discord-login mt-3" href={discordOauthUrl}> */}
+              <button className="discord-login mt-3" onClick={()=>setTempLogin(true)}>
+                <img src={discordLogin} />
+              </button>
+            {/* </a> */}
           </div>
         }
           

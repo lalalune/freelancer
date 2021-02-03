@@ -6,15 +6,19 @@ import { useAppContext } from "../../libs/contextLib";
 import { mintNft, setAvatar, setHomespace } from '../../functions/AssetFunctions.js';
 import Loader from '../../components/Loader';
 import AssetCard from '../../components/Card';
+import AbilityDetail from '../../components/AbilityDetail';
+import CardInput from '../../components/CardInput';
 import CardGrid from "../../components/CardGrid";
+
 import { getTokens } from "../../functions/UIStateFunctions.js";
 import { storageHost } from "../../webaverse/constants";
 import { getExt } from '../../webaverse/util.js';
+import {CardAbilities} from '../../engine/CardAbilities';
+
 import "./style.css";
 
 import cardMainImg from '../../assets/images/card-girl.png';
 import iconLowerLogo from '../../assets/images/lowerCardInfoIcon.png';
-
 
 export default () => {
   const { globalState, setGlobalState } = useAppContext();
@@ -27,19 +31,11 @@ export default () => {
   const [name, setName]=useState("New Player");
   const [description, setDescription] = useState("Description Detail");
   const [addDescription, setAddDescription] = useState("Additional Description Detail");
-  const [ability, setAbility]=useState(["Recuirt 2","Subcontract 3"]);
-  const [abilityInputTxt, setAbilityInputTxt]=useState("");
+  const [currentAbilities, setCurrentAbilities]=useState([]);
+
   const [leftMenu, setLeftMenu]=useState("create_deck");
   const [booths, setBooths] = useState(null);
   const [currentCard, setCurrentCard] = useState(null);
-
-  const handleNameChange  = (e) => setName(e.target.value);
-  const handleDescriptionChange = (e) => setDescription(e.target.value);
-  const handleAddDescriptionChange = (e) => setAddDescription(e.target.value);
-
-  const handleAbilityInputTxtChange = (e) => {
-    setAbilityInputTxt(e.target.value);
-  };
 
   useEffect(() => {
     (async () => {
@@ -48,26 +44,11 @@ export default () => {
     })();
   }, []);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const booths = await getBooths(0, globalState);
-  //     setBooths(booths);
-  //   })();
-  // }, []);
   const handleQuantityChange = (e) => setQuantity(e.target.value);
-
-  // const handleSuccess = (e) => {
-  //   setMintedMessage(e.toString());
-  // }
-  // const handleError = (e) => {
-  //   setMintedMessage(e.toString());
-  // }
 
   const handleMintNftButton = (e) => {
     e.preventDefault();
     setMintedState('loading');
-
-
     const extName = getExt(file.name);
     const fileName = extName ? file.name.slice(0, -(extName.length + 1)) : file.name;
     setName(fileName);
@@ -145,8 +126,6 @@ export default () => {
   }
 
   var sequenceArray=["Select Asset", "Prepare Asset", "Mint token"];
-  let rarity = "epic";
-  let cardSize = 'md';
   return (
     <>
       <div className="container row mint-row">
@@ -235,139 +214,19 @@ export default () => {
                 />
             </div>
             <div className="col-4 text-left pr-3 pl-3">
-              <div className="bottom-center-detail">
-                <p className="right-bottom-txt font-wh-500">Name</p>
-                <input type="text" value={name} onChange={handleNameChange} className="mint-input right-bottom-txt"/>
-                <p className="right-bottom-txt font-wh-500 mt-5 pt-5">Abilities</p>
-                <div className="mint-input">
-                  {ability.map(function(data, index){
-                    return <p className={index>0?"ability-p font-red":"ability-p font-green"} key={index}>{data}</p>
-                  })}
-                  <input type="text" value={abilityInputTxt} onChange={handleAbilityInputTxtChange} className="mint-input mint-input-abilities"/>
-                </div>
-                <p className="right-bottom-txt font-wh-500 mt-5 pt-5">Description</p>
-                <input type="text" value={description} onChange={handleDescriptionChange} className="mint-input font-size-17"/>
-                <input type="text" value={addDescription} onChange={handleAddDescriptionChange} className="mint-input font-size-17 mt-3"/>
-
-                <div className="inline-div full-width text-center mt-5">
-                  <button className="button button-secondary" onClick={uploadAgain}>Upload Again</button>
-                  <button className="button button-secondary" onClick={()=>setSequence(2)}>Continue</button>
-                </div>
-              </div>
+              <CardInput 
+                name={name}
+                setName={setName}
+                description={description}
+                setDescription={setDescription}
+                addDescription={addDescription}
+                setAddDescription={setAddDescription}
+                currentAbilities={currentAbilities}
+                setCurrentAbilities={setCurrentAbilities}
+                uploadAgain={uploadAgain}
+                setSequence={setSequence}/>
             </div>
-            <div className="col-4">
-              <div className="bottom-right-mint-card">
-                <div className="bottom-right-mint-card-head">
-                  <p className="bottom-right-mint-card-row-1 text-left">Ability</p>
-                  <p className="bottom-right-mint-card-row-2">SYN</p>
-                  <p className="bottom-right-mint-card-row-2">1</p>
-                  <p className="bottom-right-mint-card-row-2">2</p>
-                  <p className="bottom-right-mint-card-row-2">3</p>
-                </div>
-                <div className="bottom-right-mint-card-body pt-4">
-                  <div className="bottom-right-mint-card-row-1 text-left">
-                    <p className="font-size-17 font-green">Recruit</p>
-                    <p className="font-size-9">Gain ownership of X of your opponenet's hires</p>
-                  </div>
-                  <div className="bottom-right-mint-card-row-2">
-                    <p className="bottom-right-mint-card-circle font-green">+1</p>
-                  </div>
-                  <div className="bottom-right-mint-card-row-2">
-                    <p className="bottom-right-mint-card-circle font-green blue-shadow">+4</p>
-                  </div>
-                  <div className="bottom-right-mint-card-row-2">
-                    <p className="bottom-right-mint-card-circle font-green">+6</p>
-                  </div>
-                  <div className="bottom-right-mint-card-row-2">
-                  </div>
-                </div>
-                <div className="bottom-right-mint-card-body">
-                  <div className="bottom-right-mint-card-row-1 text-left">
-                    <p className="font-size-17 font-yellow">Shuffle</p>
-                    <p className="font-size-9">Shuffle your deck</p>
-                  </div>
-                  <div className="bottom-right-mint-card-row-2">
-                    <p className="bottom-right-mint-card-circle font-yellow">0</p>
-                  </div>
-                  <div className="bottom-right-mint-card-row-2">
-                    <p className="bottom-right-mint-card-circle font-yellow">0</p>
-                  </div>
-                  <div className="bottom-right-mint-card-row-2">
-                  </div>
-                  <div className="bottom-right-mint-card-row-2">
-                  </div>
-                </div>
-                <div className="bottom-right-mint-card-body">
-                  <div className="bottom-right-mint-card-row-1 text-left">
-                    <p className="font-size-17 font-red">Subcontract</p>
-                    <p className="font-size-9">For each of your opponent's hire, pay X coin.</p>
-                  </div>
-                  <div className="bottom-right-mint-card-row-2">
-                    <p className="bottom-right-mint-card-circle font-green">+1</p>
-                  </div>
-                  <div className="bottom-right-mint-card-row-2">
-                    <p className="bottom-right-mint-card-circle font-red">-2</p>
-                  </div>
-                  <div className="bottom-right-mint-card-row-2">
-                    <p className="bottom-right-mint-card-circle font-red">-4</p>
-                  </div>
-                  <div className="bottom-right-mint-card-row-2">
-                    <p className="bottom-right-mint-card-circle font-red">-6</p>
-                  </div>
-                </div>
-                <div className="bottom-right-mint-card-body">
-                  <div className="bottom-right-mint-card-row-1 text-left">
-                    <p className="font-size-17 font-green">Ability</p>
-                    <p className="font-size-9">Gain ownership of X of your opponenet's hires</p>
-                  </div>
-                  <div className="bottom-right-mint-card-row-2">
-                    <p className="bottom-right-mint-card-circle font-green">+1</p>
-                  </div>
-                  <div className="bottom-right-mint-card-row-2">
-                    <p className="bottom-right-mint-card-circle font-green">+4</p>
-                  </div>
-                  <div className="bottom-right-mint-card-row-2">
-                    <p className="bottom-right-mint-card-circle font-green">+6</p>
-                  </div>
-                  <div className="bottom-right-mint-card-row-2">
-                  </div>
-                </div>
-                <div className="bottom-right-mint-card-body">
-                  <div className="bottom-right-mint-card-row-1 text-left">
-                    <p className="font-size-17 font-yellow">Ability</p>
-                    <p className="font-size-9">Gain ownership of X of your opponenet's hires</p>
-                  </div>
-                  <div className="bottom-right-mint-card-row-2">
-                    <p className="bottom-right-mint-card-circle font-green">+1</p>
-                  </div>
-                  <div className="bottom-right-mint-card-row-2">
-                    <p className="bottom-right-mint-card-circle font-green">+4</p>
-                  </div>
-                  <div className="bottom-right-mint-card-row-2">
-                    <p className="bottom-right-mint-card-circle font-green">+6</p>
-                  </div>
-                  <div className="bottom-right-mint-card-row-2">
-                  </div>
-                </div>
-                <div className="bottom-right-mint-card-body">
-                  <div className="bottom-right-mint-card-row-1 text-left">
-                    <p className="font-size-17 font-red">Recruit</p>
-                    <p className="font-size-9">Gain ownership of X of your opponenet's hires</p>
-                  </div>
-                  <div className="bottom-right-mint-card-row-2">
-                    <p className="bottom-right-mint-card-circle font-green">+1</p>
-                  </div>
-                  <div className="bottom-right-mint-card-row-2">
-                    <p className="bottom-right-mint-card-circle font-green">+4</p>
-                  </div>
-                  <div className="bottom-right-mint-card-row-2">
-                    <p className="bottom-right-mint-card-circle font-green">+6</p>
-                  </div>
-                  <div className="bottom-right-mint-card-row-2">
-                  </div>
-                </div>
-              </div>
-            </div>
+            <AbilityDetail currentAbilities={currentAbilities}/>
           </div>
       }
       {sequence===2 &&
@@ -423,60 +282,6 @@ export default () => {
           </div>
       )
       }
-
-      {/* {[
-       !globalState.loginToken && (
-          <h1>You need to login to Mint.</h1>
-        ),
-        globalState.loginToken && ( !file ?
-          <div className="file-drop-container">
-            <FileDrop
-              onDrop={(files, e) => handleFileUpload(files[0])}
-            >
-              Drop the file you want to mint here!
-              <label htmlFor="input-file" className="button">Or choose file</label>
-              <input type="file" id="input-file" onChange={(e) => handleFileUpload(e.target.files[0])} multiple={false} style={{display: 'none'}} />
-            </FileDrop>
-          </div>
-        :
-          <Container>
-            <Row style={{ justifyContent: "center" }}>
-              <Col sm={12}>
-                { mintedState === null ?
-                  <div>
-                    <img className="nft-preview" src={imagePreview ? imagePreview : null} />
-                    <div>
-                        <label>Name</label>
-                    </div>
-                    <div>
-                        <input type="text" value={name} onChange={handleNameChange} />
-                    </div>
-                    <div>
-                        <label>Description</label>
-                    </div>
-                    <div>
-                        <input type="text" value={description} onChange={handleDescriptionChange} />
-                    </div>
-                    <div>
-                        <label>Quantity</label>
-                    </div>
-                    <div>
-                        <input type="number" value={quantity} onChange={handleQuantityChange} />
-                    </div>
-                    <div>
-                        <a className="button" onClick={handleMintNftButton}>
-                          Mint NFT for 10 FLUX
-                        </a>
-                    </div>
-                  </div>
-                :
-                  <MintSteps />
-                }
-              </Col>
-            </Row>
-          </Container>
-        )
-      ]} */}
     </>
   )
 }

@@ -1,0 +1,32 @@
+.ability-input-div{
+    min-height: 35px;
+}
+.ability-list-div {
+    position: absolute;
+    background: #252525;
+    padding: 20px 10px;
+    width: 95%;
+    border-radius: 5px;
+    box-shadow: 15px 15px 15px 5px #444;
+}
+.ability-btn{
+    position: relative;
+    height: 30px;
+    background: #797979;
+    border-radius: 5px;
+    padding: 3px 25px 3px 5px;
+    display: inline-block;
+    margin: 3px;
+    font-weight: 500;
+    border: none;
+}
+.ability-close{
+    color: #313131;
+    font-family: Arial, sans-serif;
+    position: absolute;
+    right: 6px;
+} 
+.ability-btn:disabled {
+    color: #111;
+    background: #444;
+}

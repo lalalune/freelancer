@@ -25,7 +25,8 @@ export const PLANET_OBJECT_SIZE = (
   Float32Array.BYTES_PER_ELEMENT * 4 // build.quaternion
 );
 
-export const discordOauthUrl = `https://discord.com/api/oauth2/authorize?client_id=684141574808272937&redirect_uri=https%3A%2F%2Fwebaverse.com%2Flogin&response_type=code&scope=identify`;
+// export const discordOauthUrl = `https://discord.com/api/oauth2/authorize?client_id=684141574808272937&redirect_uri=https%3A%2F%2Fwebaverse.com%2Flogin&response_type=code&scope=identify`;
+export const discordOauthUrl = `https://discord.com/api/oauth2/authorize?client_id=684141574808272937&redirect_uri=http%3A%2F%2Flocalhost:8042&response_type=code&scope=identify`;
 
 export const colors = [
   'ef5350',
