@@ -4,7 +4,7 @@ import alea from './alea.js';
 // =================== TEST STUFF
 
 const _testHash = "QmaBDgByQgwTuCBFdnRzRESYd5puE9SwE5u6sSZ7vVSjvE";
-const testDeckSize = 20;
+const testDeckSize = 1000;
 
 const rarities = [
   'common',
@@ -34,12 +34,20 @@ const EffectTypes = {
   OnActivate: "OnActivate",
 };
 
+const AbilityTypes = {
+  Coin: "Coin",
+  Draw: "Draw",
+  Discard: "Discard",
+  Permanent: "Permanent"
+};
+
 const PositiveAbilities = [
   {
     name: "Draw",
+    abilityType: AbilityTypes.Draw,
     rarityFactor: 1.0,
     allowedCardTypes: [CardTypes.Lead, CardTypes.Hire, CardTypes.Wares, CardTypes.Circumstance, CardTypes.Hustle],
-    type: EffectTypes.OnActivate, // On activate is called like "on play" on leads and wares
+    effectType: EffectTypes.OnActivate, // On activate is called like "on play" on leads and wares
     levels: [
       {
         amount: 1, cost: 0,
@@ -80,16 +88,15 @@ const PositiveAbilities = [
   },
   {
     name: "Profit",
+    abilityType: AbilityTypes.Coin,
     rarityFactor: 1.0,
     allowedCardTypes: [CardTypes.Lead, CardTypes.Hire, CardTypes.Wares, CardTypes.Circumstance, CardTypes.Hustle],
-    type: EffectTypes.OnActivate, // On activate is called like "on play" on leads and wares
+    effectType: EffectTypes.OnActivate, // On activate is called like "on play" on leads and wares
     levels: [
       {
         amount: 1, cost: 1, names: {
           [CardTypes.Lead]: "Lead1Profit",
           [CardTypes.Hire]: "Hire1Profit",
-          [CardTypes.Wares]: "Wares1Profit",
-          [CardTypes.Circumstance]: "Circ1Profit",
           [CardTypes.Hustle]: "Hustle1Profit"
         }
       }, // 1
@@ -120,26 +127,21 @@ const PositiveAbilities = [
   },
   {
     name: "Steal",
+    abilityType: AbilityTypes.Coin,
     rarityFactor: 1.0,
-    allowedCardTypes: [CardTypes.Lead, CardTypes.Hire, CardTypes.Wares, CardTypes.Circumstance, CardTypes.Hustle],
-    type: EffectTypes.OnActivate, // On activate is called like "on play" on leads and wares
+    allowedCardTypes: [CardTypes.Hire, CardTypes.Wares],
+    effectType: EffectTypes.OnActivate, // On activate is called like "on play" on leads and wares
     levels: [
       {
         amount: 1, cost: 3, names: {
-          [CardTypes.Lead]: "Lead1Steal",
           [CardTypes.Hire]: "Hire1Steal",
-          [CardTypes.Wares]: "Wares1Steal",
-          [CardTypes.Circumstance]: "Circ1Steal",
-          [CardTypes.Hustle]: "Hustle1Steal"
+          [CardTypes.Wares]: "Wares1Steal"
         }
       }, // 1
       {
         amount: 2, cost: 6, names: {
-          [CardTypes.Lead]: "Lead2Steal",
           [CardTypes.Hire]: "Hire2Steal",
           [CardTypes.Wares]: "Wares2Steal",
-          [CardTypes.Circumstance]: "Circ2Steal",
-          [CardTypes.Hustle]: "Hustle2Steal"
         }
       } // 2
     ],
@@ -151,26 +153,23 @@ const PositiveAbilities = [
   },
   {
     name: "Recruit",
+    abilityType: AbilityTypes.Permanent,
     rarityFactor: 0.5,
-    allowedCardTypes: [CardTypes.Lead, CardTypes.Hire, CardTypes.Wares, CardTypes.Circumstance, CardTypes.Hustle],
-    type: EffectTypes.OnActivate, // On activate is called like "on play" on leads and wares
+    allowedCardTypes: [CardTypes.Lead, CardTypes.Hire, CardTypes.Wares],
+    effectType: EffectTypes.OnActivate, // On activate is called like "on play" on leads and wares
     levels: [
       {
         amount: 1, cost: 3, names: {
           [CardTypes.Lead]: "Lead1Recruit",
           [CardTypes.Hire]: "Hire1Recruit",
-          [CardTypes.Wares]: "Wares1Recruit",
-          [CardTypes.Circumstance]: "Circ1Recruit",
-          [CardTypes.Hustle]: "Hustle1Recruit"
+          [CardTypes.Wares]: "Wares1Recruit"
         }
       }, // 1
       {
         amount: 2, cost: 6, names: {
           [CardTypes.Lead]: "Lead2Recruit",
           [CardTypes.Hire]: "Hire2Recruit",
-          [CardTypes.Wares]: "Wares2Recruit",
-          [CardTypes.Circumstance]: "Circ2Recruit",
-          [CardTypes.Hustle]: "Hustle2Recruit"
+          [CardTypes.Wares]: "Wares2Recruit"
         }
       } // 2
     ],
@@ -186,9 +185,10 @@ const PositiveAbilities = [
 const NegativeAbilities = [
   {
     name: "Discard",
+    abilityType: AbilityTypes.Discard,
     rarityFactor: 1.0,
     allowedCardTypes: [CardTypes.Lead, CardTypes.Hire, CardTypes.Wares, CardTypes.Circumstance, CardTypes.Hustle],
-    type: EffectTypes.OnActivate,
+    effectType: EffectTypes.OnActivate,
     levels: [
       {
         amount: 1, cost: 2, names: {
@@ -227,16 +227,16 @@ const NegativeAbilities = [
   },
   {
     name: "Spend",
+    abilityType: AbilityTypes.Coin,
     rarityFactor: 1.0,
-    allowedCardTypes: [CardTypes.Lead, CardTypes.Hire, CardTypes.Wares, CardTypes.Circumstance, CardTypes.Hustle],
-    type: EffectTypes.OnActivate, // On activate is called like "on play" on leads and wares
+    allowedCardTypes: [CardTypes.Lead, CardTypes.Hire, CardTypes.Wares, CardTypes.Hustle],
+    effectType: EffectTypes.OnActivate, // On activate is called like "on play" on leads and wares
     levels: [
       {
         amount: 1, cost: 1, names: {
           [CardTypes.Lead]: "Lead1Spend",
           [CardTypes.Hire]: "Hire1Spend",
           [CardTypes.Wares]: "Wares1Spend",
-          [CardTypes.Circumstance]: "Circ1Spend",
           [CardTypes.Hustle]: "Hustle1Spend"
         }
       }, // 1
@@ -245,7 +245,6 @@ const NegativeAbilities = [
           [CardTypes.Lead]: "Lead2Spend",
           [CardTypes.Hire]: "Hire2Spend",
           [CardTypes.Wares]: "Wares2Spend",
-          [CardTypes.Circumstance]: "Circ2Spend",
           [CardTypes.Hustle]: "Hustle2Spend"
         }
       }, // 2
@@ -254,7 +253,6 @@ const NegativeAbilities = [
           [CardTypes.Lead]: "Lead3Spend",
           [CardTypes.Hire]: "Hire3Spend",
           [CardTypes.Wares]: "Wares3Spend",
-          [CardTypes.Circumstance]: "Circ3Spend",
           [CardTypes.Hustle]: "Hustle3Spend"
         }
       } // 3
@@ -267,14 +265,13 @@ const NegativeAbilities = [
   },
   {
     name: "Fine",
+    abilityType: AbilityTypes.Coin,
     rarityFactor: 1.0,
-    allowedCardTypes: [CardTypes.Lead, CardTypes.Hire, CardTypes.Wares, CardTypes.Circumstance, CardTypes.Hustle],
-    type: EffectTypes.OnActivate, // On activate is called like "on play" on leads and wares
+    allowedCardTypes: [CardTypes.Wares, CardTypes.Circumstance, CardTypes.Hustle],
+    effectType: EffectTypes.OnActivate, // On activate is called like "on play" on leads and wares
     levels: [
       {
         amount: 1, cost: 1, names: {
-          [CardTypes.Lead]: "Lead1Fine",
-          [CardTypes.Hire]: "Hire1Fine",
           [CardTypes.Wares]: "Wares1Fine",
           [CardTypes.Circumstance]: "Circ1Fine",
           [CardTypes.Hustle]: "Hustle1Fine"
@@ -282,8 +279,6 @@ const NegativeAbilities = [
       }, // 1
       {
         amount: 2, cost: 2, names: {
-          [CardTypes.Lead]: "Lead2Fine",
-          [CardTypes.Hire]: "Hire2Fine",
           [CardTypes.Wares]: "Wares2Fine",
           [CardTypes.Circumstance]: "Circ2Fine",
           [CardTypes.Hustle]: "Hustle2Fine"
@@ -291,8 +286,6 @@ const NegativeAbilities = [
       }, // 2
       {
         amount: 3, cost: 3, names: {
-          [CardTypes.Lead]: "Lead3Fine",
-          [CardTypes.Hire]: "Hire3Fine",
           [CardTypes.Wares]: "Wares3Fine",
           [CardTypes.Circumstance]: "Circ3Fine",
           [CardTypes.Hustle]: "Hustle3Fine"
@@ -428,7 +421,7 @@ function generateCardStats({
       chosenNegativeAbilities,
       isPositive: false
     })
-    chosenNegativeAbilities = ability.chosenNegativeAbilities;
+    chosenNegativeAbilities = [...ability.chosenNegativeAbilities];
 
     negativePoints = ability.points;
     remainingCardLevel = remainingCardLevel - ability.level;
@@ -533,7 +526,7 @@ function findAppropriateAbility(
 
   if (isPositive) {
     if (chosenPositiveAbilities.length > 0
-      && chosenPositiveAbilities.filter(abi => { abi.name == ability.name }).length > 0) {
+      && chosenPositiveAbilities.filter(abi => abi.name == ability.name || abi.abilityType === ability.abilityType).length > 0) {
       foundAppropriateAbility = false;
     } else {
       const highestLevel = Math.min(maxCardLevel, ability.levels.length);
@@ -546,11 +539,14 @@ function findAppropriateAbility(
   }
   // Handle negative abilities
   else {
-    if (chosenNegativeAbilities.length > 0
-      && chosenNegativeAbilities.filter(abi => { abi.name == ability.name }).length > 0) {
+    if (chosenNegativeAbilities.filter(abi => abi.name === ability.name ||
+        abi.abilityType === ability.abilityType).length > 0 ||
+        chosenPositiveAbilities.filter(abi => abi.abilityType === ability.abilityType).length > 0
+    ) {
       foundAppropriateAbility = false;
     }
     else{
+      console.log(ability.abilityType);
       for (let i = ability.levels.length - 1; i >= 0; i--) {
         if (ability.levels[i].cost <= points) {
           points = numberOfPoints - ability.levels[i].cost;
@@ -562,6 +558,7 @@ function findAppropriateAbility(
       }
     }
   }
+
 
   if (foundAppropriateAbility) {
     return {
@@ -596,7 +593,7 @@ result.forEach(generatedCard => {
 })
 
 console.log(deck);
-console.log("Made a series with", testDeckSize, "attempted. Generated", createdCardArray.length, "cards");
+console.log("Made a series with", testDeckSize, "attempted. Generated", deck.length, "cards");
 if (createdCardArray.length < testDeckSize) {
   console.log("Try adding more unique card effects to increase likelihood of successful generation");
 }
