@@ -7,8 +7,8 @@ const rarities = [
   'epic',
   'legendary',
 ];
-
-const rarityFactors = [80, 18, 1.8, 0.18, 0.02].map(n => n / 100);
+const rarityFactors = [5, 5, 30, 30, 30].map(n => n / 100);
+//const rarityFactors = [80, 18, 1.8, 0.18, 0.02].map(n => n / 100);
 
 function makeRandom(rng, n) {
   const raw = new Float32Array(n);

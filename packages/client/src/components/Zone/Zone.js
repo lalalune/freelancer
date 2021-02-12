@@ -107,6 +107,8 @@ const Zone = () => {
             setRedState={setRedState}
           />
         </div>
+        </div>
+</div>
     )
 }
 

@@ -37,12 +37,12 @@ const Legendaries = {
     { name: "Jin", alignment: Alignments.Neutral },
     { name: "Ra1nwolf", alignment: Alignments.WhiteHat }
   ],
-  [CardTypes.Lead]: [
-    { name: "Grand Stadium", alignment: Alignments.BlackHat },
-    { name: "Grand Stadium1", alignment: Alignments.NeutralWhiteHat },
-    { name: "Grand Stadium2", alignment: Alignments.NeutralBlackHat },
-    { name: "Grand Stadium3", alignment: Alignments.Neutral },
-    { name: "Grand Stadium4", alignment: Alignments.WhiteHat }
+  [CardTypes.Wares]: [
+    { name: "Zero Day", alignment: Alignments.BlackHat },
+    { name: "H.R.2.0", alignment: Alignments.NeutralWhiteHat },
+    { name: "H4XL4V", alignment: Alignments.NeutralBlackHat },
+    { name: "0x", alignment: Alignments.Neutral },
+    { name: "Wolfra1n", alignment: Alignments.WhiteHat }
   ],
   [CardTypes.Hustle]: [
     { name: "Zero Day", alignment: Alignments.BlackHat },
@@ -51,12 +51,12 @@ const Legendaries = {
     { name: "MoebiUS", alignment: Alignments.Neutral },
     { name: "Gran Stadia", alignment: Alignments.WhiteHat }
   ],
-  [CardTypes.Wares]: [
-    { name: "Zero Day", alignment: Alignments.BlackHat },
-    { name: "H.R.2.0", alignment: Alignments.NeutralWhiteHat },
-    { name: "H4XL4V", alignment: Alignments.NeutralBlackHat },
-    { name: "0x", alignment: Alignments.Neutral },
-    { name: "Wolfra1n", alignment: Alignments.WhiteHat }
+  [CardTypes.Lead]: [
+    { name: "Grand Stadium", alignment: Alignments.BlackHat },
+    { name: "Grand Stadium1", alignment: Alignments.NeutralWhiteHat },
+    { name: "Grand Stadium2", alignment: Alignments.NeutralBlackHat },
+    { name: "Grand Stadium3", alignment: Alignments.Neutral },
+    { name: "Grand Stadium4", alignment: Alignments.WhiteHat }
   ],
   [CardTypes.Circumstance]: [
     { name: "Circumstance1", alignment: Alignments.BlackHat },

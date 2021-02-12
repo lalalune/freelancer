@@ -1,5 +1,5 @@
-import { EffectTypes } from "./EffectTypes.mjs"
-import { CardTypes } from "./CardTypes.mjs"
+import { EffectTypes } from "./EffectTypes.js"
+import { CardTypes } from "./CardTypes.js"
 
 export const PositiveAbilities = [
     {
