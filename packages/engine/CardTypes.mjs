@@ -5,3 +5,5 @@ export const CardTypes = {
     Lead: "Lead",
     Wares: "Wares"
 }
+
+export default CardTypes;

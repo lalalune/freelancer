@@ -1,4 +1,4 @@
-import { CardTypes } from "./CardTypes"
+import { CardTypes } from "./CardTypes.js"
 import { OutOfPlayBlueClick, OutOfPlayRedClick } from "./zoneFunctions"
 
 export const DeckA = [

@@ -1,0 +1,28 @@
+{
+  "name": "@freelancer-ccg/generator",
+  "version": "0.0.1",
+  "type":"module",
+  "scripts": {
+    "start": "nodemon ./index.mjs"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.5"
+  },
+  "dependencies": {
+    "@freelancer-ccg/engine": "^0.0.1",
+    "aleaprng": "^1.0.1",
+    "body-parser": "^1.19.0",
+    "config": "^3.3.2",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "express-socket.io-session": "^1.3.5",
+    "jsdoc": "^3.6.6",
+    "lodash": "^4.17.20",
+    "pm2": "^4.5.0",
+    "redis": "^3.0.2",
+    "socket.io": "^2.4.1",
+    "uuid": "^8.3.1"
+  }
+}
