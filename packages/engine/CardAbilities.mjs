@@ -122,8 +122,20 @@ export const PositiveAbilities = [
         allowedCardTypes: [CardTypes.Lead, CardTypes.Hire, CardTypes.Wares, CardTypes.Circumstance, CardTypes.Hustle],
         type: EffectTypes.OnActivate, // On activate is called like "on play" on leads and wares
         levels: [
-            { amount: 1, cost: 3 }, // 1
-            { amount: 2, cost: 6 } // 2
+            { amount: 1, cost: 3, names: {
+                [CardTypes.Lead]: "Lead1Recruit",
+                [CardTypes.Hire]: "Hire1Recruit",
+                [CardTypes.Wares]: "Wares1Recruit",
+                [CardTypes.Circumstance]: "Circ1Recruit",
+                [CardTypes.Hustle]: "Hustle1Recruit"
+            } }, // 1
+            { amount: 2, cost: 6, names: {
+                [CardTypes.Lead]: "Lead2Recruit",
+                [CardTypes.Hire]: "Hire2Recruit",
+                [CardTypes.Wares]: "Wares2Recruit",
+                [CardTypes.Circumstance]: "Circ2Recruit",
+                [CardTypes.Hustle]: "Hustle2Recruit"
+            } } // 2
         ],
         synergy: 1,
         description: "Transfer ownership of up to ${AMT} permanents from your opponent to you.",
@@ -183,7 +195,7 @@ export const NegativeAbilities = [
         type: EffectTypes.OnActivate, // On activate is called like "on play" on leads and wares
         levels: [
             {
-                amount: 1, cost: 2, names: {
+                amount: 1, cost: 1, names: {
                     [CardTypes.Lead]: "Lead1Spend",
                     [CardTypes.Hire]: "Hire1Spend",
                     [CardTypes.Wares]: "Wares1Spend",
@@ -192,7 +204,7 @@ export const NegativeAbilities = [
                 }
             }, // 1
             {
-                amount: 2, cost: 4, names: {
+                amount: 2, cost: 3, names: {
                     [CardTypes.Lead]: "Lead2Spend",
                     [CardTypes.Hire]: "Hire2Spend",
                     [CardTypes.Wares]: "Wares2Spend",

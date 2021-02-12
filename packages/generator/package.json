@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "type":"module",
   "scripts": {
-    "start": "nodemon ./index.mjs"
+    "start": "nodemon ./index.js"
   },
   "devDependencies": {
     "nodemon": "^2.0.5"

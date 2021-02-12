@@ -1,4 +1,4 @@
-import alea from 'aleaprng';
+import alea from './alea.js';
 
 const rarities = [
   'common',
@@ -7,7 +7,7 @@ const rarities = [
   'epic',
   'legendary',
 ];
-const rarityFactors = [20, 20, 20, 20, 20].map(n => n / 100);
+const rarityFactors = [80, 18, 1.8, 0.18, 0.02].map(n => n / 100);
 
 function makeRandom(rng, n) {
   const raw = new Float32Array(n);
