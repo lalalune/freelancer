@@ -1,7 +1,6 @@
 export const CardTypes = {
     Hire: "Hire",
-    Circumstance: "Circumstance",
-    Hustle: "Hustle",
+    Equipment: "Equipment",
     Lead: "Lead",
     Wares: "Wares"
 }

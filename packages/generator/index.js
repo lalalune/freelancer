@@ -8,7 +8,6 @@ const {
   NegativeAbilities,
   AbilityTypes,
   CardTypes,
-  EffectTypes
 } = GameData;
 
 // =================== TEST STUFF
@@ -29,7 +28,7 @@ const rarities = [
 const cardLevels = [1, 2, 3, 4];
 const cardLevelFactors = [45, 35, 18, 2].map(n => n / 100);
 
-const cardTypes = [CardTypes.Hire, CardTypes.Lead, CardTypes.Hustle, CardTypes.Wares, CardTypes.Circumstance]
+const cardTypes = [CardTypes.Hire, CardTypes.Lead, CardTypes.Wares, CardTypes.Equipment]
 const cardTypeFactors = [27, 22, 22, 17, 12].map(n => n / 100);
 
 const numberOfPositiveAbilitiesTable = [1, 2];
@@ -60,7 +59,6 @@ function generateCardStats({
   const negativeAbilitiesNumberCoef = stats.mp / 255; // Max number of negative abilities
 
   const typeCoef = stats.details[0]; // Card type
-  // const alignmentCoef = art.color2; // Alignment toward abilities that help or hurt
 
   const positiveAbilityCoefs = [stats.attack, stats.magic, stats.accuracy].map(n => n / 255); // Positive abilities
   const negativeAbilityCoefs = [stats.defense, stats.magicDefense, stats.evasion].map(n => n / 255); // Negative abilities
@@ -124,7 +122,7 @@ function generateCardStats({
     numberOfPoints += ability.points;
     remainingCardLevel = remainingCardLevel - ability.level;
     if (ability.ability != null)
-      abilities.push({ name: ability.ability.name, level: ability.level, ability: ability.ability })
+      abilities.push({ type: ability.ability.type, level: ability.level, ability: ability.ability })
   }
 
   let negativePoints = numberOfPoints - cardRarityModifier; // subtract remaining positive points so negative is less
@@ -151,55 +149,69 @@ function generateCardStats({
 
     negativePoints = ability.points;
     remainingCardLevel = remainingCardLevel - ability.level;
+
+    console.log("**************** ABILITY IS")
+    console.log(ability.ability)
+    console.log("************************ ability.ability.type IS")
+    console.log(ability.ability.type)
     if (ability.ability != null)
-      abilities.push({ name: ability.ability.name, level: ability.level, ability: ability.ability })
+      abilities.push({ name: ability.ability.type, level: ability.level, ability: ability.ability })
   }
 
   let text = "";
   abilities.forEach(inc => {
-    text = text + " " + inc.ability.description
-      .replace(/\$\{AMT\}/g, inc.ability.levels[inc.level].amount)
+    text = text + " " + inc.ability.levels[inc.level][cardType].description
+      .replace(/\$\{AMT\}/g, inc.ability.levels[inc.level][cardType].amount)
       .replace("(s)", inc.level > 0 ? "s" : "");
   })
   text = text.trim();
 
   let shortText = "";
   abilities.forEach(inc => {
-    shortText = shortText + " " + inc.ability.name + " " + inc.ability.levels[inc.level].amount + " (L" + (inc.level + 1) + ")";
+    shortText = shortText + " " + inc.ability.type + " " + inc.ability.levels[inc.level][cardType].amount + " (L" + (inc.level + 1) + ")";
   })
   shortText = shortText.trim();
 
   let name = "";
 
   for(let i = 0; i < abilities.length; i++){
+    console.log("XXXXXXXXXXXXXXXXXXXxxx")
+    console.log(abilities[i].ability.levels[abilities[i].level][cardType])
     switch(i){
       case 0:
         // If more than one ability, start with adjective, otherwise just use noun
         name += abilities.length > 1 ?
-        abilities[i].ability.levels[abilities[i].level].names[cardType].adjective :
-        abilities[i].ability.levels[abilities[i].level].names[cardType].noun;
+        abilities[i].ability.levels[abilities[i].level][cardType].adjective :
+        abilities[i].ability.levels[abilities[i].level][cardType].singleNoun;
         break;
       case 1:
-        name = name + " " + abilities[i].ability.levels[abilities[i].level].names[cardType].noun
+        name = name + " " + abilities[i].ability.levels[abilities[i].level][cardType].multiNoun
         break;
       case 2:
-        name = name + " " + abilities[i].ability.levels[abilities[i].level].names[cardType].of
+        name = name + " " + abilities[i].ability.levels[abilities[i].level][cardType].postfix
         break;
       default:
         name = name + " WARNING:extra word";
     }
   }
   
-  name = name.trim();
-  const alreadyExists = createdCardArray.filter(card => name == card.name || shortText == card.shortText).length > 0;
-  name = name.replace(/[0-9]/g, '');
+  name = name.trim().replace(/[0-9]/g, '');
+
+  console.log("Abilities:", abilities);
+
+  const abilityHash = abilities.map(ability => ability.type).sort().join(" ");
+  console.log("Ability hash is: ", abilityHash)
+  const alreadyExists = createdCardArray.filter(card => abilityHash == card.abilityHash).length > 0;
 
   if(cardRarity === 'legendary'){
     // Roll one of the legendaries
-    const legendaryCoef = stats.luck / 255;
-    const legendaryFactors = new Array(GameData.Legendaries[cardType].length).fill(0).map(n => n = 1 / GameData.Legendaries[cardType].length);
-    const legendaryType = getTableOutput(legendaryCoef, GameData.Legendaries[cardType], legendaryFactors);
-    name = legendaryType.name + ", " + name;
+
+    // TODO: Redo legendaries
+
+    // const legendaryCoef = stats.luck / 255;
+    // const legendaryFactors = new Array(GameData.Legendaries[cardType].length).fill(0).map(n => n = 1 / GameData.Legendaries[cardType].length);
+    // const legendaryType = getTableOutput(legendaryCoef, GameData.Legendaries[cardType], legendaryFactors);
+    // name = legendaryType.name + ", " + name;
   }
 
   const card = {
@@ -211,7 +223,7 @@ function generateCardStats({
     type: cardType,
     abilities: abilities,
     duplicate: alreadyExists,
-
+    abilityHash
     // background: "",
     // border: ""
   }
@@ -252,7 +264,7 @@ function findAppropriateAbility(
   }
 
   // Map available abilities to random number
-  const table = abilities.map(ability => ability.name);
+  const table = abilities.map(ability => ability.type);
 
   const totalFactors = 100 / abilities.map(ability => ability.rarityFactor).reduce((acc, inc) => acc + inc);
 
@@ -263,7 +275,7 @@ function findAppropriateAbility(
 
   const result = getTableOutput((abilityCoefficient + incrementCoef) * 100, table, factors);
 
-  const ability = abilities.filter(ability => ability.name === result)[0];
+  const ability = abilities.filter(ability => ability.type === result)[0];
 
   let foundAppropriateAbility = false;
   let level = maxCardLevel - (numberOfCardLevels - 1);
@@ -271,7 +283,7 @@ function findAppropriateAbility(
 
   if (isPositive) {
     // If our card ends up with more than one positive ability, filter out abilities that overlap with affect type
-    if (chosenPositiveAbilities.filter(abi => abi.abilityType === ability.abilityType).length > 0)
+    if (chosenPositiveAbilities.filter(abi => abi.type === ability.type).length > 0)
       {
       foundAppropriateAbility = false;
     } else {
@@ -284,8 +296,8 @@ function findAppropriateAbility(
   }
   // Handle negative abilities
   else {
-    if (chosenNegativeAbilities.filter(abi => abi.abilityType === ability.abilityType).length > 0 ||
-      chosenPositiveAbilities.filter(abi => abi.abilityType === ability.abilityType).length > 0
+    if (chosenNegativeAbilities.filter(abi => abi.type === ability.type).length > 0 ||
+      chosenPositiveAbilities.filter(abi => abi.type === ability.type).length > 0
     ) {
       foundAppropriateAbility = false;
     }
@@ -343,5 +355,4 @@ console.log("Made a series with", testDeckSize, "attempted. Generated", deck.len
 if (createdCardArray.length < testDeckSize) {
   console.log("Try adding more unique card effects to increase likelihood of successful generation");
 }
-console.log(deck);
-console.log(deck.map(d => d.name));
+console.log(deck.map(d => { return { name: d.name, rarity: d.rarity, text: d.text }}));
